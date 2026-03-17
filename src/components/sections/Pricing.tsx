@@ -1,41 +1,71 @@
 'use client';
 
-import { Check, Zap } from 'lucide-react';
+import { Check } from 'lucide-react';
 import NewsletterForm from '@/components/forms/NewsletterForm';
-import Countdown from '@/components/ui/Countdown';
+
+const SHOW_PRICES = process.env.NEXT_PUBLIC_SHOW_PRICES === 'true';
 
 const plans = [
   {
-    name: 'Starter',
-    price: 'Gratis',
-    badge: 'Coming Soon',
-    badgeStyle: 'bg-[#F1EFE8] text-[#888780]',
+    name: 'Free',
+    price: '$0/mes',
+    description: 'Para empezar a explorar',
     features: [
-      'Hasta 10 usuarios',
-      '100 propiedades',
+      '1 agente',
+      '5 propiedades activas',
+      'CRM de leads básico',
+      'Contratos digitales',
+      'Soporte por comunidad',
+    ],
+    popular: false,
+    cta: 'Empezar gratis',
+    ctaHref: '#waitlist',
+  },
+  {
+    name: 'Starter',
+    price: '$89.000/mes',
+    description: 'Para agencias pequeñas en crecimiento',
+    features: [
+      '5 agentes',
+      '50 propiedades activas',
       'CRM de leads básico',
       'Contratos digitales',
       'Soporte por email',
     ],
     popular: false,
-    disabled: true,
+    cta: 'Únete a la lista de espera',
+    ctaHref: '#waitlist',
   },
   {
-    name: 'Professional',
-    price: '$49/mes',
-    earlyPrice: '$24/mes',
-    badge: '🔥 50% OFF — Early Access',
-    badgeStyle: 'bg-[#1D9E75] text-white',
+    name: 'Pro',
+    price: '$219.000/mes',
+    description: 'El plan del cliente ideal',
     features: [
-      'Usuarios ilimitados',
-      'Propiedades ilimitadas',
-      'CRM avanzado + automations',
+      '10 agentes',
+      '200 propiedades activas',
+      'CRM avanzado',
       'Contratos + plantillas',
-      'API access',
-      'Soporte prioritario',
+      'Soporte email prioritario',
     ],
     popular: true,
-    disabled: false,
+    cta: 'Únete a la lista de espera',
+    ctaHref: '#waitlist',
+  },
+  {
+    name: 'Agencia',
+    price: '$399.000/mes',
+    description: 'Para agencias grandes sin límites',
+    features: [
+      'Agentes ilimitados',
+      'Propiedades ilimitadas',
+      'CRM avanzado',
+      'Contratos + plantillas',
+      'WhatsApp nativo',
+      'Soporte prioritario',
+    ],
+    popular: false,
+    cta: 'Únete a la lista de espera',
+    ctaHref: '#waitlist',
   },
 ];
 
@@ -51,61 +81,46 @@ export default function Pricing() {
           <h2 className="text-3xl md:text-4xl font-semibold text-[#2C2C2A] mb-4">
             Transparente para agencias en crecimiento
           </h2>
-          <p className="text-[#5F5E5A] text-lg mb-6">
-            Solo 100 cupos de Early Access disponibles
+          <p className="text-[#5F5E5A] text-lg">
+            Planes en pesos colombianos, sin sorpresas
           </p>
-          <div className="flex justify-center">
-            <Countdown spots={100} spotsTaken={0} />
-          </div>
         </div>
 
         {/* Pricing Cards */}
-        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
           {plans.map((plan, index) => (
             <div
               key={index}
-              className={`relative rounded-2xl p-8 border transition-all duration-200 ${
+              className={`relative rounded-2xl p-6 border transition-all duration-200 flex flex-col ${
                 plan.popular
                   ? 'border-[#1D9E75] border-2 shadow-lg'
                   : 'border-[#D3D1C7] bg-white'
-              } ${plan.disabled ? 'opacity-60' : ''}`}
+              }`}
             >
-              {/* Badge */}
-              {plan.badge && (
+              {plan.popular && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className={`inline-flex items-center text-xs font-medium px-3 py-1 rounded-full ${plan.badgeStyle}`}>
-                    {plan.badge}
+                  <span className="inline-flex items-center text-xs font-medium px-3 py-1 rounded-full bg-[#1D9E75] text-white">
+                    Más popular
                   </span>
                 </div>
               )}
 
-              {/* Plan Name */}
-              <h3 className="text-xl font-semibold text-[#2C2C2A] mb-2">{plan.name}</h3>
+              <h3 className="text-lg font-semibold text-[#2C2C2A] mb-1">{plan.name}</h3>
+              <p className="text-[#888780] text-xs mb-4">{plan.description}</p>
 
-              {/* Price */}
               <div className="mb-6">
-                {plan.popular ? (
-                  <div>
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-4xl font-semibold text-[#1D9E75]">{plan.earlyPrice}</span>
-                      <span className="text-[#B4B2A9] line-through text-lg">{plan.price}</span>
-                    </div>
-                    <p className="text-[#5F5E5A] text-sm mt-1">de por vida · Early Access</p>
-                  </div>
+                {SHOW_PRICES ? (
+                  <span className="text-3xl font-semibold text-[#2C2C2A]">{plan.price}</span>
                 ) : (
-                  <div>
-                    <span className="text-4xl font-semibold text-[#2C2C2A]">{plan.price}</span>
-                    <p className="text-[#888780] text-sm mt-1">Próximamente disponible</p>
-                  </div>
+                  <span className="text-base font-medium text-[#888780]">Próximamente</span>
                 )}
               </div>
 
-              {/* Features */}
-              <ul className="space-y-3 mb-8">
+              <ul className="space-y-2.5 mb-8 flex-1">
                 {plan.features.map((feature, featureIndex) => (
-                  <li key={featureIndex} className="flex items-start gap-3">
+                  <li key={featureIndex} className="flex items-start gap-2.5">
                     <Check
-                      size={18}
+                      size={16}
                       strokeWidth={2}
                       className={`mt-0.5 flex-shrink-0 ${
                         plan.popular ? 'text-[#1D9E75]' : 'text-[#B4B2A9]'
@@ -116,45 +131,27 @@ export default function Pricing() {
                 ))}
               </ul>
 
-              {/* CTA */}
-              {plan.popular ? (
-                <div>
-                  <NewsletterForm
-                    location="pricing"
-                    placeholder="tu@email.com"
-                    buttonText="Únete a la lista de espera"
-                    className="flex gap-2"
-                  />
-                  <p className="text-xs text-[#888780] mt-3 text-center">
-                    Código de 50% OFF aplicado automáticamente al lanzar
-                  </p>
-                </div>
-              ) : (
-                <button
-                  disabled
-                  className="w-full bg-[#F1EFE8] text-[#888780] px-6 py-3 rounded-md text-sm font-medium border border-[#D3D1C7] disabled:cursor-not-allowed"
+              {plan.name === 'Free' ? (
+                <a
+                  href={plan.ctaHref}
+                  className={`w-full text-center px-4 py-2.5 rounded-md text-sm font-medium border transition-colors ${
+                    plan.popular
+                      ? 'bg-[#1D9E75] text-white border-[#1D9E75] hover:bg-[#178a63]'
+                      : 'bg-[#F1EFE8] text-[#5F5E5A] border-[#D3D1C7] hover:bg-[#E8E6DE]'
+                  }`}
                 >
-                  Coming Soon
-                </button>
+                  {plan.cta}
+                </a>
+              ) : (
+                <NewsletterForm
+                  location="pricing"
+                  placeholder="tu@email.com"
+                  buttonText={plan.cta}
+                  className="flex flex-col gap-2"
+                />
               )}
             </div>
           ))}
-        </div>
-
-        {/* Fine Print */}
-        <div className="text-center mt-12 max-w-2xl mx-auto">
-          <div className="bg-[#F1EFE8] rounded-xl p-6 border border-[#D3D1C7]">
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <Zap size={16} className="text-[#1D9E75]" strokeWidth={1.5} />
-              <span className="text-[#2C2C2A] font-medium text-sm">Beneficios del Early Access</span>
-            </div>
-            <ul className="space-y-1.5 text-[#5F5E5A] text-sm">
-              <li>• Sin tarjeta de crédito requerido</li>
-              <li>• Early access cuando lancemos oficialmente</li>
-              <li>• Descuento de por vida (mientras mantengas la suscripción)</li>
-              <li>• Soporte prioritario para early adopters</li>
-            </ul>
-          </div>
         </div>
       </div>
     </section>
