@@ -1,4 +1,12 @@
-import ComingSoon from "@/components/ComingSoon";
+import Hero from "@/components/sections/Hero";
+import ProblemSolution from "@/components/sections/ProblemSolution";
+import ProductPreview from "@/components/sections/ProductPreview";
+import HowItWorks from "@/components/sections/HowItWorks";
+import Testimonials from "@/components/sections/Testimonials";
+import Pricing from "@/components/sections/Pricing";
+import FAQ from "@/components/sections/FAQ";
+import CTA from "@/components/sections/CTA";
+import Footer from "@/components/layout/Footer";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -27,7 +35,17 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <ComingSoon />
+      <main>
+        <Hero />
+        <ProblemSolution />
+        <ProductPreview />
+        <HowItWorks />
+        <Testimonials />
+        <Pricing />
+        <FAQ />
+        <CTA />
+      </main>
+      <Footer />
     </>
   );
 }

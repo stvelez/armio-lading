@@ -19,8 +19,8 @@
 }
 
 body {
-  background-color: #2C2C2A;
-  color: #ffffff;
+  background-color: #ffffff;
+  color: #2C2C2A;
   font-family: var(--font-plus-jakarta-sans), sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
