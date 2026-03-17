@@ -1,4 +1,5 @@
 import ComingSoon from "@/components/ComingSoon";
+import { landingEnabled } from "@/lib/flags";
 import Hero from "@/components/sections/Hero";
 import ProblemSolution from "@/components/sections/ProblemSolution";
 import ProductPreview from "@/components/sections/ProductPreview";
@@ -29,8 +30,8 @@ const jsonLd = {
   },
 };
 
-export default function Home() {
-  const isLandingEnabled = process.env.NEXT_PUBLIC_LANDING_ENABLED === "true";
+export default async function Home() {
+  const isLandingEnabled = await landingEnabled();
 
   if (!isLandingEnabled) {
     return <ComingSoon />;
