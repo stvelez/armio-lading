@@ -1,56 +1,65 @@
-'use client';
+"use client";
 
-import {
-  Building2,
-  Users,
-  FileText,
-  BarChart2,
-  MapPin,
-  CheckCircle2,
-} from 'lucide-react';
-import NewsletterForm from '@/components/forms/NewsletterForm';
-import Countdown from '@/components/ui/Countdown';
+import { Building2, Users, FileText, BarChart2, MapPin, CheckCircle2 } from "lucide-react";
+import NewsletterForm from "@/components/forms/NewsletterForm";
+import Countdown from "@/components/ui/Countdown";
 
 function ArmioMockup() {
   const sidebarItems = [
-    { icon: Building2, label: 'Propiedades', active: true },
-    { icon: Users, label: 'Leads', active: false },
-    { icon: FileText, label: 'Contratos', active: false },
-    { icon: BarChart2, label: 'Dashboard', active: false },
+    { icon: Building2, label: "Propiedades", active: true },
+    { icon: Users, label: "Leads", active: false },
+    { icon: FileText, label: "Contratos", active: false },
+    { icon: BarChart2, label: "Dashboard", active: false },
   ];
 
   const properties = [
-    { name: 'Apto 201', location: 'Bogotá · Chapinero', price: '$2.800.000', status: 'Publicada', statusColor: 'bg-[#EAF3DE] text-[#3B6D11]' },
-    { name: 'Casa 45', location: 'Medellín · El Poblado', price: '$4.500.000', status: 'Verificada', statusColor: 'bg-[#E6F1FB] text-[#185FA5]' },
-    { name: 'Oficina 8B', location: 'Bogotá · Usaquén', price: '$3.200.000', status: 'Reservada', statusColor: 'bg-[#FAEEDA] text-[#BA7517]' },
+    {
+      name: "Apto 201",
+      location: "Bogotá · Chapinero",
+      price: "$2.800.000",
+      status: "Publicada",
+      statusColor: "bg-[#EAF3DE] text-[#3B6D11]",
+    },
+    {
+      name: "Casa 45",
+      location: "Medellín · El Poblado",
+      price: "$4.500.000",
+      status: "Verificada",
+      statusColor: "bg-[#E6F1FB] text-[#185FA5]",
+    },
+    {
+      name: "Oficina 8B",
+      location: "Bogotá · Usaquén",
+      price: "$3.200.000",
+      status: "Reservada",
+      statusColor: "bg-[#FAEEDA] text-[#BA7517]",
+    },
   ];
 
   return (
-    <div className="rounded-xl overflow-hidden shadow-2xl border border-[#D3D1C7] bg-white w-full">
+    <div className="w-full overflow-hidden rounded-xl border border-[#D3D1C7] bg-white shadow-2xl">
       {/* Browser bar */}
-      <div className="bg-[#F1EFE8] border-b border-[#D3D1C7] px-4 py-2.5 flex items-center gap-3">
+      <div className="flex items-center gap-3 border-b border-[#D3D1C7] bg-[#F1EFE8] px-4 py-2.5">
         <div className="flex gap-1.5">
-          <div className="w-3 h-3 rounded-full bg-[#FF5F57]" />
-          <div className="w-3 h-3 rounded-full bg-[#FFBD2E]" />
-          <div className="w-3 h-3 rounded-full bg-[#28C840]" />
+          <div className="h-3 w-3 rounded-full bg-[#FF5F57]" />
+          <div className="h-3 w-3 rounded-full bg-[#FFBD2E]" />
+          <div className="h-3 w-3 rounded-full bg-[#28C840]" />
         </div>
-        <div className="flex-1 bg-white/80 rounded-md px-3 py-1 text-[10px] text-[#888780] font-medium max-w-[200px] mx-auto text-center border border-[#D3D1C7]">
+        <div className="mx-auto max-w-[200px] flex-1 rounded-md border border-[#D3D1C7] bg-white/80 px-3 py-1 text-center text-[10px] font-medium text-[#888780]">
           app.armio.co/propiedades
         </div>
       </div>
 
       {/* App content */}
-      <div className="flex" style={{ height: '320px' }}>
+      <div className="flex" style={{ height: "320px" }}>
         {/* Sidebar */}
-        <div className="w-[52px] bg-[#F1EFE8] border-r border-[#D3D1C7] flex flex-col items-center py-3 gap-1 flex-shrink-0">
+        <div className="flex w-[52px] flex-shrink-0 flex-col items-center gap-1 border-r border-[#D3D1C7] bg-[#F1EFE8] py-3">
           {sidebarItems.map(({ icon: Icon, label, active }) => (
             <div
               key={label}
               title={label}
-              className={`w-9 h-9 rounded-lg flex items-center justify-center ${
-                active
-                  ? 'bg-[#E1F5EE] text-[#1D9E75]'
-                  : 'text-[#888780] hover:text-[#5F5E5A]'
+              className={`flex h-9 w-9 items-center justify-center rounded-lg ${
+                active ? "bg-[#E1F5EE] text-[#1D9E75]" : "text-[#888780] hover:text-[#5F5E5A]"
               }`}
             >
               <Icon size={16} strokeWidth={1.5} />
@@ -59,26 +68,29 @@ function ArmioMockup() {
         </div>
 
         {/* Main content */}
-        <div className="flex-1 flex flex-col overflow-hidden">
+        <div className="flex flex-1 flex-col overflow-hidden">
           {/* Header */}
-          <div className="flex items-center justify-between px-4 py-2.5 border-b border-[#D3D1C7] bg-white">
+          <div className="flex items-center justify-between border-b border-[#D3D1C7] bg-white px-4 py-2.5">
             <div>
-              <p className="text-[10px] text-[#888780] font-medium">Propiedades</p>
+              <p className="text-[10px] font-medium text-[#888780]">Propiedades</p>
               <p className="text-xs font-semibold text-[#2C2C2A]">Mi cartera</p>
             </div>
-            <button className="bg-[#1D9E75] text-white text-[10px] font-medium px-2.5 py-1 rounded-md flex items-center gap-1">
+            <button className="flex items-center gap-1 rounded-md bg-[#1D9E75] px-2.5 py-1 text-[10px] font-medium text-white">
               <span>+ Nueva</span>
             </button>
           </div>
 
           {/* Metrics */}
-          <div className="grid grid-cols-3 gap-2 px-4 py-2.5 bg-[#F1EFE8] border-b border-[#D3D1C7]">
+          <div className="grid grid-cols-3 gap-2 border-b border-[#D3D1C7] bg-[#F1EFE8] px-4 py-2.5">
             {[
-              { label: 'Activas', value: '24' },
-              { label: 'Leads', value: '8' },
-              { label: 'Contratos', value: '3' },
+              { label: "Activas", value: "24" },
+              { label: "Leads", value: "8" },
+              { label: "Contratos", value: "3" },
             ].map(({ label, value }) => (
-              <div key={label} className="bg-white rounded-md px-2 py-1.5 text-center border border-[#D3D1C7]">
+              <div
+                key={label}
+                className="rounded-md border border-[#D3D1C7] bg-white px-2 py-1.5 text-center"
+              >
                 <p className="text-sm font-semibold text-[#1D9E75]">{value}</p>
                 <p className="text-[9px] text-[#888780]">{label}</p>
               </div>
@@ -86,10 +98,10 @@ function ArmioMockup() {
           </div>
 
           {/* Table header */}
-          <div className="flex items-center gap-3 px-4 py-1.5 bg-[#F1EFE8] border-b border-[#D3D1C7]">
-            <p className="text-[9px] font-medium text-[#5F5E5A] flex-1">PROPIEDAD</p>
-            <p className="text-[9px] font-medium text-[#5F5E5A] w-16 text-right">PRECIO</p>
-            <p className="text-[9px] font-medium text-[#5F5E5A] w-16 text-right">ESTADO</p>
+          <div className="flex items-center gap-3 border-b border-[#D3D1C7] bg-[#F1EFE8] px-4 py-1.5">
+            <p className="flex-1 text-[9px] font-medium text-[#5F5E5A]">PROPIEDAD</p>
+            <p className="w-16 text-right text-[9px] font-medium text-[#5F5E5A]">PRECIO</p>
+            <p className="w-16 text-right text-[9px] font-medium text-[#5F5E5A]">ESTADO</p>
           </div>
 
           {/* Table rows */}
@@ -97,17 +109,21 @@ function ArmioMockup() {
             {properties.map((p, i) => (
               <div
                 key={i}
-                className="flex items-center gap-3 px-4 py-2 border-b border-[#F1EFE8] hover:bg-[#F1EFE8]/50"
+                className="flex items-center gap-3 border-b border-[#F1EFE8] px-4 py-2 hover:bg-[#F1EFE8]/50"
               >
-                <div className="w-6 h-6 bg-[#E1F5EE] rounded flex items-center justify-center flex-shrink-0">
+                <div className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded bg-[#E1F5EE]">
                   <MapPin size={10} className="text-[#1D9E75]" strokeWidth={1.5} />
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-[10px] font-medium text-[#2C2C2A] truncate">{p.name}</p>
-                  <p className="text-[9px] text-[#888780] truncate">{p.location}</p>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-[10px] font-medium text-[#2C2C2A]">{p.name}</p>
+                  <p className="truncate text-[9px] text-[#888780]">{p.location}</p>
                 </div>
-                <p className="text-[10px] font-medium text-[#2C2C2A] w-16 text-right flex-shrink-0">{p.price}</p>
-                <span className={`text-[9px] font-medium px-1.5 py-0.5 rounded flex-shrink-0 ${p.statusColor}`}>
+                <p className="w-16 flex-shrink-0 text-right text-[10px] font-medium text-[#2C2C2A]">
+                  {p.price}
+                </p>
+                <span
+                  className={`flex-shrink-0 rounded px-1.5 py-0.5 text-[9px] font-medium ${p.statusColor}`}
+                >
                   {p.status}
                 </span>
               </div>
@@ -121,43 +137,45 @@ function ArmioMockup() {
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center px-6 overflow-hidden bg-[#2C2C2A]">
+    <section
+      id="waitlist"
+      className="relative flex min-h-screen items-center overflow-hidden bg-[#2C2C2A] px-6"
+    >
       {/* Background gradient */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            'radial-gradient(ellipse 70% 50% at 20% 50%, rgba(29,158,117,0.12) 0%, transparent 70%)',
+            "radial-gradient(ellipse 70% 50% at 20% 50%, rgba(29,158,117,0.12) 0%, transparent 70%)",
         }}
       />
 
-      <div className="relative z-10 max-w-7xl mx-auto w-full py-24 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+      <div className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-12 py-24 lg:grid-cols-2 lg:gap-20">
         {/* Left: Copy */}
         <div>
           {/* Early Access Badge */}
-          <div className="inline-flex items-center gap-2 bg-[#1D9E75]/10 border border-[#1D9E75]/25 rounded-full px-3.5 py-1.5 mb-8">
-            <span className="w-1.5 h-1.5 bg-[#1D9E75] rounded-full animate-pulse" />
-            <span className="text-[#5DCAA5] text-sm font-medium">
+          <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-[#1D9E75]/25 bg-[#1D9E75]/10 px-3.5 py-1.5">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#1D9E75]" />
+            <span className="text-sm font-medium text-[#5DCAA5]">
               Early Access — Solo 100 cupos
             </span>
           </div>
 
           {/* Wordmark */}
-          <h1 className="text-5xl md:text-6xl font-semibold tracking-[-0.02em] text-white mb-5 select-none">
+          <h1 className="mb-5 text-5xl font-semibold tracking-[-0.02em] text-white select-none md:text-6xl">
             armio
           </h1>
 
           {/* Headline */}
-          <h2 className="text-2xl md:text-3xl font-semibold text-white leading-snug tracking-[-0.01em] mb-5">
-            El sistema operativo de tu{' '}
-            <span className="text-[#1D9E75]">agencia inmobiliaria</span>
+          <h2 className="mb-5 text-2xl leading-snug font-semibold tracking-[-0.01em] text-white md:text-3xl">
+            El sistema operativo de tu <span className="text-[#1D9E75]">agencia inmobiliaria</span>
           </h2>
 
           {/* Subtext */}
-          <p className="text-[#B4B2A9] text-base md:text-lg font-normal leading-relaxed mb-8 max-w-lg">
-            Centraliza propiedades, leads y contratos en un solo lugar.
-            Deja atrás el Excel y el WhatsApp para siempre.
+          <p className="mb-8 max-w-lg text-base leading-relaxed font-normal text-[#B4B2A9] md:text-lg">
+            Centraliza propiedades, leads y contratos en un solo lugar. Deja atrás el Excel y el
+            WhatsApp para siempre.
           </p>
 
           {/* Countdown */}
@@ -176,17 +194,15 @@ export default function Hero() {
           </div>
 
           {/* Trust signals */}
-          <div className="flex flex-wrap gap-x-6 gap-y-2 text-[#888780] text-sm">
-            {[
-              'Sin tarjeta de crédito',
-              '14 días de prueba',
-              'Cancela cuando quieras',
-            ].map((item) => (
-              <div key={item} className="flex items-center gap-2">
-                <CheckCircle2 size={14} className="text-[#1D9E75]" strokeWidth={1.5} />
-                <span>{item}</span>
-              </div>
-            ))}
+          <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-[#888780]">
+            {["Sin tarjeta de crédito", "14 días de prueba", "Cancela cuando quieras"].map(
+              (item) => (
+                <div key={item} className="flex items-center gap-2">
+                  <CheckCircle2 size={14} className="text-[#1D9E75]" strokeWidth={1.5} />
+                  <span>{item}</span>
+                </div>
+              )
+            )}
           </div>
         </div>
 
