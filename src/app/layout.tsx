@@ -76,8 +76,8 @@ export default function RootLayout({
     <html lang="es">
       <body className={`${plusJakartaSans.variable} antialiased`}>
         {children}
-        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || 'G-MEASUREMENT-ID'} />
       </body>
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ''} />
     </html>
   );
 }

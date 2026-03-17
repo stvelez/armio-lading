@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { newsletterSchema } from '@/lib/validations';
 import { sendWelcomeEmail } from '@/lib/resend';
-import { trackNewsletterSignup } from '@/lib/analytics';
-
 /**
  * POST /api/newsletter
  * Handle newsletter signup
@@ -32,9 +30,6 @@ export async function POST(request: NextRequest) {
 
     // Send welcome email
     await sendWelcomeEmail(result.data.email);
-
-    // Track analytics
-    trackNewsletterSignup('hero');
 
     return NextResponse.json({
       success: true,

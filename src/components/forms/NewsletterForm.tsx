@@ -5,6 +5,7 @@ import { Mail, Check, Loader2, AlertCircle } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { newsletterSchema, type NewsletterFormData, getErrorMessage } from '@/lib/validations';
+import { trackNewsletterSignup } from '@/lib/analytics';
 import toast, { Toaster } from 'react-hot-toast';
 import confetti from 'canvas-confetti';
 
@@ -54,6 +55,7 @@ export default function NewsletterForm({
       }
 
       setIsSuccess(true);
+      trackNewsletterSignup(location);
       toast.success('¡Estás en la lista! Te avisaremos pronto.');
 
       // Trigger confetti celebration
