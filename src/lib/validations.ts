@@ -34,7 +34,7 @@ export const validateForm = <T>(schema: z.ZodSchema<T>, data: unknown) => {
  * Get formatted error message from Zod error
  */
 export const getErrorMessage = (error: z.ZodError): string => {
-  const firstError = error.errors[0];
+  const firstError = error.issues[0];
   if (firstError) {
     return firstError.message;
   }

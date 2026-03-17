@@ -10,7 +10,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import confetti from 'canvas-confetti';
 
 interface NewsletterFormProps {
-  location?: 'hero' | 'footer' | 'popup';
+  location?: 'hero' | 'footer' | 'popup' | 'pricing';
   showEmailField?: boolean;
   className?: string;
   placeholder?: string;

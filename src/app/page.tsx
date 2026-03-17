@@ -1,3 +1,4 @@
+import ComingSoon from "@/components/ComingSoon";
 import Hero from "@/components/sections/Hero";
 import ProblemSolution from "@/components/sections/ProblemSolution";
 import ProductPreview from "@/components/sections/ProductPreview";
@@ -29,6 +30,12 @@ const jsonLd = {
 };
 
 export default function Home() {
+  const isLandingEnabled = process.env.NEXT_PUBLIC_LANDING_ENABLED === "true";
+
+  if (!isLandingEnabled) {
+    return <ComingSoon />;
+  }
+
   return (
     <>
       <script
