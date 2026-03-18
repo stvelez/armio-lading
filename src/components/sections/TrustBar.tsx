@@ -93,16 +93,20 @@ export default function TrustBar() {
               </AnimatePresence>
 
               {/* Dots */}
-              <div className="mt-3 flex gap-1.5">
+              <div className="mt-1 flex gap-0.5">
                 {testimonials.map((_, i) => (
                   <button
                     key={i}
                     onClick={() => setCurrent(i)}
-                    className={`h-1 rounded-full transition-all duration-300 ${
-                      i === current ? "w-4 bg-[#1D9E75]" : "w-1.5 bg-[#3C3C3A]"
-                    }`}
+                    className="flex min-h-[44px] min-w-[44px] items-center justify-center"
                     aria-label={`Testimonio ${i + 1}`}
-                  />
+                  >
+                    <span
+                      className={`h-1 rounded-full transition-all duration-300 ${
+                        i === current ? "w-4 bg-[#1D9E75]" : "w-1.5 bg-[#3C3C3A]"
+                      }`}
+                    />
+                  </button>
                 ))}
               </div>
             </div>

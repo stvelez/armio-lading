@@ -39,7 +39,7 @@ export default function HowItWorks() {
           transition={{ duration: 0.6 }}
           className="mb-16 text-center"
         >
-          <p className="mb-3 text-sm font-medium tracking-widest text-[#1D9E75] uppercase">
+          <p className="mb-3 text-sm font-medium tracking-widest text-[#0F6E56] uppercase">
             Simple de empezar
           </p>
           <h2 className="mb-4 text-3xl font-semibold tracking-[-0.02em] text-[#2C2C2A] md:text-4xl">
@@ -85,7 +85,7 @@ export default function HowItWorks() {
 
                 {/* Detail pill */}
                 <div className="mt-auto rounded-lg border border-[#D3D1C7] bg-[#F1EFE8] px-3 py-2">
-                  <p className="text-xs font-medium text-[#1D9E75]">{step.detail}</p>
+                  <p className="text-xs font-medium text-[#0F6E56]">{step.detail}</p>
                 </div>
               </motion.div>
 

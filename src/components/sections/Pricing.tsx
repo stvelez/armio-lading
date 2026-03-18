@@ -74,7 +74,7 @@ export default function Pricing() {
       <div className="mx-auto max-w-6xl">
         {/* Section Title */}
         <div className="mb-16 text-center">
-          <p className="mb-3 text-sm font-medium tracking-wide text-[#1D9E75] uppercase">Precios</p>
+          <p className="mb-3 text-sm font-medium tracking-wide text-[#0F6E56] uppercase">Precios</p>
           <h2 className="mb-4 text-3xl font-semibold text-[#2C2C2A] md:text-4xl">
             Transparente para agencias en crecimiento
           </h2>
@@ -99,13 +99,13 @@ export default function Pricing() {
               )}
 
               <h3 className="mb-1 text-lg font-semibold text-[#2C2C2A]">{plan.name}</h3>
-              <p className="mb-4 text-xs text-[#888780]">{plan.description}</p>
+              <p className="mb-4 text-xs text-[#5F5E5A]">{plan.description}</p>
 
               <div className="mb-6">
                 {SHOW_PRICES ? (
                   <span className="text-3xl font-semibold text-[#2C2C2A]">{plan.price}</span>
                 ) : (
-                  <span className="text-base font-medium text-[#888780]">Próximamente</span>
+                  <span className="text-base font-medium text-[#5F5E5A]">Próximamente</span>
                 )}
               </div>
 

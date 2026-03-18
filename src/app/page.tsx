@@ -1,37 +1,45 @@
-import ComingSoon from "@/components/ComingSoon";
+import dynamic from "next/dynamic";
 import Header from "@/components/layout/Header";
 import Hero from "@/components/sections/Hero";
-import Features from "@/components/sections/Features";
-import Benefits from "@/components/sections/Benefits";
-import TrustBar from "@/components/sections/TrustBar";
-import ProblemSolution from "@/components/sections/ProblemSolution";
-import ProductPreview from "@/components/sections/ProductPreview";
-import HowItWorks from "@/components/sections/HowItWorks";
-import Testimonials from "@/components/sections/Testimonials";
-import Pricing from "@/components/sections/Pricing";
-import FAQ from "@/components/sections/FAQ";
-import CTA from "@/components/sections/CTA";
-import Footer from "@/components/layout/Footer";
+import ComingSoon from "@/components/ComingSoon";
+import ExitIntentLoader from "@/components/sections/ExitIntentLoader";
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "Armio",
-  url: "https://armio.co",
-  logo: "https://armio.co/og-image.png",
-  description:
-    "El sistema operativo de tu agencia inmobiliaria. Software para centralizar propiedades, leads y contratos en agencias inmobiliarias de Colombia.",
-  contactPoint: {
-    "@type": "ContactPoint",
-    email: "hola@armio.co",
-    contactType: "customer support",
-    availableLanguage: "Spanish",
-  },
-  areaServed: {
-    "@type": "Country",
-    name: "Colombia",
-  },
-};
+// Below-the-fold sections — lazy loaded for faster initial bundle
+const Features = dynamic(() => import("@/components/sections/Features"), {
+  loading: () => <div className="h-96 animate-pulse bg-[#1A1A18]" />,
+});
+const Benefits = dynamic(() => import("@/components/sections/Benefits"), {
+  loading: () => <div className="h-80 animate-pulse bg-white" />,
+});
+const TrustBar = dynamic(() => import("@/components/sections/TrustBar"), {
+  loading: () => <div className="h-20 animate-pulse bg-[#F1EFE8]" />,
+});
+const ProblemSolution = dynamic(() => import("@/components/sections/ProblemSolution"), {
+  loading: () => <div className="h-96 animate-pulse bg-white" />,
+});
+const ProductPreview = dynamic(() => import("@/components/sections/ProductPreview"), {
+  loading: () => <div className="h-96 animate-pulse bg-[#1A1A18]" />,
+});
+const HowItWorks = dynamic(() => import("@/components/sections/HowItWorks"), {
+  loading: () => <div className="h-80 animate-pulse bg-white" />,
+});
+const Testimonials = dynamic(() => import("@/components/sections/Testimonials"), {
+  loading: () => <div className="h-80 animate-pulse bg-[#F1EFE8]" />,
+});
+const Pricing = dynamic(() => import("@/components/sections/Pricing"), {
+  loading: () => <div className="h-96 animate-pulse bg-white" />,
+});
+const FAQ = dynamic(() => import("@/components/sections/FAQ"), {
+  loading: () => <div className="h-80 animate-pulse bg-[#F8F7F2]" />,
+});
+const CTA = dynamic(() => import("@/components/sections/CTA"), {
+  loading: () => <div className="h-80 animate-pulse bg-[#1D9E75]" />,
+});
+const Footer = dynamic(() => import("@/components/layout/Footer"), {
+  loading: () => <div className="h-40 animate-pulse bg-[#1A1A18]" />,
+});
+
+// Organization + SoftwareApplication schemas are injected globally in layout.tsx (ARM-65)
 
 export default function Home() {
   const isLandingEnabled = process.env.NEXT_PUBLIC_LANDING_ENABLED === "true";
@@ -42,12 +50,8 @@ export default function Home() {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
       <Header />
-      <main>
+      <main id="main-content">
         <Hero />
         <Features />
         <Benefits />
@@ -61,6 +65,7 @@ export default function Home() {
         <CTA />
       </main>
       <Footer />
+      <ExitIntentLoader />
     </>
   );
 }

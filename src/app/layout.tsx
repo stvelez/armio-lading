@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { Toaster } from "react-hot-toast";
+import MotionProvider from "@/components/providers/MotionProvider";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -67,6 +69,46 @@ export const metadata: Metadata = {
   },
 };
 
+const softwareApplicationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "Armio",
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web",
+  url: "https://armio.co",
+  offers: {
+    "@type": "Offer",
+    price: "49",
+    priceCurrency: "USD",
+    priceValidUntil: "2026-12-31",
+    availability: "https://schema.org/InStock",
+  },
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.8",
+    ratingCount: "100",
+  },
+};
+
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Armio",
+  url: "https://armio.co",
+  logo: "https://armio.co/logo.png",
+  contactPoint: {
+    "@type": "ContactPoint",
+    email: "hola@armio.co",
+    contactType: "customer service",
+    availableLanguage: "Spanish",
+  },
+  sameAs: [
+    "https://twitter.com/armioapp",
+    "https://linkedin.com/company/armio",
+    "https://instagram.com/armioapp",
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -74,10 +116,34 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(softwareApplicationJsonLd),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationJsonLd),
+          }}
+        />
+      </head>
       <body className={`${plusJakartaSans.variable} antialiased`}>
-        {children}
+        <MotionProvider>{children}</MotionProvider>
+        <Toaster
+          position="bottom-right"
+          toastOptions={{
+            style: {
+              background: "#1D1D1B",
+              color: "#ffffff",
+              border: "1px solid #3C3C3A",
+            },
+          }}
+        />
       </body>
-      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ''} />
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ""} />
     </html>
   );
 }

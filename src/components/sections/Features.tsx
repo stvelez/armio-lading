@@ -204,7 +204,9 @@ export default function Features() {
               </div>
               <h3 className="mb-2 text-base font-semibold text-white">{title}</h3>
               <p className="text-sm leading-relaxed text-[#B4B2A9]">{description}</p>
-              <Preview />
+              <div className="hidden sm:block">
+                <Preview />
+              </div>
             </motion.div>
           ))}
         </div>

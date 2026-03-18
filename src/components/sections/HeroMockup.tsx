@@ -52,6 +52,7 @@ const fadeUp = {
 export default function HeroMockup() {
   return (
     <motion.div
+      aria-hidden="true"
       whileHover={{ scale: 1.02 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
       className="w-full overflow-hidden rounded-xl border border-[#D3D1C7] bg-white shadow-2xl"
@@ -101,7 +102,10 @@ export default function HeroMockup() {
               <p className="text-[10px] font-medium text-[#888780]">Propiedades</p>
               <p className="text-xs font-semibold text-[#2C2C2A]">Mi cartera</p>
             </div>
-            <button className="flex items-center gap-1 rounded-md bg-[#1D9E75] px-2.5 py-1 text-[10px] font-medium text-white">
+            <button
+              tabIndex={-1}
+              className="flex items-center gap-1 rounded-md bg-[#1D9E75] px-2.5 py-1 text-[10px] font-medium text-white"
+            >
               <span>+ Nueva</span>
             </button>
           </motion.div>

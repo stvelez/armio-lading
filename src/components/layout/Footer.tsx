@@ -1,21 +1,21 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Twitter, Linkedin, Instagram, Cookie } from 'lucide-react';
-import NewsletterForm from '@/components/forms/NewsletterForm';
+import { useState } from "react";
+import { Twitter, Linkedin, Instagram, Cookie } from "lucide-react";
+import NewsletterForm from "@/components/forms/NewsletterForm";
 
 export default function Footer() {
   const [showCookieConsent, setShowCookieConsent] = useState(true);
 
   return (
     <>
-      <footer className="bg-[#2C2C2A] border-t border-[#3C3C3A] py-16 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-12">
+      <footer className="border-t border-[#3C3C3A] bg-[#2C2C2A] px-6 py-16">
+        <div className="mx-auto max-w-6xl">
+          <div className="grid gap-12 md:grid-cols-4">
             {/* Logo & Tagline */}
             <div>
-              <h3 className="text-2xl font-semibold text-white mb-3 tracking-[-0.01em]">armio</h3>
-              <p className="text-[#B4B2A9] text-sm mb-6 leading-relaxed">
+              <h3 className="mb-3 text-2xl font-semibold tracking-[-0.01em] text-white">armio</h3>
+              <p className="mb-6 text-sm leading-relaxed text-[#B4B2A9]">
                 El sistema operativo de tu agencia inmobiliaria
               </p>
               <NewsletterForm
@@ -27,66 +27,66 @@ export default function Footer() {
             </div>
 
             {/* Producto */}
-            <div>
-              <h4 className="text-white font-semibold mb-4 text-sm">Producto</h4>
+            <nav aria-label="Producto">
+              <h4 className="mb-4 text-sm font-semibold text-white">Producto</h4>
               <ul className="space-y-3">
-                {['Features', 'Pricing', 'Roadmap', 'FAQ'].map((item) => (
+                {["Features", "Pricing", "Roadmap", "FAQ"].map((item) => (
                   <li key={item}>
                     <a
                       href={`#${item.toLowerCase()}`}
-                      className="text-[#B4B2A9] hover:text-white text-sm transition-colors"
+                      className="text-sm text-[#B4B2A9] transition-colors hover:text-white"
                     >
                       {item}
                     </a>
                   </li>
                 ))}
               </ul>
-            </div>
+            </nav>
 
             {/* Empresa */}
-            <div>
-              <h4 className="text-white font-semibold mb-4 text-sm">Empresa</h4>
+            <nav aria-label="Empresa">
+              <h4 className="mb-4 text-sm font-semibold text-white">Empresa</h4>
               <ul className="space-y-3">
-                {['About', 'Blog', 'Carreras', 'Contacto'].map((item) => (
+                {["About", "Blog", "Carreras", "Contacto"].map((item) => (
                   <li key={item}>
                     <a
                       href={`#${item.toLowerCase()}`}
-                      className="text-[#B4B2A9] hover:text-white text-sm transition-colors"
+                      className="text-sm text-[#B4B2A9] transition-colors hover:text-white"
                     >
                       {item}
                     </a>
                   </li>
                 ))}
               </ul>
-            </div>
+            </nav>
 
             {/* Legal */}
-            <div>
-              <h4 className="text-white font-semibold mb-4 text-sm">Legal</h4>
+            <nav aria-label="Legal">
+              <h4 className="mb-4 text-sm font-semibold text-white">Legal</h4>
               <ul className="space-y-3">
-                {['Términos', 'Privacidad', 'Cookies'].map((item) => (
+                {["Términos", "Privacidad", "Cookies"].map((item) => (
                   <li key={item}>
                     <a
                       href={`#${item.toLowerCase()}`}
-                      className="text-[#B4B2A9] hover:text-white text-sm transition-colors"
+                      className="text-sm text-[#B4B2A9] transition-colors hover:text-white"
                     >
                       {item}
                     </a>
                   </li>
                 ))}
               </ul>
-            </div>
+            </nav>
           </div>
 
           {/* Bottom bar */}
-          <div className="border-t border-[#3C3C3A] mt-12 pt-8">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="mt-12 border-t border-[#3C3C3A] pt-8">
+            <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
               <div className="flex items-center gap-5">
                 <a
                   href="https://twitter.com/armioapp"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[#888780] hover:text-white transition-colors"
+                  className="text-[#B4B2A9] transition-colors hover:text-white"
                   aria-label="Twitter"
                 >
                   <Twitter size={18} />
@@ -95,7 +95,7 @@ export default function Footer() {
                   href="https://linkedin.com/company/armio"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[#888780] hover:text-white transition-colors"
+                  className="text-[#B4B2A9] transition-colors hover:text-white"
                   aria-label="LinkedIn"
                 >
                   <Linkedin size={18} />
@@ -104,23 +104,23 @@ export default function Footer() {
                   href="https://instagram.com/armioapp"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[#888780] hover:text-white transition-colors"
+                  className="text-[#B4B2A9] transition-colors hover:text-white"
                   aria-label="Instagram"
                 >
                   <Instagram size={18} />
                 </a>
               </div>
 
-              <div className="flex items-center gap-5 text-[#888780] text-sm">
-                <a href="mailto:hola@armio.co" className="hover:text-white transition-colors">
+              <div className="flex items-center gap-5 text-sm text-[#B4B2A9]">
+                <a href="mailto:hola@armio.co" className="transition-colors hover:text-white">
                   hola@armio.co
                 </a>
                 <span>@armioapp</span>
               </div>
 
-              <div className="text-[#888780] text-sm">
-                © {new Date().getFullYear()} Armio ·{' '}
-                <a href="https://armio.co" className="hover:text-white transition-colors">
+              <div className="text-sm text-[#B4B2A9]">
+                © {new Date().getFullYear()} Armio ·{" "}
+                <a href="https://armio.co" className="transition-colors hover:text-white">
                   armio.co
                 </a>
               </div>
@@ -131,24 +131,24 @@ export default function Footer() {
 
       {/* Cookie Consent Banner */}
       {showCookieConsent && (
-        <div className="fixed bottom-0 left-0 right-0 bg-[#2C2C2A] border-t border-[#3C3C3A] p-4 z-50">
-          <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
+        <div className="fixed right-0 bottom-0 left-0 z-50 border-t border-[#3C3C3A] bg-[#2C2C2A] p-4">
+          <div className="mx-auto flex max-w-6xl items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <Cookie size={18} className="text-[#1D9E75] flex-shrink-0" />
-              <p className="text-[#B4B2A9] text-sm">
-                Usamos cookies para mejorar tu experiencia.
-              </p>
+              <Cookie size={18} className="flex-shrink-0 text-[#1D9E75]" />
+              <p className="text-sm text-[#B4B2A9]">Usamos cookies para mejorar tu experiencia.</p>
             </div>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setShowCookieConsent(false)}
-                className="px-4 py-2 text-[#B4B2A9] hover:text-white text-sm transition-colors"
+                aria-label="Configurar preferencias de cookies"
+                className="px-4 py-2 text-sm text-[#B4B2A9] transition-colors hover:text-white"
               >
                 Configurar
               </button>
               <button
                 onClick={() => setShowCookieConsent(false)}
-                className="bg-[#1D9E75] hover:bg-[#0F6E56] text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                aria-label="Aceptar todas las cookies"
+                className="rounded-md bg-[#1D9E75] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#0F6E56]"
               >
                 Aceptar
               </button>

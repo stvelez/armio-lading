@@ -34,10 +34,38 @@
   --font-sans: var(--font-plus-jakarta-sans);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background-color: #ffffff;
   color: #2c2c2a;
   font-family: var(--font-plus-jakarta-sans), sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden; /* Prevent horizontal scroll on mobile */
+}
+
+/* Offset sections for sticky header (80px height) */
+section[id] {
+  scroll-margin-top: 80px;
+}
+
+/* Global focus-visible — WCAG 2.1 AA */
+:focus-visible {
+  outline: 2px solid #1d9e75;
+  outline-offset: 2px;
+}
+
+/* Respect prefers-reduced-motion — WCAG 2.3.3 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -192,7 +192,7 @@ export default function ProblemSolution() {
           transition={{ duration: 0.6 }}
           className="mb-16 text-center"
         >
-          <p className="mb-3 text-sm font-medium tracking-widest text-[#1D9E75] uppercase">
+          <p className="mb-3 text-sm font-medium tracking-widest text-[#0F6E56] uppercase">
             El antes y el después
           </p>
           <h2 className="mb-4 text-3xl font-semibold tracking-[-0.02em] text-[#2C2C2A] md:text-4xl">
@@ -243,7 +243,7 @@ export default function ProblemSolution() {
               <div className="grid items-center gap-8 md:grid-cols-2">
                 <ArmioPreview />
                 <div>
-                  <h3 className="mb-6 text-xl font-semibold text-[#1D9E75]">Con Armio</h3>
+                  <h3 className="mb-6 text-xl font-semibold text-[#0F6E56]">Con Armio</h3>
                   <div className="space-y-3">
                     {solutionItems.map(({ icon: Icon, text }, i) => (
                       <motion.div

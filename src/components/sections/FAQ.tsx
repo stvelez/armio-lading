@@ -1,37 +1,44 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from "react";
+import { ChevronDown } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const faqs = [
   {
-    question: '¿Necesito conocimientos técnicos para usar Armio?',
-    answer: 'No, Armio está diseñado para ser intuitivo. Cualquier persona familiarizada con Excel o WhatsApp puede usarlo.',
+    question: "¿Necesito conocimientos técnicos para usar Armio?",
+    answer:
+      "No, Armio está diseñado para ser intuitivo. Cualquier persona familiarizada con Excel o WhatsApp puede usarlo.",
   },
   {
-    question: '¿Puedo importar mis propiedades desde Excel?',
-    answer: 'Sí, puedes importar propiedades desde Excel o crearlas desde cero con nuestro formulario intuitivo. Soportamos hasta 500 propiedades por lote.',
+    question: "¿Puedo importar mis propiedades desde Excel?",
+    answer:
+      "Sí, puedes importar propiedades desde Excel o crearlas desde cero con nuestro formulario intuitivo. Soportamos hasta 500 propiedades por lote.",
   },
   {
-    question: '¿Hay un período de prueba gratuito?',
-    answer: 'Ofrecemos 14 días de prueba gratuita cuando lancemos oficialmente. Los primeros 100 early adopters obtendrán 50% OFF de por vida.',
+    question: "¿Hay un período de prueba gratuito?",
+    answer:
+      "Ofrecemos 14 días de prueba gratuita cuando lancemos oficialmente. Los primeros 100 early adopters obtendrán 50% OFF de por vida.",
   },
   {
-    question: '¿Mis datos están seguros?',
-    answer: 'Sí, tus datos están encriptados y almacenados en servidores seguros. Cumplimos con todas las normativas de protección de datos en Colombia.',
+    question: "¿Mis datos están seguros?",
+    answer:
+      "Sí, tus datos están encriptados y almacenados en servidores seguros. Cumplimos con todas las normativas de protección de datos en Colombia.",
   },
   {
-    question: '¿Puedo cancelar mi suscripción?',
-    answer: 'Sí, puedes cancelar en cualquier momento sin penalidades. Con el Early Access, el descuento es de por vida mientras mantengas tu suscripción activa.',
+    question: "¿Puedo cancelar mi suscripción?",
+    answer:
+      "Sí, puedes cancelar en cualquier momento sin penalidades. Con el Early Access, el descuento es de por vida mientras mantengas tu suscripción activa.",
   },
   {
-    question: '¿Funciona en móvil?',
-    answer: 'Sí, Armio está optimizado para funcionar perfectamente en móviles y tablets. Puedes gestionar tu agencia desde cualquier dispositivo.',
+    question: "¿Funciona en móvil?",
+    answer:
+      "Sí, Armio está optimizado para funcionar perfectamente en móviles y tablets. Puedes gestionar tu agencia desde cualquier dispositivo.",
   },
   {
-    question: '¿Cómo funciona el descuento de 50% OFF?',
-    answer: 'Los primeros 100 en unirse a la lista de espera obtendrán 50% OFF de por vida en el plan Professional. Este descuento se aplica automáticamente cuando lance el producto.',
+    question: "¿Cómo funciona el descuento de 50% OFF?",
+    answer:
+      "Los primeros 100 en unirse a la lista de espera obtendrán 50% OFF de por vida en el plan Professional. Este descuento se aplica automáticamente cuando lance el producto.",
   },
 ];
 
@@ -39,13 +46,13 @@ export default function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const schema = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
     mainEntity: faqs.map((faq) => ({
-      '@type': 'Question',
+      "@type": "Question",
       name: faq.question,
       acceptedAnswer: {
-        '@type': 'Answer',
+        "@type": "Answer",
         text: faq.answer,
       },
     })),
@@ -58,19 +65,17 @@ export default function FAQ() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
 
-      <section className="py-24 px-6 bg-[#F1EFE8]">
-        <div className="max-w-4xl mx-auto">
+      <section id="faq" className="bg-[#F1EFE8] px-6 py-24">
+        <div className="mx-auto max-w-4xl">
           {/* Section Title */}
-          <div className="text-center mb-16">
-            <p className="text-[#1D9E75] text-sm font-medium mb-3 uppercase tracking-wide">
+          <div className="mb-16 text-center">
+            <p className="mb-3 text-sm font-medium tracking-wide text-[#0F6E56] uppercase">
               Resolvemos tus dudas
             </p>
-            <h2 className="text-3xl md:text-4xl font-semibold text-[#2C2C2A] mb-4">
+            <h2 className="mb-4 text-3xl font-semibold text-[#2C2C2A] md:text-4xl">
               Preguntas frecuentes
             </h2>
-            <p className="text-[#5F5E5A] text-lg">
-              Todo lo que necesitas saber sobre Armio
-            </p>
+            <p className="text-lg text-[#5F5E5A]">Todo lo que necesitas saber sobre Armio</p>
           </div>
 
           {/* FAQ Items */}
@@ -78,14 +83,14 @@ export default function FAQ() {
             {faqs.map((faq, index) => (
               <div
                 key={index}
-                className="bg-white border border-[#D3D1C7] rounded-xl overflow-hidden"
+                className="overflow-hidden rounded-xl border border-[#D3D1C7] bg-white"
               >
                 <button
                   onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                  className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-[#F1EFE8] transition-colors duration-150"
+                  className="flex w-full items-center justify-between px-6 py-4 text-left transition-colors duration-150 hover:bg-[#F1EFE8]"
                   aria-expanded={openIndex === index}
                 >
-                  <span className="text-[#2C2C2A] font-medium text-sm pr-4">{faq.question}</span>
+                  <span className="pr-4 text-sm font-medium text-[#2C2C2A]">{faq.question}</span>
                   <motion.div
                     animate={{ rotate: openIndex === index ? 180 : 0 }}
                     transition={{ duration: 0.2 }}
@@ -94,7 +99,7 @@ export default function FAQ() {
                     <ChevronDown
                       size={18}
                       className={`transition-colors ${
-                        openIndex === index ? 'text-[#1D9E75]' : 'text-[#B4B2A9]'
+                        openIndex === index ? "text-[#1D9E75]" : "text-[#B4B2A9]"
                       }`}
                     />
                   </motion.div>
@@ -104,12 +109,12 @@ export default function FAQ() {
                   {openIndex === index && (
                     <motion.div
                       initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
+                      animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <div className="px-6 pb-5 pt-0 border-t border-[#F1EFE8]">
-                        <p className="text-[#5F5E5A] text-sm leading-relaxed">{faq.answer}</p>
+                      <div className="border-t border-[#F1EFE8] px-6 pt-0 pb-5">
+                        <p className="text-sm leading-relaxed text-[#5F5E5A]">{faq.answer}</p>
                       </div>
                     </motion.div>
                   )}
@@ -119,11 +124,11 @@ export default function FAQ() {
           </div>
 
           {/* CTA */}
-          <div className="text-center mt-12">
-            <p className="text-[#5F5E5A] mb-4">¿Tienes más preguntas?</p>
+          <div className="mt-12 text-center">
+            <p className="mb-4 text-[#5F5E5A]">¿Tienes más preguntas?</p>
             <a
               href="mailto:hola@armio.co"
-              className="text-[#1D9E75] hover:text-[#0F6E56] font-medium transition-colors text-sm"
+              className="text-sm font-medium text-[#0F6E56] transition-colors hover:text-[#0a5242]"
             >
               Escríbenos a hola@armio.co →
             </a>

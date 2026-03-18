@@ -22,18 +22,18 @@ export default function Hero() {
         }}
       />
 
-      <div className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-12 py-24 lg:grid-cols-2 lg:gap-20">
+      <div className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-12 py-16 md:py-24 lg:grid-cols-2 lg:gap-20">
         {/* Left: Copy */}
         <div>
           {/* Headline */}
-          <motion.h2
+          <motion.h1
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mb-5 text-2xl leading-snug font-semibold tracking-[-0.01em] text-white md:text-3xl"
           >
             El sistema operativo de tu <span className="text-[#1D9E75]">agencia inmobiliaria</span>
-          </motion.h2>
+          </motion.h1>
 
           {/* Subtext */}
           <motion.p

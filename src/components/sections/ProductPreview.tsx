@@ -97,7 +97,10 @@ function DashboardMockup() {
               <h3 className="text-sm font-semibold text-[#2C2C2A]">Propiedades</h3>
               <p className="text-[11px] text-[#888780]">3 propiedades activas</p>
             </div>
-            <button className="flex items-center gap-1.5 rounded-lg bg-[#1D9E75] px-3 py-1.5 text-[11px] font-medium text-white shadow-sm">
+            <button
+              tabIndex={-1}
+              className="flex items-center gap-1.5 rounded-lg bg-[#1D9E75] px-3 py-1.5 text-[11px] font-medium text-white shadow-sm"
+            >
               <Plus size={11} strokeWidth={2} />
               Nueva
             </button>
@@ -135,7 +138,10 @@ function DashboardMockup() {
                 <span className="text-[11px] font-semibold text-[#2C2C2A]">
                   Cartera de propiedades
                 </span>
-                <button className="flex items-center gap-0.5 text-[10px] text-[#1D9E75]">
+                <button
+                  tabIndex={-1}
+                  className="flex items-center gap-0.5 text-[10px] text-[#1D9E75]"
+                >
                   Ver todas <ChevronRight size={10} />
                 </button>
               </div>
@@ -204,11 +210,11 @@ export default function ProductPreview() {
           transition={{ duration: 0.6 }}
           className="mb-14 text-center"
         >
-          <p className="mb-3 text-sm font-medium tracking-widest text-[#1D9E75] uppercase">
+          <p className="mb-3 text-sm font-medium tracking-widest text-[#0F6E56] uppercase">
             Mira cómo funciona Armio
           </p>
           <h2 className="mb-4 text-3xl font-semibold tracking-[-0.02em] text-[#2C2C2A] md:text-4xl">
-            Todo tu negocio inmobiliario, <span className="text-[#1D9E75]">en un solo lugar</span>
+            Todo tu negocio inmobiliario, <span className="text-[#0F6E56]">en un solo lugar</span>
           </h2>
           <p className="text-lg text-[#5F5E5A]">
             Explora el dashboard interactivo y ve cada feature en acción
@@ -223,7 +229,9 @@ export default function ProductPreview() {
           transition={{ duration: 0.7, delay: 0.15 }}
           className="relative"
         >
-          <DashboardMockup />
+          <div aria-hidden="true">
+            <DashboardMockup />
+          </div>
 
           {/* Hotspot 1: over properties table */}
           <Hotspot
