@@ -1,5 +1,9 @@
 import ComingSoon from "@/components/ComingSoon";
+import Header from "@/components/layout/Header";
 import Hero from "@/components/sections/Hero";
+import Features from "@/components/sections/Features";
+import Benefits from "@/components/sections/Benefits";
+import TrustBar from "@/components/sections/TrustBar";
 import ProblemSolution from "@/components/sections/ProblemSolution";
 import ProductPreview from "@/components/sections/ProductPreview";
 import HowItWorks from "@/components/sections/HowItWorks";
@@ -42,8 +46,12 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <Header />
       <main>
         <Hero />
+        <Features />
+        <Benefits />
+        <TrustBar />
         <ProblemSolution />
         <ProductPreview />
         <HowItWorks />

@@ -2,17 +2,33 @@
 
 @theme inline {
   /* Brand colors — Armio brand book */
-  --color-primary: #1D9E75;
-  --color-primary-dark: #0F6E56;
-  --color-primary-light: #E1F5EE;
-  --color-primary-mid: #5DCAA5;
+  --color-primary: #1d9e75;
+  --color-primary-dark: #0f6e56;
+  --color-primary-light: #e1f5ee;
+  --color-primary-mid: #5dcaa5;
 
-  --color-neutral-900: #2C2C2A;
-  --color-neutral-700: #5F5E5A;
+  --color-neutral-900: #2c2c2a;
+  --color-neutral-700: #5f5e5a;
   --color-neutral-400: #888780;
-  --color-neutral-200: #B4B2A9;
-  --color-neutral-100: #D3D1C7;
-  --color-neutral-50: #F1EFE8;
+  --color-neutral-200: #b4b2a9;
+  --color-neutral-100: #d3d1c7;
+  --color-neutral-50: #f1efe8;
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #1d9e75 0%, #0f6e56 100%);
+  --gradient-subtle: linear-gradient(180deg, rgba(29, 158, 117, 0.08) 0%, transparent 100%);
+
+  /* Glass */
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.16);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.2);
+  --shadow-hover-primary: 0 8px 24px rgba(29, 158, 117, 0.3);
+  --shadow-hover-card: 0 12px 40px rgba(0, 0, 0, 0.15);
 
   /* Typography */
   --font-sans: var(--font-plus-jakarta-sans);
@@ -20,7 +36,7 @@
 
 body {
   background-color: #ffffff;
-  color: #2C2C2A;
+  color: #2c2c2a;
   font-family: var(--font-plus-jakarta-sans), sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

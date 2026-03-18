@@ -1,45 +1,62 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { newsletterSchema } from '@/lib/validations';
-import { sendWelcomeEmail } from '@/lib/resend';
+import { NextRequest, NextResponse } from "next/server";
+import { promises as fs } from "fs";
+import path from "path";
+import { newsletterSchema } from "@/lib/validations";
+import { sendWelcomeEmail } from "@/lib/resend";
+
+const DATA_FILE = path.join(process.cwd(), "data", "waitlist.json");
+
+async function readWaitlist(): Promise<{ email: string; signedAt: string }[]> {
+  try {
+    const content = await fs.readFile(DATA_FILE, "utf-8");
+    return JSON.parse(content);
+  } catch {
+    return [];
+  }
+}
+
+async function saveToWaitlist(email: string): Promise<boolean> {
+  await fs.mkdir(path.dirname(DATA_FILE), { recursive: true });
+  const list = await readWaitlist();
+  if (list.some((entry) => entry.email === email)) return false;
+  list.push({ email, signedAt: new Date().toISOString() });
+  await fs.writeFile(DATA_FILE, JSON.stringify(list, null, 2));
+  return true;
+}
+
 /**
  * POST /api/newsletter
- * Handle newsletter signup
  */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { email, name } = body;
-
-    // Validate email
-    const result = newsletterSchema.safeParse({ email, name });
+    const result = newsletterSchema.safeParse({ email: body.email });
 
     if (!result.success) {
       return NextResponse.json(
-        { error: result.error.issues[0]?.message || 'Email inválido' },
+        { error: result.error.issues[0]?.message || "Email inválido" },
         { status: 400 }
       );
     }
 
-    // Here you would typically:
-    // 1. Add email to your database (PostgreSQL, MongoDB, etc.)
-    // 2. Check if email already exists
-    // 3. Store the signup with timestamp
+    const { email } = result.data;
+    const added = await saveToWaitlist(email);
 
-    // For now, we'll just simulate adding to database
-    // TODO: Add actual database integration
+    if (!added) {
+      return NextResponse.json(
+        { error: "Este email ya está en la lista de espera" },
+        { status: 409 }
+      );
+    }
 
-    // Send welcome email
-    await sendWelcomeEmail(result.data.email);
+    await sendWelcomeEmail(email);
 
     return NextResponse.json({
       success: true,
-      message: '¡Te has unido a la lista de espera!',
+      message: "¡Te has unido a la lista de espera!",
     });
   } catch (error) {
-    console.error('Newsletter signup error:', error);
-    return NextResponse.json(
-      { error: 'Hubo un error al procesar tu solicitud' },
-      { status: 500 }
-    );
+    console.error("Newsletter signup error:", error);
+    return NextResponse.json({ error: "Hubo un error al procesar tu solicitud" }, { status: 500 });
   }
 }
