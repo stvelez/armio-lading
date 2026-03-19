@@ -54,7 +54,7 @@ export default function Hotspot({ x, y, title, description }: HotspotProps) {
         whileTap={{ scale: 0.95 }}
         className={`relative flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 transition-colors duration-200 ${
           isOpen
-            ? "border-[#1D9E75] bg-[#1D9E75] text-white"
+            ? "border-[#0F6E56] bg-[#0F6E56] text-white"
             : "border-[#1D9E75] bg-[#1D9E75]/20 text-[#1D9E75] hover:bg-[#1D9E75]/40"
         }`}
         aria-label={title}

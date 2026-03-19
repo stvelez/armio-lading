@@ -35,7 +35,7 @@ const properties = [
 
 const pipeline = [
   { label: "Nuevo", count: 3, color: "bg-[#E6F1FB] text-[#185FA5]" },
-  { label: "En proceso", count: 2, color: "bg-[#FAEEDA] text-[#BA7517]" },
+  { label: "En proceso", count: 2, color: "bg-[#FAEEDA] text-[#92400E]" },
   { label: "Cerrado", count: 1, color: "bg-[#EAF3DE] text-[#3B6D11]" },
 ];
 
@@ -64,7 +64,7 @@ export default function HeroMockup() {
           <div className="h-3 w-3 rounded-full bg-[#FFBD2E]" />
           <div className="h-3 w-3 rounded-full bg-[#28C840]" />
         </div>
-        <div className="mx-auto max-w-[200px] flex-1 rounded-md border border-[#D3D1C7] bg-white/80 px-3 py-1 text-center text-[10px] font-medium text-[#888780]">
+        <div className="mx-auto max-w-[200px] flex-1 rounded-md border border-[#D3D1C7] bg-white/80 px-3 py-1 text-center text-[10px] font-medium text-[#5F5E5A]">
           app.armio.co/propiedades
         </div>
       </div>
@@ -78,7 +78,7 @@ export default function HeroMockup() {
               key={label}
               title={label}
               className={`flex h-9 w-9 items-center justify-center rounded-lg ${
-                active ? "bg-[#E1F5EE] text-[#1D9E75]" : "text-[#888780]"
+                active ? "bg-[#E1F5EE] text-[#0F6E56]" : "text-[#5F5E5A]"
               }`}
             >
               <Icon size={16} strokeWidth={1.5} />
@@ -99,12 +99,12 @@ export default function HeroMockup() {
             className="flex items-center justify-between border-b border-[#D3D1C7] bg-white px-4 py-2.5"
           >
             <div>
-              <p className="text-[10px] font-medium text-[#888780]">Propiedades</p>
+              <p className="text-[10px] font-medium text-[#5F5E5A]">Propiedades</p>
               <p className="text-xs font-semibold text-[#2C2C2A]">Mi cartera</p>
             </div>
             <button
               tabIndex={-1}
-              className="flex items-center gap-1 rounded-md bg-[#1D9E75] px-2.5 py-1 text-[10px] font-medium text-white"
+              className="flex items-center gap-1 rounded-md bg-[#0F6E56] px-2.5 py-1 text-[10px] font-medium text-white"
             >
               <span>+ Nueva</span>
             </button>
@@ -120,8 +120,8 @@ export default function HeroMockup() {
                 key={label}
                 className="rounded-md border border-[#D3D1C7] bg-white px-2 py-1.5 text-center"
               >
-                <p className="text-sm font-semibold text-[#1D9E75]">{value}</p>
-                <p className="text-[9px] text-[#888780]">{label}</p>
+                <p className="text-sm font-semibold text-[#0F6E56]">{value}</p>
+                <p className="text-[9px] text-[#5F5E5A]">{label}</p>
               </div>
             ))}
           </motion.div>
@@ -145,11 +145,11 @@ export default function HeroMockup() {
                 className="flex items-center gap-3 border-b border-[#F1EFE8] px-4 py-2"
               >
                 <div className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded bg-[#E1F5EE]">
-                  <MapPin size={10} className="text-[#1D9E75]" strokeWidth={1.5} />
+                  <MapPin size={10} className="text-[#0F6E56]" strokeWidth={1.5} />
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-[10px] font-medium text-[#2C2C2A]">{p.name}</p>
-                  <p className="truncate text-[9px] text-[#888780]">{p.location}</p>
+                  <p className="truncate text-[9px] text-[#5F5E5A]">{p.location}</p>
                 </div>
                 <p className="w-16 flex-shrink-0 text-right text-[10px] font-medium text-[#2C2C2A]">
                   {p.price}

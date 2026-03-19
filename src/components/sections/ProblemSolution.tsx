@@ -35,7 +35,7 @@ function ChaosPreview() {
         {["Enero", "Febrero", "Hoja3"].map((t, i) => (
           <div
             key={t}
-            className={`px-2 py-1 text-[8px] ${i === 0 ? "border-x border-gray-300 bg-white font-medium text-gray-700" : "text-gray-400"}`}
+            className={`px-2 py-1 text-[8px] ${i === 0 ? "border-x border-gray-300 bg-white font-medium text-gray-700" : "text-gray-600"}`}
           >
             {t}
           </div>
@@ -61,9 +61,9 @@ function ChaosPreview() {
           {row.map((cell, j) => (
             <div
               key={j}
-              className={`border-r border-gray-100 px-1.5 py-1 text-[8px] last:border-0 ${cell === "?" || cell === "???" || cell === "ver WA" ? "font-medium text-red-400" : "text-gray-600"}`}
+              className={`border-r border-gray-100 px-1.5 py-1 text-[8px] last:border-0 ${cell === "?" || cell === "???" || cell === "ver WA" ? "font-medium text-red-700" : "text-gray-600"}`}
             >
-              {cell || <span className="text-red-300">—vacío—</span>}
+              {cell || <span className="text-red-700">—vacío—</span>}
             </div>
           ))}
         </div>
@@ -90,7 +90,7 @@ function ArmioPreview() {
           <div className="h-2 w-2 rounded-full bg-[#FFBD2E]" />
           <div className="h-2 w-2 rounded-full bg-[#28C840]" />
         </div>
-        <span className="text-[9px] text-[#888780]">app.armio.co</span>
+        <span className="text-[9px] text-[#5F5E5A]">app.armio.co</span>
         <div />
       </div>
       <div className="flex" style={{ height: "160px" }}>
@@ -99,7 +99,7 @@ function ArmioPreview() {
           {[Building2, Users, FileText, BarChart2].map((Icon, i) => (
             <div
               key={i}
-              className={`flex h-6 w-6 items-center justify-center rounded ${i === 0 ? "bg-[#E1F5EE] text-[#1D9E75]" : "text-[#888780]"}`}
+              className={`flex h-6 w-6 items-center justify-center rounded ${i === 0 ? "bg-[#E1F5EE] text-[#0F6E56]" : "text-[#5F5E5A]"}`}
             >
               <Icon size={11} strokeWidth={1.5} />
             </div>
@@ -114,8 +114,8 @@ function ArmioPreview() {
               ["37%", "Conversión"],
             ].map(([v, l]) => (
               <div key={l} className="rounded border border-[#D3D1C7] bg-white p-1 text-center">
-                <p className="text-[10px] font-semibold text-[#1D9E75]">{v}</p>
-                <p className="text-[8px] text-[#888780]">{l}</p>
+                <p className="text-[10px] font-semibold text-[#0F6E56]">{v}</p>
+                <p className="text-[8px] text-[#5F5E5A]">{l}</p>
               </div>
             ))}
           </div>
@@ -137,7 +137,7 @@ function ArmioPreview() {
                 name: "Oficina 8B",
                 loc: "Usaquén",
                 status: "Reservada",
-                c: "bg-[#FAEEDA] text-[#BA7517]",
+                c: "bg-[#FAEEDA] text-[#92400E]",
               },
             ].map((p) => (
               <div
@@ -145,10 +145,10 @@ function ArmioPreview() {
                 className="flex items-center gap-1.5 border-b border-[#F1EFE8] px-2 py-1"
               >
                 <div className="flex h-4 w-4 flex-shrink-0 items-center justify-center rounded bg-[#E1F5EE]">
-                  <MapPin size={8} className="text-[#1D9E75]" />
+                  <MapPin size={8} className="text-[#0F6E56]" />
                 </div>
                 <span className="flex-1 text-[8px] font-medium text-[#2C2C2A]">{p.name}</span>
-                <span className="text-[8px] text-[#888780]">{p.loc}</span>
+                <span className="text-[8px] text-[#5F5E5A]">{p.loc}</span>
                 <span className={`rounded px-1 py-0.5 text-[7px] font-medium ${p.c}`}>
                   {p.status}
                 </span>
@@ -208,7 +208,7 @@ export default function ProblemSolution() {
             className="flex items-center gap-3 rounded-full border border-[#D3D1C7] bg-white px-6 py-3 shadow-sm transition-all duration-200 hover:bg-[#F1EFE8]"
           >
             <span
-              className={`text-sm font-medium transition-colors ${showSolution ? "text-[#888780]" : "text-[#2C2C2A]"}`}
+              className={`text-sm font-medium transition-colors ${showSolution ? "text-[#5F5E5A]" : "text-[#2C2C2A]"}`}
             >
               HOY
             </span>
@@ -222,7 +222,7 @@ export default function ProblemSolution() {
               />
             </div>
             <span
-              className={`text-sm font-medium transition-colors ${showSolution ? "text-[#2C2C2A]" : "text-[#888780]"}`}
+              className={`text-sm font-medium transition-colors ${showSolution ? "text-[#2C2C2A]" : "text-[#5F5E5A]"}`}
             >
               CON ARMIO
             </span>
@@ -253,7 +253,11 @@ export default function ProblemSolution() {
                         transition={{ delay: i * 0.08 }}
                         className="flex items-start gap-3"
                       >
-                        <Icon size={18} className="mt-0.5 flex-shrink-0 text-[#1D9E75]" />
+                        <Icon
+                          size={18}
+                          className="mt-0.5 flex-shrink-0 text-[#0F6E56]"
+                          aria-hidden="true"
+                        />
                         <span className="text-sm text-[#2C2C2A]">{text}</span>
                       </motion.div>
                     ))}
@@ -273,7 +277,7 @@ export default function ProblemSolution() {
               <div className="grid items-center gap-8 md:grid-cols-2">
                 <ChaosPreview />
                 <div>
-                  <h3 className="mb-6 text-xl font-semibold text-[#E24B4A]">Sin Armio</h3>
+                  <h3 className="mb-6 text-xl font-semibold text-[#C13030]">Sin Armio</h3>
                   <div className="space-y-3">
                     {problemItems.map(({ icon: Icon, text }, i) => (
                       <motion.div
@@ -283,7 +287,11 @@ export default function ProblemSolution() {
                         transition={{ delay: i * 0.08 }}
                         className="flex items-start gap-3"
                       >
-                        <Icon size={18} className="mt-0.5 flex-shrink-0 text-[#E24B4A]" />
+                        <Icon
+                          size={18}
+                          className="mt-0.5 flex-shrink-0 text-[#C13030]"
+                          aria-hidden="true"
+                        />
                         <span className="text-sm text-[#2C2C2A]">{text}</span>
                       </motion.div>
                     ))}

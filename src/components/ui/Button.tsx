@@ -27,7 +27,7 @@ const variantClasses: Record<Variant, string> = {
   secondary: [
     "border-2 border-[#1D9E75] text-[#1D9E75] font-semibold",
     "rounded-xl bg-transparent transition-all duration-200",
-    "hover:bg-[#1D9E75] hover:text-white hover:scale-[1.03] active:scale-[0.98]",
+    "hover:bg-[#0F6E56] hover:text-white hover:scale-[1.03] active:scale-[0.98]",
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1D9E75] focus-visible:ring-offset-2",
   ].join(" "),
   ghost: [
@@ -90,7 +90,7 @@ export default function Button({
         style={
           variant === "primary"
             ? {
-                background: "linear-gradient(135deg, #1D9E75 0%, #0F6E56 100%)",
+                background: "linear-gradient(135deg, #0F6E56 0%, #0a5242 100%)",
                 boxShadow: pulse ? undefined : "0 4px 16px rgba(0,0,0,0.12)",
                 animation: pulse ? "pulse-cta 2s ease-in-out infinite" : undefined,
               }

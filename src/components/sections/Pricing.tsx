@@ -92,7 +92,7 @@ export default function Pricing() {
             >
               {plan.popular && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className="inline-flex items-center rounded-full bg-[#1D9E75] px-3 py-1 text-xs font-medium text-white">
+                  <span className="inline-flex items-center rounded-full bg-[#0F6E56] px-3 py-1 text-xs font-medium text-white">
                     Más popular
                   </span>
                 </div>
@@ -128,7 +128,7 @@ export default function Pricing() {
                 href={plan.ctaHref}
                 className={`w-full rounded-md border px-4 py-2.5 text-center text-sm font-medium transition-colors ${
                   plan.popular
-                    ? "border-[#1D9E75] bg-[#1D9E75] text-white hover:bg-[#178a63]"
+                    ? "border-[#0F6E56] bg-[#0F6E56] text-white hover:bg-[#0a5242]"
                     : "border-[#D3D1C7] bg-[#F1EFE8] text-[#5F5E5A] hover:bg-[#E8E6DE]"
                 }`}
               >

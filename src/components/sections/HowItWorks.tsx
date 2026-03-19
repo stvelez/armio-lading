@@ -130,7 +130,7 @@ export default function HowItWorks() {
           <p className="mb-5 text-[#5F5E5A]">¿Listo para empezar?</p>
           <a
             href="#pricing"
-            className="inline-flex items-center gap-2 rounded-full bg-[#1D9E75] px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[#0F6E56] hover:shadow-md active:scale-95"
+            className="inline-flex items-center gap-2 rounded-full bg-[#0F6E56] px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[#0a5242] hover:shadow-md active:scale-95"
           >
             Únete a la lista de espera
             <ArrowRight size={15} strokeWidth={2} />

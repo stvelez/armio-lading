@@ -38,13 +38,13 @@ function DashboardMockup() {
       loc: "Usaquén · Bogotá",
       price: "$320M",
       status: "Reservada",
-      sc: "bg-[#FAEEDA] text-[#BA7517]",
+      sc: "bg-[#FAEEDA] text-[#92400E]",
     },
   ];
 
   const pipeline = [
     { label: "Nuevo", count: 3, color: "bg-[#E6F1FB] text-[#185FA5] border-[#BFDBFE]" },
-    { label: "En proceso", count: 2, color: "bg-[#FAEEDA] text-[#BA7517] border-[#FDE68A]" },
+    { label: "En proceso", count: 2, color: "bg-[#FAEEDA] text-[#92400E] border-[#FDE68A]" },
     { label: "Cerrado", count: 1, color: "bg-[#EAF3DE] text-[#3B6D11] border-[#BBF7D0]" },
   ];
 
@@ -69,7 +69,7 @@ function DashboardMockup() {
         {/* Sidebar */}
         <div className="flex w-14 flex-shrink-0 flex-col items-center gap-1.5 border-r border-[#D3D1C7] bg-[#F1EFE8] py-4">
           {/* Logo */}
-          <div className="mb-3 flex h-8 w-8 items-center justify-center rounded-lg bg-[#1D9E75]">
+          <div className="mb-3 flex h-8 w-8 items-center justify-center rounded-lg bg-[#0F6E56]">
             <span className="text-[10px] font-bold text-white">A</span>
           </div>
           {[
@@ -81,7 +81,7 @@ function DashboardMockup() {
             <div
               key={i}
               className={`flex h-9 w-9 items-center justify-center rounded-xl transition-colors ${
-                active ? "bg-[#1D9E75] text-white shadow-sm" : "text-[#888780] hover:bg-[#E8E6DF]"
+                active ? "bg-[#0F6E56] text-white shadow-sm" : "text-[#5F5E5A] hover:bg-[#E8E6DF]"
               }`}
             >
               <Icon size={16} strokeWidth={1.5} />
@@ -95,11 +95,11 @@ function DashboardMockup() {
           <div className="flex items-center justify-between border-b border-[#E8E6DF] bg-white px-5 py-3">
             <div>
               <h3 className="text-sm font-semibold text-[#2C2C2A]">Propiedades</h3>
-              <p className="text-[11px] text-[#888780]">3 propiedades activas</p>
+              <p className="text-[11px] text-[#5F5E5A]">3 propiedades activas</p>
             </div>
             <button
               tabIndex={-1}
-              className="flex items-center gap-1.5 rounded-lg bg-[#1D9E75] px-3 py-1.5 text-[11px] font-medium text-white shadow-sm"
+              className="flex items-center gap-1.5 rounded-lg bg-[#0F6E56] px-3 py-1.5 text-[11px] font-medium text-white shadow-sm"
             >
               <Plus size={11} strokeWidth={2} />
               Nueva
@@ -118,12 +118,12 @@ function DashboardMockup() {
                   key={label}
                   className="rounded-xl border border-[#E8E6DF] bg-white p-3 shadow-sm"
                 >
-                  <p className="mb-1 text-[10px] text-[#888780]">{label}</p>
+                  <p className="mb-1 text-[10px] text-[#5F5E5A]">{label}</p>
                   <p className="text-base font-bold text-[#2C2C2A]">{value}</p>
                   <div className="mt-0.5 flex items-center gap-1">
-                    <TrendingUp size={9} className={up ? "text-[#1D9E75]" : "text-[#E24B4A]"} />
+                    <TrendingUp size={9} className={up ? "text-[#0F6E56]" : "text-[#E24B4A]"} />
                     <span
-                      className={`text-[9px] font-medium ${up ? "text-[#1D9E75]" : "text-[#E24B4A]"}`}
+                      className={`text-[9px] font-medium ${up ? "text-[#0F6E56]" : "text-[#E24B4A]"}`}
                     >
                       {change}
                     </span>
@@ -140,7 +140,7 @@ function DashboardMockup() {
                 </span>
                 <button
                   tabIndex={-1}
-                  className="flex items-center gap-0.5 text-[10px] text-[#1D9E75]"
+                  className="flex items-center gap-0.5 text-[10px] text-[#0F6E56]"
                 >
                   Ver todas <ChevronRight size={10} />
                 </button>
@@ -151,7 +151,7 @@ function DashboardMockup() {
                   className="flex items-center gap-2.5 border-b border-[#F8F7F4] px-3 py-2 last:border-0 hover:bg-[#FAFAF8]"
                 >
                   <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-[#E1F5EE]">
-                    <MapPin size={11} className="text-[#1D9E75]" />
+                    <MapPin size={11} className="text-[#0F6E56]" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="text-[11px] font-medium text-[#2C2C2A]">{p.name}</p>
@@ -266,7 +266,7 @@ export default function ProductPreview() {
         >
           <button
             onClick={() => setShowModal(true)}
-            className="group inline-flex items-center gap-2.5 rounded-full bg-[#1D9E75] px-7 py-3.5 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:bg-[#0F6E56] hover:shadow-lg hover:shadow-[#1D9E75]/25 active:scale-95"
+            className="group inline-flex items-center gap-2.5 rounded-full bg-[#0F6E56] px-7 py-3.5 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:bg-[#0a5242] hover:shadow-lg hover:shadow-[#0F6E56]/25 active:scale-95"
           >
             <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20 transition-colors group-hover:bg-white/30">
               <Play size={11} className="ml-0.5" />

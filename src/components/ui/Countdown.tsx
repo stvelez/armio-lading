@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { Clock } from 'lucide-react';
+import { useEffect, useState } from "react";
+import { Clock } from "lucide-react";
 
 interface CountdownProps {
   deadline?: Date;
@@ -55,19 +55,18 @@ export default function Countdown({
 
   return (
     <div className="flex items-center gap-2 text-sm">
-      <Clock size={16} className="text-[#1D9E75]" />
-      <span className="text-[#B4B2A9]">Solo quedan</span>
-      <span className="font-semibold text-white animate-pulse">
+      <Clock size={16} className="text-white" aria-hidden="true" />
+      <span className="text-white">Solo quedan</span>
+      <span className="font-semibold text-white">
         {remainingSpots}/{spots}
       </span>
-      <span className="text-[#B4B2A9]">cupos</span>
+      <span className="text-white">cupos</span>
 
       {showTimer && deadline && (
         <div className="ml-4 flex items-center gap-1">
           <span className="font-mono text-[#1D9E75]">
-            {String(timeLeft.hours).padStart(2, '0')}:
-            {String(timeLeft.minutes).padStart(2, '0')}:
-            {String(timeLeft.seconds).padStart(2, '0')}
+            {String(timeLeft.hours).padStart(2, "0")}:{String(timeLeft.minutes).padStart(2, "0")}:
+            {String(timeLeft.seconds).padStart(2, "0")}
           </span>
         </div>
       )}

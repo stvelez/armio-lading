@@ -135,7 +135,7 @@ export default function NewsletterForm({
         <button
           type="submit"
           disabled={isSubmitting || !isDirty || !isValid}
-          className="flex min-h-[48px] w-full items-center justify-center gap-2 rounded-md bg-[#1D9E75] px-5 py-3 text-sm font-medium whitespace-nowrap text-white transition-colors duration-150 hover:bg-[#0F6E56] disabled:cursor-not-allowed disabled:bg-[#3C3C3A] sm:w-auto"
+          className="flex min-h-[48px] w-full items-center justify-center gap-2 rounded-md bg-[#0F6E56] px-5 py-3 text-sm font-medium whitespace-nowrap text-white transition-colors duration-150 hover:bg-[#0a5242] disabled:cursor-not-allowed disabled:bg-[#3C3C3A] sm:w-auto"
         >
           {isSubmitting ? (
             <>

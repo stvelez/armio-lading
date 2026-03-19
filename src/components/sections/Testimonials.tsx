@@ -53,7 +53,7 @@ export default function Testimonials() {
 
               {/* Author Info */}
               <div className="flex items-start gap-4">
-                <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-[#E1F5EE] text-sm font-semibold text-[#1D9E75]">
+                <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-[#E1F5EE] text-sm font-semibold text-[#0F6E56]">
                   {testimonial.author.charAt(0)}
                 </div>
                 <div>
@@ -66,7 +66,7 @@ export default function Testimonials() {
 
               {/* Stats */}
               <div className="mt-5 border-t border-[#F1EFE8] pt-5">
-                <div className="flex items-center gap-2 text-[#1D9E75]">
+                <div className="flex items-center gap-2 text-[#0F6E56]">
                   <TrendingUp size={15} strokeWidth={1.5} />
                   <span className="text-sm font-medium">{testimonial.stats}</span>
                 </div>

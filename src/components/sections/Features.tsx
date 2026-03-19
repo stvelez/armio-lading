@@ -20,7 +20,7 @@ function PreviewProperties() {
       name: "Oficina 8B",
       price: "$3.2M",
       status: "Reservada",
-      color: "bg-[#FAEEDA] text-[#BA7517]",
+      color: "bg-[#FAEEDA] text-[#92400E]",
     },
   ];
   return (
@@ -84,7 +84,7 @@ function PreviewContratos() {
     <div className="mt-5 overflow-hidden rounded-lg border border-[#3C3C3A] bg-[#1A1A18] p-3">
       <div className="mb-2 flex items-center justify-between">
         <p className="text-[9px] font-medium text-[#888780]">CONTRATO — ARRENDAMIENTO</p>
-        <span className="rounded bg-[#FAEEDA] px-1.5 py-0.5 text-[8px] font-medium text-[#BA7517]">
+        <span className="rounded bg-[#FAEEDA] px-1.5 py-0.5 text-[8px] font-medium text-[#92400E]">
           Pendiente
         </span>
       </div>

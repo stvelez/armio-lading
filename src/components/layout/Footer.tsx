@@ -148,7 +148,7 @@ export default function Footer() {
               <button
                 onClick={() => setShowCookieConsent(false)}
                 aria-label="Aceptar todas las cookies"
-                className="rounded-md bg-[#1D9E75] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#0F6E56]"
+                className="rounded-md bg-[#0F6E56] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#0a5242]"
               >
                 Aceptar
               </button>

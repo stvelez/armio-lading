@@ -17,7 +17,7 @@ export default function CTA() {
 
   return (
     <>
-      <section id="cta" className="bg-[#1D9E75] px-6 py-24">
+      <section id="cta" className="bg-[#0F6E56] px-6 py-24">
         <div className="mx-auto max-w-4xl text-center">
           {/* Eyebrow */}
           <p className="mb-4 text-sm font-medium tracking-wide text-[#E1F5EE] uppercase">
@@ -78,7 +78,7 @@ export default function CTA() {
           </div>
 
           {/* Fine Print */}
-          <p className="text-xs text-[#E1F5EE]/70">
+          <p className="text-xs text-white/80">
             Solo disponible para los primeros 100 registros · Sin compromiso de compra
           </p>
         </div>
@@ -96,7 +96,7 @@ export default function CTA() {
             </div>
             <a
               href="#waitlist"
-              className="shrink-0 rounded-md bg-[#1D9E75] px-4 py-2 text-xs font-semibold whitespace-nowrap text-white"
+              className="shrink-0 rounded-md bg-[#0F6E56] px-4 py-2 text-xs font-semibold whitespace-nowrap text-white"
               onClick={() => setFixedCTADismissed(true)}
             >
               ¡Quiero el 50% OFF!
