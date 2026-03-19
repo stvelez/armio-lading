@@ -1,6 +1,8 @@
 "use client";
 
 import { Check } from "lucide-react";
+import Countdown from "@/components/ui/Countdown";
+import Badge from "@/components/ui/Badge";
 
 const SHOW_PRICES = process.env.NEXT_PUBLIC_SHOW_PRICES === "true";
 
@@ -17,12 +19,14 @@ const plans = [
       "Soporte por comunidad",
     ],
     popular: false,
+    earlyAccess: false,
     cta: "Empezar gratis",
     ctaHref: "#waitlist",
   },
   {
     name: "Starter",
     price: "$89.000/mes",
+    originalPrice: "$179.000/mes",
     description: "Para agencias pequeñas en crecimiento",
     features: [
       "5 agentes",
@@ -32,12 +36,14 @@ const plans = [
       "Soporte por email",
     ],
     popular: false,
+    earlyAccess: true,
     cta: "Únete a la lista de espera",
     ctaHref: "#waitlist",
   },
   {
     name: "Pro",
     price: "$219.000/mes",
+    originalPrice: "$439.000/mes",
     description: "El plan del cliente ideal",
     features: [
       "10 agentes",
@@ -47,12 +53,14 @@ const plans = [
       "Soporte email prioritario",
     ],
     popular: true,
+    earlyAccess: true,
     cta: "Únete a la lista de espera",
     ctaHref: "#waitlist",
   },
   {
     name: "Agencia",
     price: "$399.000/mes",
+    originalPrice: "$799.000/mes",
     description: "Para agencias grandes sin límites",
     features: [
       "Agentes ilimitados",
@@ -63,6 +71,7 @@ const plans = [
       "Soporte prioritario",
     ],
     popular: false,
+    earlyAccess: true,
     cta: "Únete a la lista de espera",
     ctaHref: "#waitlist",
   },
@@ -78,7 +87,10 @@ export default function Pricing() {
           <h2 className="mb-4 text-3xl font-semibold text-[#2C2C2A] md:text-4xl">
             Transparente para agencias en crecimiento
           </h2>
-          <p className="text-lg text-[#5F5E5A]">Planes en pesos colombianos, sin sorpresas</p>
+          <p className="mb-6 text-lg text-[#5F5E5A]">Planes en pesos colombianos, sin sorpresas</p>
+          <div className="inline-flex items-center gap-3 rounded-full bg-[#0F6E56] px-5 py-2.5">
+            <Countdown spots={100} spotsTaken={23} />
+          </div>
         </div>
 
         {/* Pricing Cards */}
@@ -98,12 +110,22 @@ export default function Pricing() {
                 </div>
               )}
 
-              <h3 className="mb-1 text-lg font-semibold text-[#2C2C2A]">{plan.name}</h3>
+              <div className="mb-2 flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-[#2C2C2A]">{plan.name}</h3>
+                {plan.earlyAccess && <Badge variant="warning">🔥 50% OFF</Badge>}
+              </div>
               <p className="mb-4 text-xs text-[#5F5E5A]">{plan.description}</p>
 
               <div className="mb-6">
                 {SHOW_PRICES ? (
-                  <span className="text-3xl font-semibold text-[#2C2C2A]">{plan.price}</span>
+                  <div>
+                    <span className="text-3xl font-semibold text-[#2C2C2A]">{plan.price}</span>
+                    {plan.earlyAccess && plan.originalPrice && (
+                      <span className="ml-2 text-sm text-[#B4B2A9] line-through">
+                        {plan.originalPrice}
+                      </span>
+                    )}
+                  </div>
                 ) : (
                   <span className="text-base font-medium text-[#5F5E5A]">Próximamente</span>
                 )}
