@@ -205,7 +205,7 @@ export default function ProblemSolution() {
         <div className="mb-12 flex justify-center">
           <button
             onClick={() => setShowSolution((v) => !v)}
-            className="flex items-center gap-3 rounded-full border border-[#D3D1C7] bg-white px-6 py-3 shadow-sm transition-all duration-200 hover:bg-[#F1EFE8]"
+            className="flex items-center gap-3 rounded-full border border-[#B4B2A9] bg-white px-6 py-3 shadow-sm transition-all duration-200 hover:bg-[#F1EFE8]"
           >
             <span
               className={`text-sm font-medium transition-colors ${showSolution ? "text-[#5F5E5A]" : "text-[#2C2C2A]"}`}

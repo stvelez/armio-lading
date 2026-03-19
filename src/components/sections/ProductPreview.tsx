@@ -200,7 +200,7 @@ export default function ProductPreview() {
   const [showModal, setShowModal] = useState(false);
 
   return (
-    <section className="bg-[#F8F7F4] px-6 py-24">
+    <section className="bg-[#1D9E75] px-6 py-24">
       <div className="mx-auto max-w-6xl">
         {/* Header */}
         <motion.div
@@ -210,13 +210,13 @@ export default function ProductPreview() {
           transition={{ duration: 0.6 }}
           className="mb-14 text-center"
         >
-          <p className="mb-3 text-sm font-medium tracking-widest text-[#0F6E56] uppercase">
+          <p className="mb-3 text-sm font-medium tracking-widest text-[#E1F5EE] uppercase">
             Mira cómo funciona Armio
           </p>
-          <h2 className="mb-4 text-3xl font-semibold tracking-[-0.02em] text-[#2C2C2A] md:text-4xl">
-            Todo tu negocio inmobiliario, <span className="text-[#0F6E56]">en un solo lugar</span>
+          <h2 className="mb-4 text-3xl font-semibold tracking-[-0.02em] text-white md:text-4xl">
+            Todo tu negocio inmobiliario, <span className="text-[#E1F5EE]">en un solo lugar</span>
           </h2>
-          <p className="text-lg text-[#5F5E5A]">
+          <p className="text-lg text-[#E1F5EE]">
             Explora el dashboard interactivo y ve cada feature en acción
           </p>
         </motion.div>
@@ -266,9 +266,9 @@ export default function ProductPreview() {
         >
           <button
             onClick={() => setShowModal(true)}
-            className="group inline-flex items-center gap-2.5 rounded-full bg-[#0F6E56] px-7 py-3.5 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:bg-[#0a5242] hover:shadow-lg hover:shadow-[#0F6E56]/25 active:scale-95"
+            className="group inline-flex items-center gap-2.5 rounded-full bg-white px-7 py-3.5 text-sm font-semibold text-[#0F6E56] shadow-md transition-all duration-200 hover:bg-[#F1EFE8] active:scale-95"
           >
-            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20 transition-colors group-hover:bg-white/30">
+            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#E1F5EE] transition-colors group-hover:bg-[#D3D1C7]">
               <Play size={11} className="ml-0.5" />
             </span>
             Ver demo completa

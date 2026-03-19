@@ -10,63 +10,74 @@ export default function Hero() {
   return (
     <section
       id="waitlist"
-      className="relative flex min-h-screen items-center overflow-hidden bg-[#2C2C2A] px-6"
+      className="relative flex min-h-screen items-center overflow-hidden bg-[#F1EFE8] px-6 pt-20"
     >
-      {/* Background gradient */}
+      {/* Decorative background — sutil, no agresivo */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 70% 50% at 20% 50%, rgba(29,158,117,0.12) 0%, transparent 70%)",
+            "radial-gradient(ellipse 60% 50% at 70% 40%, rgba(29,158,117,0.07) 0%, transparent 70%)",
         }}
       />
 
       <div className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-12 py-16 md:py-24 lg:grid-cols-2 lg:gap-20">
         {/* Left: Copy */}
         <div>
+          {/* Eyebrow */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#D3D1C7] bg-white px-3.5 py-1.5 shadow-sm"
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-[#1D9E75]" />
+            <span className="text-xs font-medium text-[#5F5E5A]">Early access abierto</span>
+          </motion.div>
+
           {/* Headline */}
           <motion.h1
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="mb-5 text-2xl leading-snug font-semibold tracking-[-0.01em] text-white md:text-3xl"
+            className="mb-5 text-4xl leading-tight font-semibold tracking-[-0.02em] text-[#2C2C2A] md:text-5xl"
           >
             El sistema operativo de tu <span className="text-[#1D9E75]">agencia inmobiliaria</span>
           </motion.h1>
 
           {/* Subtext */}
           <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="mb-8 max-w-lg text-base leading-relaxed font-normal text-[#B4B2A9] md:text-lg"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.35 }}
+            className="mb-8 max-w-lg text-lg leading-relaxed text-[#5F5E5A]"
           >
-            Centraliza propiedades, leads y contratos en un solo lugar. Deja atrás el Excel y el
-            WhatsApp para siempre.
+            Gestiona propiedades, leads y contratos desde un solo lugar. Diseñado para agencias
+            colombianas que quieren dejar atrás el Excel.
           </motion.p>
 
           {/* Countdown */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-            className="mb-6"
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="mb-5"
           >
             <Countdown spots={100} spotsTaken={0} />
           </motion.div>
 
           {/* Newsletter Form */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.8 }}
-            className="mb-8"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            className="mb-6"
           >
             <NewsletterForm
               location="hero"
               placeholder="Tu email profesional"
-              buttonText="Únete a la lista de espera ▶"
+              buttonText="Empezar gratis →"
               className="flex gap-2"
             />
           </motion.div>
@@ -75,40 +86,31 @@ export default function Hero() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 1.0 }}
+            transition={{ duration: 0.5, delay: 0.75 }}
             className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-[#888780]"
           >
-            {["Sin tarjeta de crédito", "14 días de prueba", "Cancela cuando quieras"].map(
+            {["Sin tarjeta de crédito", "14 días de prueba gratis", "Cancela cuando quieras"].map(
               (item) => (
-                <div key={item} className="flex items-center gap-2">
-                  <CheckCircle2 size={14} className="text-[#1D9E75]" strokeWidth={1.5} />
+                <div key={item} className="flex items-center gap-1.5">
+                  <CheckCircle2 size={13} className="text-[#1D9E75]" strokeWidth={2} />
                   <span>{item}</span>
                 </div>
               )
             )}
           </motion.div>
-
-          {/* Early Access Badge */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.85 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.4, delay: 1.2 }}
-            className="mt-8 inline-flex items-center gap-2 rounded-full border border-amber-400/30 bg-amber-400/10 px-3.5 py-1.5"
-          >
-            <span className="text-sm font-semibold text-amber-300">
-              🔥 Early Access — 50% OFF de por vida para los primeros 100
-            </span>
-          </motion.div>
         </div>
 
         {/* Right: Product Mockup */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 32 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
           className="hidden lg:block"
         >
-          <HeroMockup />
+          {/* Sutil elevación del mockup */}
+          <div className="rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.10)]">
+            <HeroMockup />
+          </div>
         </motion.div>
       </div>
     </section>

@@ -38,7 +38,7 @@ export default function TrustBar() {
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
-      className="border-y border-[#3C3C3A] bg-[#232321] px-6 py-10"
+      className="border-y border-[#D3D1C7] bg-white px-6 py-10"
     >
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-col items-center gap-8 lg:flex-row lg:justify-between">
@@ -53,11 +53,11 @@ export default function TrustBar() {
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 className="flex items-center gap-3"
               >
-                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#1D9E75]/10">
+                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#E1F5EE]">
                   <Icon size={16} className="text-[#1D9E75]" strokeWidth={1.5} />
                 </div>
                 <div>
-                  <p className="text-lg leading-none font-bold text-white">{value}</p>
+                  <p className="text-lg leading-none font-bold text-[#2C2C2A]">{value}</p>
                   <p className="text-xs text-[#888780]">{label}</p>
                 </div>
               </motion.div>
@@ -65,7 +65,7 @@ export default function TrustBar() {
           </div>
 
           {/* Divider */}
-          <div className="hidden h-12 w-px bg-[#3C3C3A] lg:block" />
+          <div className="hidden h-12 w-px bg-[#D3D1C7] lg:block" />
 
           {/* Rotating testimonial */}
           <div
@@ -83,7 +83,7 @@ export default function TrustBar() {
                   exit={{ opacity: 0, y: -6 }}
                   transition={{ duration: 0.4 }}
                 >
-                  <p className="text-sm leading-relaxed text-[#B4B2A9]">
+                  <p className="text-sm leading-relaxed text-[#5F5E5A]">
                     &ldquo;{testimonials[current].text}&rdquo;
                   </p>
                   <p className="mt-1 text-xs font-medium text-[#888780]">
@@ -93,7 +93,7 @@ export default function TrustBar() {
               </AnimatePresence>
 
               {/* Dots */}
-              <div className="mt-1 flex gap-0.5">
+              <div className="mt-2 flex gap-0.5">
                 {testimonials.map((_, i) => (
                   <button
                     key={i}
@@ -103,7 +103,7 @@ export default function TrustBar() {
                   >
                     <span
                       className={`h-1 rounded-full transition-all duration-300 ${
-                        i === current ? "w-4 bg-[#1D9E75]" : "w-1.5 bg-[#3C3C3A]"
+                        i === current ? "w-4 bg-[#1D9E75]" : "w-1.5 bg-[#D3D1C7]"
                       }`}
                     />
                   </button>

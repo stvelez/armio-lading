@@ -79,7 +79,7 @@ const plans = [
 
 export default function Pricing() {
   return (
-    <section id="pricing" className="bg-white px-6 py-24">
+    <section id="pricing" className="bg-[#F1EFE8] px-6 py-24">
       <div className="mx-auto max-w-6xl">
         {/* Section Title */}
         <div className="mb-16 text-center">
@@ -88,8 +88,8 @@ export default function Pricing() {
             Transparente para agencias en crecimiento
           </h2>
           <p className="mb-6 text-lg text-[#5F5E5A]">Planes en pesos colombianos, sin sorpresas</p>
-          <div className="inline-flex items-center gap-3 rounded-full bg-[#0F6E56] px-5 py-2.5">
-            <Countdown spots={100} spotsTaken={23} />
+          <div className="inline-flex items-center gap-3 rounded-full border border-[#1D9E75] bg-[#E1F5EE] px-5 py-2.5">
+            <Countdown spots={100} spotsTaken={23} variant="light" />
           </div>
         </div>
 
@@ -99,7 +99,9 @@ export default function Pricing() {
             <div
               key={index}
               className={`relative flex flex-col rounded-2xl border p-6 transition-all duration-200 ${
-                plan.popular ? "border-2 border-[#1D9E75] shadow-lg" : "border-[#D3D1C7] bg-white"
+                plan.popular
+                  ? "border-2 border-[#1D9E75] bg-white shadow-lg"
+                  : "border-[#D3D1C7] bg-white"
               }`}
             >
               {plan.popular && (

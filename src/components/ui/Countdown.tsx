@@ -8,6 +8,7 @@ interface CountdownProps {
   spots?: number;
   spotsTaken?: number;
   showTimer?: boolean;
+  variant?: "light" | "dark";
 }
 
 export default function Countdown({
@@ -15,7 +16,10 @@ export default function Countdown({
   spots = 100,
   spotsTaken = 0,
   showTimer = false,
+  variant = "dark",
 }: CountdownProps) {
+  const textColor = variant === "light" ? "text-[#0F6E56]" : "text-white";
+  const mutedTextColor = variant === "light" ? "text-[#0F6E56]" : "text-white";
   const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
   const [remainingSpots, setRemainingSpots] = useState(spots - spotsTaken);
 
@@ -55,12 +59,12 @@ export default function Countdown({
 
   return (
     <div className="flex items-center gap-2 text-sm">
-      <Clock size={16} className="text-white" aria-hidden="true" />
-      <span className="text-white">Solo quedan</span>
-      <span className="font-semibold text-white">
+      <Clock size={16} className={textColor} aria-hidden="true" />
+      <span className={mutedTextColor}>Solo quedan</span>
+      <span className={`font-semibold ${textColor}`}>
         {remainingSpots}/{spots}
       </span>
-      <span className="text-white">cupos</span>
+      <span className={mutedTextColor}>cupos</span>
 
       {showTimer && deadline && (
         <div className="ml-4 flex items-center gap-1">

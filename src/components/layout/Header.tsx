@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Button from "@/components/ui/Button";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -25,7 +24,6 @@ export default function Header() {
 
   return (
     <>
-      {/* Skip link — WCAG 2.4.1 */}
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-md focus:bg-[#1D9E75] focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-white focus:outline-none"
@@ -38,30 +36,40 @@ export default function Header() {
           "transition-all duration-300 ease-out",
           hidden ? "-translate-y-full" : "translate-y-0",
           scrolled
-            ? "border-b border-white/10 bg-[#2C2C2A]/90 shadow-[0_4px_16px_rgba(0,0,0,0.3)] backdrop-blur-[12px]"
-            : "bg-transparent",
+            ? "border-b border-[#D3D1C7] bg-white/95 shadow-[0_2px_12px_rgba(0,0,0,0.06)] backdrop-blur-[12px]"
+            : "bg-[#F1EFE8]/80 backdrop-blur-[8px]",
         ].join(" ")}
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           {/* Logo */}
-          <span className="text-xl font-semibold tracking-[-0.02em] text-white select-none">
+          <span className="text-xl font-semibold tracking-[-0.02em] text-[#2C2C2A] select-none">
             armio
           </span>
 
-          {/* Center: Badge */}
-          <div className="hidden items-center gap-2 rounded-full border border-amber-400/30 bg-amber-400/10 px-3.5 py-1.5 sm:flex">
-            <span className="text-sm font-semibold text-amber-300">🔥 50% OFF — Early Access</span>
-          </div>
+          {/* Nav links — desktop */}
+          <nav className="hidden items-center gap-6 md:flex">
+            {[
+              { label: "Features", href: "#features" },
+              { label: "Cómo funciona", href: "#how-it-works" },
+              { label: "Precios", href: "#pricing" },
+            ].map(({ label, href }) => (
+              <a
+                key={label}
+                href={href}
+                className="text-sm font-medium text-[#5F5E5A] transition-colors hover:text-[#2C2C2A]"
+              >
+                {label}
+              </a>
+            ))}
+          </nav>
 
           {/* CTA */}
-          <Button variant="primary" size="sm" pulse onClick={scrollToWaitlist}>
-            Únete
-          </Button>
-        </div>
-
-        {/* Mobile badge (below nav on small screens) */}
-        <div className="flex items-center justify-center gap-2 border-t border-white/5 bg-amber-400/10 px-4 py-1.5 sm:hidden">
-          <span className="text-xs font-semibold text-amber-300">🔥 50% OFF — Early Access</span>
+          <button
+            onClick={scrollToWaitlist}
+            className="rounded-md bg-[#1D9E75] px-4 py-2 text-sm font-semibold text-white transition-all duration-200 hover:bg-[#0F6E56] active:scale-95"
+          >
+            Únete gratis
+          </button>
         </div>
       </header>
     </>
