@@ -64,7 +64,7 @@ export default function Hero() {
             transition={{ duration: 0.5, delay: 0.5 }}
             className="mb-5"
           >
-            <Countdown spots={100} spotsTaken={0} />
+            <Countdown spots={100} spotsTaken={23} />
           </motion.div>
 
           {/* Newsletter Form */}

@@ -59,7 +59,7 @@ export default function ExitIntent() {
         {/* Scarcity */}
         <div className="mb-6 flex justify-center">
           <div className="rounded-full border border-neutral-700 bg-neutral-800 px-4 py-2">
-            <Countdown spots={100} spotsTaken={0} />
+            <Countdown spots={100} spotsTaken={23} />
           </div>
         </div>
 

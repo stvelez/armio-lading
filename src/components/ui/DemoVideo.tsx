@@ -60,7 +60,14 @@ export default function DemoVideo({ isOpen, onClose, videoSrc }: DemoVideoProps)
   const handleFullscreen = () => {
     const el = videoRef.current;
     if (!el) return;
-    if (el.requestFullscreen) el.requestFullscreen();
+    if (el.requestFullscreen) {
+      el.requestFullscreen();
+    } else if (
+      (el as HTMLVideoElement & { webkitRequestFullscreen?: () => void }).webkitRequestFullscreen
+    ) {
+      (el as HTMLVideoElement & { webkitRequestFullscreen?: () => void })
+        .webkitRequestFullscreen!();
+    }
   };
 
   /* Determine if it's a YouTube/Vimeo embed or a local file */

@@ -39,21 +39,12 @@ export const metadata: Metadata = {
     title: "Armio — El sistema operativo de tu agencia inmobiliaria",
     description:
       "Armio centraliza propiedades, leads y contratos para agencias inmobiliarias en Colombia. Deja atrás el Excel y el WhatsApp. Muy pronto.",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Armio — El sistema operativo de tu agencia inmobiliaria",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Armio — El sistema operativo de tu agencia inmobiliaria",
     description:
       "Software para agencias inmobiliarias en Colombia. Propiedades, leads y contratos en un solo lugar.",
-    images: ["/og-image.png"],
     creator: "@armioapp",
   },
   robots: {
@@ -95,7 +86,7 @@ const organizationJsonLd = {
   "@type": "Organization",
   name: "Armio",
   url: "https://armio.co",
-  logo: "https://armio.co/logo.png",
+  logo: "https://armio.co/opengraph-image",
   contactPoint: {
     "@type": "ContactPoint",
     email: "hola@armio.co",

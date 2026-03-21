@@ -1,11 +1,35 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Twitter, Linkedin, Instagram, Cookie } from "lucide-react";
 import NewsletterForm from "@/components/forms/NewsletterForm";
 
+const COOKIE_KEY = "armio_cookie_consent";
+
 export default function Footer() {
-  const [showCookieConsent, setShowCookieConsent] = useState(true);
+  const [showCookieConsent, setShowCookieConsent] = useState(false);
+
+  useEffect(() => {
+    const checkConsent = () => {
+      try {
+        if (!localStorage.getItem(COOKIE_KEY)) {
+          setShowCookieConsent(true);
+        }
+      } catch {
+        setShowCookieConsent(true);
+      }
+    };
+    checkConsent();
+  }, []);
+
+  const dismissConsent = () => {
+    try {
+      localStorage.setItem(COOKIE_KEY, "1");
+    } catch {
+      // Ignore storage errors in private browsing
+    }
+    setShowCookieConsent(false);
+  };
 
   return (
     <>
@@ -30,13 +54,17 @@ export default function Footer() {
             <nav aria-label="Producto">
               <h4 className="mb-4 text-sm font-semibold text-white">Producto</h4>
               <ul className="space-y-3">
-                {["Features", "Pricing", "Roadmap", "FAQ"].map((item) => (
-                  <li key={item}>
+                {[
+                  { label: "Features", href: "#features" },
+                  { label: "Pricing", href: "#pricing" },
+                  { label: "FAQ", href: "#faq" },
+                ].map(({ label, href }) => (
+                  <li key={label}>
                     <a
-                      href={`#${item.toLowerCase()}`}
+                      href={href}
                       className="text-sm text-[#B4B2A9] transition-colors hover:text-white"
                     >
-                      {item}
+                      {label}
                     </a>
                   </li>
                 ))}
@@ -47,14 +75,19 @@ export default function Footer() {
             <nav aria-label="Empresa">
               <h4 className="mb-4 text-sm font-semibold text-white">Empresa</h4>
               <ul className="space-y-3">
-                {["About", "Blog", "Carreras", "Contacto"].map((item) => (
+                <li>
+                  <a
+                    href="mailto:hola@armio.co"
+                    className="text-sm text-[#B4B2A9] transition-colors hover:text-white"
+                  >
+                    Contacto
+                  </a>
+                </li>
+                {["About", "Blog", "Carreras"].map((item) => (
                   <li key={item}>
-                    <a
-                      href={`#${item.toLowerCase()}`}
-                      className="text-sm text-[#B4B2A9] transition-colors hover:text-white"
-                    >
+                    <span className="cursor-default text-sm text-[#B4B2A9]/50" title="Próximamente">
                       {item}
-                    </a>
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -66,12 +99,9 @@ export default function Footer() {
               <ul className="space-y-3">
                 {["Términos", "Privacidad", "Cookies"].map((item) => (
                   <li key={item}>
-                    <a
-                      href={`#${item.toLowerCase()}`}
-                      className="text-sm text-[#B4B2A9] transition-colors hover:text-white"
-                    >
+                    <span className="cursor-default text-sm text-[#B4B2A9]/50" title="Próximamente">
                       {item}
-                    </a>
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -139,14 +169,14 @@ export default function Footer() {
             </div>
             <div className="flex items-center gap-2">
               <button
-                onClick={() => setShowCookieConsent(false)}
+                onClick={dismissConsent}
                 aria-label="Configurar preferencias de cookies"
                 className="px-4 py-2 text-sm text-[#B4B2A9] transition-colors hover:text-white"
               >
                 Configurar
               </button>
               <button
-                onClick={() => setShowCookieConsent(false)}
+                onClick={dismissConsent}
                 aria-label="Aceptar todas las cookies"
                 className="rounded-md bg-[#0F6E56] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#0a5242]"
               >

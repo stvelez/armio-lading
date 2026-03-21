@@ -39,7 +39,7 @@ export default function CTA() {
           {/* Countdown */}
           <div className="mb-8 flex justify-center">
             <div className="rounded-full border border-white/30 bg-white/15 px-4 py-2">
-              <Countdown spots={100} spotsTaken={0} />
+              <Countdown spots={100} spotsTaken={23} />
             </div>
           </div>
 
