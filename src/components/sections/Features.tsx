@@ -137,6 +137,7 @@ const features = [
     description:
       "Crea, edita y publica propiedades con fotos, videos y toda la información que necesitas.",
     Preview: PreviewProperties,
+    comingSoon: false,
     delay: 0,
   },
   {
@@ -145,14 +146,16 @@ const features = [
     description:
       "Captura leads desde múltiples canales, asigna a agentes y sigue el pipeline de ventas.",
     Preview: PreviewCRM,
+    comingSoon: false,
     delay: 0.15,
   },
   {
     icon: FileText,
     title: "Contratos Digitales",
     description:
-      "Genera contratos con plantillas, envía para firma digital y rastrea el estado en tiempo real.",
+      "Genera contratos con plantillas y rastrea el estado en tiempo real. Firma digital próximamente.",
     Preview: PreviewContratos,
+    comingSoon: true,
     delay: 0.3,
   },
   {
@@ -160,6 +163,7 @@ const features = [
     title: "Hecho para Colombia",
     description: "Diseñado específicamente para cómo funciona el mercado inmobiliario colombiano.",
     Preview: PreviewColombia,
+    comingSoon: false,
     delay: 0.45,
   },
 ];
@@ -183,7 +187,7 @@ export default function Features() {
 
         {/* Grid */}
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {features.map(({ icon: Icon, title, description, Preview, delay }) => (
+          {features.map(({ icon: Icon, title, description, Preview, comingSoon, delay }) => (
             <motion.div
               key={title}
               initial={{ opacity: 0, y: 24 }}
@@ -191,10 +195,19 @@ export default function Features() {
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.6, delay }}
               whileHover={{ scale: 1.02, y: -8 }}
-              className="group relative flex flex-col overflow-hidden rounded-2xl border border-[#D3D1C7] bg-white p-6 transition-shadow duration-300 hover:border-[#1D9E75]/40 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08),0_0_0_1px_rgba(29,158,117,0.15)]"
+              className={`group relative flex flex-col overflow-hidden rounded-2xl border border-[#D3D1C7] bg-white p-6 transition-shadow duration-300 hover:border-[#1D9E75]/40 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08),0_0_0_1px_rgba(29,158,117,0.15)] ${comingSoon ? "opacity-80" : ""}`}
             >
               {/* Top glow */}
               <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#1D9E75]/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+              {/* Badge Próximamente */}
+              {comingSoon && (
+                <div className="absolute top-4 right-4">
+                  <span className="inline-flex items-center rounded-full bg-[#E1F5EE] px-2.5 py-1 text-[10px] font-semibold text-[#0F6E56]">
+                    Próximamente
+                  </span>
+                </div>
+              )}
 
               <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-[#E1F5EE]">
                 <Icon size={20} className="text-[#1D9E75]" strokeWidth={1.5} />

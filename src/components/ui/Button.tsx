@@ -90,7 +90,7 @@ export default function Button({
         style={
           variant === "primary"
             ? {
-                background: "linear-gradient(135deg, #0F6E56 0%, #0a5242 100%)",
+                background: "linear-gradient(135deg, #1D9E75 0%, #0F6E56 100%)",
                 boxShadow: pulse ? undefined : "0 4px 16px rgba(0,0,0,0.12)",
                 animation: pulse ? "pulse-cta 2s ease-in-out infinite" : undefined,
               }

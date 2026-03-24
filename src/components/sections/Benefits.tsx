@@ -28,7 +28,7 @@ const benefits = [
     unit: "más rápido",
     title: "Cierra contratos antes",
     subtext: "Procesos digitales que eliminan fricción",
-    detail: "Firma digital con plantillas para el mercado colombiano",
+    detail: "Plantillas de contratos para el mercado colombiano",
     delay: 0.3,
   },
 ];
@@ -52,7 +52,7 @@ export default function Benefits() {
             Resultados que importan
           </h2>
           <p className="mx-auto max-w-lg text-base text-[#5F5E5A]">
-            Agencias que usan Armio reportan mejoras medibles desde la primera semana.
+            Armio está diseñado para generar resultados medibles desde el primer día.
           </p>
         </motion.div>
 

@@ -6,18 +6,23 @@ import Badge from "@/components/ui/Badge";
 
 const SHOW_PRICES = process.env.NEXT_PUBLIC_SHOW_PRICES === "true";
 
+interface PlanFeature {
+  text: string;
+  comingSoon?: boolean;
+}
+
 const plans = [
   {
     name: "Free",
     price: "$0/mes",
     description: "Para empezar a explorar",
     features: [
-      "1 agente",
-      "5 propiedades activas",
-      "CRM de leads básico",
-      "Contratos digitales",
-      "Soporte por comunidad",
-    ],
+      { text: "1 agente" },
+      { text: "5 propiedades activas" },
+      { text: "CRM de leads básico" },
+      { text: "Contratos digitales" },
+      { text: "Soporte por comunidad" },
+    ] as PlanFeature[],
     popular: false,
     earlyAccess: false,
     cta: "Empezar gratis",
@@ -29,12 +34,12 @@ const plans = [
     originalPrice: "$179.000/mes",
     description: "Para agencias pequeñas en crecimiento",
     features: [
-      "5 agentes",
-      "50 propiedades activas",
-      "CRM de leads básico",
-      "Contratos digitales",
-      "Soporte por email",
-    ],
+      { text: "5 agentes" },
+      { text: "50 propiedades activas" },
+      { text: "CRM de leads básico" },
+      { text: "Contratos digitales" },
+      { text: "Soporte por email" },
+    ] as PlanFeature[],
     popular: false,
     earlyAccess: true,
     cta: "Únete a la lista de espera",
@@ -46,12 +51,12 @@ const plans = [
     originalPrice: "$439.000/mes",
     description: "El plan del cliente ideal",
     features: [
-      "10 agentes",
-      "200 propiedades activas",
-      "CRM avanzado",
-      "Contratos + plantillas",
-      "Soporte email prioritario",
-    ],
+      { text: "10 agentes" },
+      { text: "200 propiedades activas" },
+      { text: "CRM avanzado" },
+      { text: "Contratos + plantillas" },
+      { text: "Soporte email prioritario" },
+    ] as PlanFeature[],
     popular: true,
     earlyAccess: true,
     cta: "Únete a la lista de espera",
@@ -63,13 +68,13 @@ const plans = [
     originalPrice: "$799.000/mes",
     description: "Para agencias grandes sin límites",
     features: [
-      "Agentes ilimitados",
-      "Propiedades ilimitadas",
-      "CRM avanzado",
-      "Contratos + plantillas",
-      "WhatsApp nativo",
-      "Soporte prioritario",
-    ],
+      { text: "Agentes ilimitados" },
+      { text: "Propiedades ilimitadas" },
+      { text: "CRM avanzado" },
+      { text: "Contratos + plantillas" },
+      { text: "WhatsApp nativo", comingSoon: true },
+      { text: "Soporte prioritario" },
+    ] as PlanFeature[],
     popular: false,
     earlyAccess: true,
     cta: "Únete a la lista de espera",
@@ -143,7 +148,14 @@ export default function Pricing() {
                         plan.popular ? "text-[#1D9E75]" : "text-[#B4B2A9]"
                       }`}
                     />
-                    <span className="text-sm text-[#5F5E5A]">{feature}</span>
+                    <span className="flex flex-wrap items-center gap-1.5 text-sm text-[#5F5E5A]">
+                      {feature.text}
+                      {feature.comingSoon && (
+                        <span className="inline-flex items-center rounded-full bg-[#E1F5EE] px-2 py-0.5 text-[10px] font-semibold text-[#0F6E56]">
+                          Próximamente
+                        </span>
+                      )}
+                    </span>
                   </li>
                 ))}
               </ul>

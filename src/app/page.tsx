@@ -23,9 +23,10 @@ const ProductPreview = dynamic(() => import("@/components/sections/ProductPrevie
 const HowItWorks = dynamic(() => import("@/components/sections/HowItWorks"), {
   loading: () => <div className="h-80 animate-pulse bg-white" />,
 });
-const Testimonials = dynamic(() => import("@/components/sections/Testimonials"), {
-  loading: () => <div className="h-80 animate-pulse bg-[#F1EFE8]" />,
-});
+// TODO: Habilitar cuando tengamos testimonios reales
+// const Testimonials = dynamic(() => import("@/components/sections/Testimonials"), {
+//   loading: () => <div className="h-80 animate-pulse bg-[#F1EFE8]" />,
+// });
 const Pricing = dynamic(() => import("@/components/sections/Pricing"), {
   loading: () => <div className="h-96 animate-pulse bg-white" />,
 });
@@ -59,7 +60,8 @@ export default function Home() {
         <ProblemSolution />
         <ProductPreview />
         <HowItWorks />
-        <Testimonials />
+        {/* TODO: Habilitar cuando tengamos testimonios reales */}
+        {/* <Testimonials /> */}
         <Pricing />
         <FAQ />
         <CTA />
