@@ -118,7 +118,7 @@ export default function Hero() {
               ))}
             </div>
             <p className="text-xs text-[#5F5E5A]">
-              <span className="font-semibold text-[#2C2C2A]">+12 agencias</span> en lista
+              <span className="font-semibold text-[#2C2C2A]">+23 agencias</span> en lista
             </p>
             <span className="text-[#D3D1C7]">·</span>
             <Countdown spots={100} spotsTaken={23} variant="light" />
@@ -131,7 +131,7 @@ export default function Hero() {
             transition={{ duration: 0.5, delay: 0.56 }}
             className="mb-10 flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs text-[#888780]"
           >
-            {["Sin tarjeta de crédito", "14 días de prueba gratis", "Cancela cuando quieras"].map(
+            {["Sin tarjeta de crédito", "30 días de prueba gratis", "Cancela cuando quieras"].map(
               (item) => (
                 <div key={item} className="flex items-center gap-1.5">
                   <CheckCircle2 size={12} className="text-[#1D9E75]" strokeWidth={2} />

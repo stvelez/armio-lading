@@ -18,7 +18,7 @@ const faqs = [
   {
     question: "¿Hay un período de prueba gratuito?",
     answer:
-      "Ofrecemos 14 días de prueba gratuita cuando lancemos oficialmente. Los primeros 100 early adopters obtendrán 50% OFF de por vida.",
+      "Ofrecemos 30 días de prueba gratuita cuando lancemos oficialmente. Los primeros 100 early adopters obtendrán 50% OFF de por vida.",
   },
   {
     question: "¿Mis datos están seguros?",
@@ -38,7 +38,7 @@ const faqs = [
   {
     question: "¿Cómo funciona el descuento de 50% OFF?",
     answer:
-      "Los primeros 100 en unirse a la lista de espera obtendrán 50% OFF de por vida en el plan Professional. Este descuento se aplica automáticamente cuando lance el producto.",
+      "Los primeros 100 en unirse a la lista de espera obtendrán 50% OFF de por vida en el plan Pro. Este descuento se aplica automáticamente cuando lance el producto.",
   },
 ];
 
@@ -68,15 +68,23 @@ export default function FAQ() {
       <section id="faq" className="bg-[#F1EFE8] px-6 py-24">
         <div className="mx-auto max-w-4xl">
           {/* Section Title */}
-          <div className="mb-16 text-center">
-            <p className="mb-3 text-sm font-medium tracking-wide text-[#0F6E56] uppercase">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-16 text-center"
+          >
+            <p className="mb-3 text-sm font-medium tracking-widest text-[#0F6E56] uppercase">
               Resolvemos tus dudas
             </p>
-            <h2 className="mb-4 text-3xl font-semibold text-[#2C2C2A] md:text-4xl">
+            <h2 className="mb-4 text-3xl font-semibold tracking-[-0.02em] text-[#2C2C2A] md:text-4xl">
               Preguntas frecuentes
             </h2>
-            <p className="text-lg text-[#5F5E5A]">Todo lo que necesitas saber sobre Armio</p>
-          </div>
+            <p className="text-base text-balance text-[#5F5E5A]">
+              Todo lo que necesitas saber sobre Armio
+            </p>
+          </motion.div>
 
           {/* FAQ Items */}
           <div className="space-y-3">
