@@ -1,16 +1,5 @@
 import { z } from "zod";
 
-export const newsletterSignupSources = [
-  "hero",
-  "footer",
-  "popup",
-  "pricing",
-  "cta",
-  "cta-mobile",
-] as const;
-
-export type NewsletterSignupSource = (typeof newsletterSignupSources)[number];
-
 /**
  * Newsletter signup validation schema
  */
@@ -19,16 +8,10 @@ export const newsletterSchema = z.object({
   name: z.string().optional(),
 });
 
-export const newsletterRequestSchema = z.object({
-  email: z.string().min(1, "Email es requerido").email("Email inválido"),
-  source: z.enum(newsletterSignupSources).default("hero"),
-});
-
 /**
  * Type for newsletter form data
  */
 export type NewsletterFormData = z.infer<typeof newsletterSchema>;
-export type NewsletterRequestData = z.infer<typeof newsletterRequestSchema>;
 
 /**
  * Validate email address

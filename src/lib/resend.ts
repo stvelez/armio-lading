@@ -1,20 +1,15 @@
 import { Resend } from "resend";
-
-interface ResendConfig {
-  apiKey?: string;
-  from?: string;
-}
+const resend = new Resend(process.env.RESEND_API_KEY);
+const resendFrom = process.env.RESEND_FROM || "hola@armio.co";
 
 /**
  * Send welcome email after signup
  */
-export async function sendWelcomeEmail(email: string, config: ResendConfig) {
-  if (!config.apiKey) {
+export async function sendWelcomeEmail(email: string) {
+  if (!process.env.RESEND_API_KEY) {
     throw new Error("Missing RESEND_API_KEY");
   }
 
-  const resend = new Resend(config.apiKey);
-  const resendFrom = config.from || "hola@armio.co";
   const data = await resend.emails.send({
     from: resendFrom,
     to: email,

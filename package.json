@@ -5,13 +5,6 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "cf:build": "opennextjs-cloudflare build",
-    "preview": "npm run cf:build && opennextjs-cloudflare preview",
-    "deploy": "npm run cf:build && opennextjs-cloudflare deploy --env=\"\"",
-    "deploy:preview": "npm run cf:build && opennextjs-cloudflare deploy --env=preview",
-    "cf:typegen": "wrangler types",
-    "db:migrate:local": "wrangler d1 migrations apply DB --local",
-    "db:migrate:remote": "wrangler d1 migrations apply DB --remote",
     "analyze": "ANALYZE=true next build",
     "start": "next start",
     "lint": "eslint",
@@ -23,7 +16,6 @@
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
     "@next/third-parties": "^16.1.7",
-    "@opennextjs/cloudflare": "^1.18.1",
     "@types/canvas-confetti": "^1.9.0",
     "canvas-confetti": "^1.9.4",
     "framer-motion": "^12.38.0",
@@ -57,7 +49,6 @@
     "prettier": "^3.8.1",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "tailwindcss": "^4",
-    "typescript": "^5",
-    "wrangler": "^4.81.0"
+    "typescript": "^5"
   }
 }

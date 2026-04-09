@@ -1,6 +1,5 @@
 import type { NextConfig } from "next";
 import bundleAnalyzer from "@next/bundle-analyzer";
-import("@opennextjs/cloudflare").then((m) => m.initOpenNextCloudflareForDev());
 
 const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
