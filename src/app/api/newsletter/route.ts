@@ -1,28 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { promises as fs } from "fs";
-import path from "path";
-import { newsletterSchema } from "@/lib/validations";
+import { newsletterRequestSchema } from "@/lib/validations";
 import { sendWelcomeEmail } from "@/lib/resend";
-
-const DATA_FILE = path.join(process.cwd(), "data", "waitlist.json");
-
-async function readWaitlist(): Promise<{ email: string; signedAt: string }[]> {
-  try {
-    const content = await fs.readFile(DATA_FILE, "utf-8");
-    return JSON.parse(content);
-  } catch {
-    return [];
-  }
-}
-
-async function saveToWaitlist(email: string): Promise<boolean> {
-  await fs.mkdir(path.dirname(DATA_FILE), { recursive: true });
-  const list = await readWaitlist();
-  if (list.some((entry) => entry.email === email)) return false;
-  list.push({ email, signedAt: new Date().toISOString() });
-  await fs.writeFile(DATA_FILE, JSON.stringify(list, null, 2));
-  return true;
-}
+import {
+  createWaitlistSignup,
+  markWelcomeEmailSent,
+  normalizeEmail,
+} from "@/lib/waitlist-postgres";
 
 /**
  * POST /api/newsletter
@@ -30,7 +13,7 @@ async function saveToWaitlist(email: string): Promise<boolean> {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const result = newsletterSchema.safeParse({ email: body.email });
+    const result = newsletterRequestSchema.safeParse(body);
 
     if (!result.success) {
       console.warn("Newsletter signup validation failed", {
@@ -42,27 +25,34 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { email } = result.data;
-    const added = await saveToWaitlist(email);
+    const email = normalizeEmail(result.data.email);
+    const source = result.data.source;
+    const { created } = await createWaitlistSignup({ email, source });
 
-    if (!added) {
-      console.info("Newsletter signup duplicate", { email });
-      return NextResponse.json(
-        { error: "Este email ya está en la lista de espera" },
-        { status: 409 }
-      );
+    if (!created) {
+      console.info("Newsletter signup duplicate", { email, source });
+      return NextResponse.json({
+        success: true,
+        status: "duplicate",
+        message: "Este correo ya está reservado en early access.",
+      });
     }
 
     try {
       await sendWelcomeEmail(email);
+      await markWelcomeEmailSent(email);
     } catch (error) {
       console.error("Newsletter welcome email failed", { email, error });
     }
 
-    return NextResponse.json({
-      success: true,
-      message: "¡Te has unido a la lista de espera!",
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        status: "created",
+        message: "Reservaste tu acceso a Armio.",
+      },
+      { status: 201 }
+    );
   } catch (error) {
     console.error("Newsletter signup persistence error", error);
     return NextResponse.json({ error: "Hubo un error al procesar tu solicitud" }, { status: 500 });

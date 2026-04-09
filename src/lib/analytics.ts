@@ -11,6 +11,7 @@ declare global {
 }
 
 type Location = "hero" | "footer" | "popup" | "pricing" | "cta" | "cta-mobile";
+type SignupResult = "created" | "duplicate" | "error";
 
 const gtag = (...args: Parameters<GtagFn>) => {
   if (typeof window !== "undefined" && window.gtag) {
@@ -23,6 +24,10 @@ const gtag = (...args: Parameters<GtagFn>) => {
  */
 export const trackNewsletterSignup = (location: Location) => {
   gtag("event", "newsletter_signup", { location });
+};
+
+export const trackNewsletterSignupResult = (location: Location, result: SignupResult) => {
+  gtag("event", "newsletter_signup_result", { location, result });
 };
 
 /**
