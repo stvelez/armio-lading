@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { CheckCircle2, Play, ArrowRight } from "lucide-react";
 import HeroMockup from "@/components/sections/HeroMockup";
 import Countdown from "@/components/ui/Countdown";
+import { EARLY_ACCESS_CLAIMED_SPOTS, EARLY_ACCESS_TOTAL_SPOTS } from "@/lib/early-access";
 
 const SOCIAL_PROOF_AVATARS = [
   { initials: "CM", bg: "#1D9E75", text: "#fff" },
@@ -95,7 +96,7 @@ export default function Hero() {
               className="inline-flex items-center gap-2 rounded-xl border border-[#D3D1C7] bg-white px-7 py-3.5 text-sm font-medium text-[#5F5E5A] transition-all duration-200 hover:scale-[1.03] hover:border-[#1D9E75] hover:text-[#1D9E75] focus-visible:ring-2 focus-visible:ring-[#1D9E75] focus-visible:ring-offset-2 focus-visible:outline-none active:scale-[0.98]"
             >
               <Play size={13} strokeWidth={2} className="fill-current" />
-              Ver demo en vivo
+              Explorar producto
             </a>
           </motion.div>
 
@@ -118,10 +119,17 @@ export default function Hero() {
               ))}
             </div>
             <p className="text-xs text-[#5F5E5A]">
-              <span className="font-semibold text-[#2C2C2A]">+23 agencias</span> en lista
+              <span className="font-semibold text-[#2C2C2A]">
+                {EARLY_ACCESS_CLAIMED_SPOTS} agencias
+              </span>{" "}
+              ya reservaron acceso
             </p>
             <span className="text-[#D3D1C7]">·</span>
-            <Countdown spots={100} spotsTaken={23} variant="light" />
+            <Countdown
+              spots={EARLY_ACCESS_TOTAL_SPOTS}
+              spotsTaken={EARLY_ACCESS_CLAIMED_SPOTS}
+              variant="light"
+            />
           </motion.div>
 
           {/* Trust signals */}
@@ -131,14 +139,16 @@ export default function Hero() {
             transition={{ duration: 0.5, delay: 0.56 }}
             className="mb-10 flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs text-[#888780]"
           >
-            {["Sin tarjeta de crédito", "30 días de prueba gratis", "Cancela cuando quieras"].map(
-              (item) => (
-                <div key={item} className="flex items-center gap-1.5">
-                  <CheckCircle2 size={12} className="text-[#1D9E75]" strokeWidth={2} />
-                  <span>{item}</span>
-                </div>
-              )
-            )}
+            {[
+              "No necesitas tarjeta para registrarte",
+              "Acceso anticipado cuando abramos onboarding",
+              "50% OFF de por vida con precio fundador",
+            ].map((item) => (
+              <div key={item} className="flex items-center gap-1.5">
+                <CheckCircle2 size={12} className="text-[#1D9E75]" strokeWidth={2} />
+                <span>{item}</span>
+              </div>
+            ))}
           </motion.div>
         </div>
 

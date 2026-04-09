@@ -18,10 +18,6 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  function scrollToWaitlist() {
-    document.getElementById("waitlist")?.scrollIntoView({ behavior: "smooth" });
-  }
-
   return (
     <>
       <a
@@ -64,12 +60,12 @@ export default function Header() {
           </nav>
 
           {/* CTA */}
-          <button
-            onClick={scrollToWaitlist}
+          <a
+            href="#cta"
             className="rounded-md bg-[#1D9E75] px-4 py-2 text-sm font-semibold text-white transition-all duration-200 hover:bg-[#0F6E56] active:scale-95"
           >
             Únete gratis
-          </button>
+          </a>
         </div>
       </header>
     </>

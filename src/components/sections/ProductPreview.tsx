@@ -41,7 +41,7 @@ export default function ProductPreview() {
   }, [isPaused]);
 
   return (
-    <section className="bg-[#1D9E75] px-6 py-24">
+    <section id="producto" className="bg-[#1D9E75] px-6 py-24">
       <div className="mx-auto max-w-6xl">
         {/* Header */}
         <motion.div
@@ -162,7 +162,7 @@ export default function ProductPreview() {
             <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#E1F5EE] transition-colors group-hover:bg-[#D3D1C7]">
               <Play size={11} className="ml-0.5" />
             </span>
-            Ver demo completa
+            Ver adelanto del producto
           </button>
         </motion.div>
       </div>

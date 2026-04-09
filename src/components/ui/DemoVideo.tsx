@@ -166,10 +166,11 @@ export default function DemoVideo({ isOpen, onClose, videoSrc }: DemoVideoProps)
                   </div>
                   <div>
                     <p className="mb-1 text-base font-semibold text-white">
-                      Demo Armio — próximamente
+                      Adelanto del producto Armio
                     </p>
                     <p className="text-sm text-[#888780]">
-                      El video estará disponible en el lanzamiento oficial
+                      Mientras publicamos la demo completa, aquí mostramos el recorrido clave del
+                      producto y sus pantallas principales.
                     </p>
                   </div>
                   {/* Storyboard preview */}
@@ -196,7 +197,7 @@ export default function DemoVideo({ isOpen, onClose, videoSrc }: DemoVideoProps)
             {/* Footer */}
             <div className="flex items-center justify-between border-t border-white/10 px-5 py-3">
               <p className="text-xs text-[#888780]">
-                Demo Armio · Sistema operativo para agencias inmobiliarias
+                Recorrido del producto Armio · Sistema operativo para agencias inmobiliarias
               </p>
               <button
                 onClick={onClose}

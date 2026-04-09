@@ -45,7 +45,6 @@ export const metadata: Metadata = {
     title: "Armio — El sistema operativo de tu agencia inmobiliaria",
     description:
       "Software para agencias inmobiliarias en Colombia. Propiedades, leads y contratos en un solo lugar.",
-    creator: "@armioapp",
   },
   robots: {
     index: true,
@@ -93,11 +92,7 @@ const organizationJsonLd = {
     contactType: "customer service",
     availableLanguage: "Spanish",
   },
-  sameAs: [
-    "https://twitter.com/armioapp",
-    "https://linkedin.com/company/armio",
-    "https://instagram.com/armioapp",
-  ],
+  sameAs: ["https://instagram.com/armioapp"],
 };
 
 export default function RootLayout({

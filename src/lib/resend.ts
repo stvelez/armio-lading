@@ -1,13 +1,22 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+interface ResendConfig {
+  apiKey?: string;
+  from?: string;
+}
 
 /**
  * Send welcome email after signup
  */
-export async function sendWelcomeEmail(email: string) {
+export async function sendWelcomeEmail(email: string, config: ResendConfig) {
+  if (!config.apiKey) {
+    throw new Error("Missing RESEND_API_KEY");
+  }
+
+  const resend = new Resend(config.apiKey);
+  const resendFrom = config.from || "hola@armio.co";
   const data = await resend.emails.send({
-    from: process.env.RESEND_FROM || "hola@armio.co",
+    from: resendFrom,
     to: email,
     subject: "¡Bienvenido a Armio! 🚀",
     html: `
@@ -62,9 +71,12 @@ export async function sendWelcomeEmail(email: string) {
  * Send drip campaign email - Day 1
  */
 export async function sendDripDay1(email: string) {
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  const resendFrom = process.env.RESEND_FROM || "hola@armio.co";
+
   try {
     await resend.emails.send({
-      from: process.env.NEXT_PUBLIC_RESEND_FROM || "hola@armio.co",
+      from: resendFrom,
       to: email,
       subject: "¿Cómo transformará Armio tu agencia?",
       html: `
@@ -92,9 +104,12 @@ export async function sendDripDay1(email: string) {
  * Send drip campaign email - Day 3
  */
 export async function sendDripDay3(email: string) {
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  const resendFrom = process.env.RESEND_FROM || "hola@armio.co";
+
   try {
     await resend.emails.send({
-      from: process.env.NEXT_PUBLIC_RESEND_FROM || "hola@armio.co",
+      from: resendFrom,
       to: email,
       subject: "El caos de Excel vs Armio",
       html: `
@@ -129,9 +144,12 @@ export async function sendDripDay3(email: string) {
  * Send drip campaign email - Day 7
  */
 export async function sendDripDay7(email: string) {
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  const resendFrom = process.env.RESEND_FROM || "hola@armio.co";
+
   try {
     await resend.emails.send({
-      from: process.env.NEXT_PUBLIC_RESEND_FROM || "hola@armio.co",
+      from: resendFrom,
       to: email,
       subject: "Invita a un colega y obtén beneficios extra",
       html: `
@@ -158,9 +176,12 @@ export async function sendDripDay7(email: string) {
  * Send launch announcement email
  */
 export async function sendLaunchEmail(email: string, discountCode: string) {
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  const resendFrom = process.env.RESEND_FROM || "hola@armio.co";
+
   try {
     await resend.emails.send({
-      from: process.env.NEXT_PUBLIC_RESEND_FROM || "hola@armio.co",
+      from: resendFrom,
       to: email,
       subject: "¡Armio ya está disponible! 🎉",
       html: `

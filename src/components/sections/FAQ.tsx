@@ -18,7 +18,7 @@ const faqs = [
   {
     question: "¿Hay un período de prueba gratuito?",
     answer:
-      "Ofrecemos 30 días de prueba gratuita cuando lancemos oficialmente. Los primeros 100 early adopters obtendrán 50% OFF de por vida.",
+      "Cuando lancemos, tendrás onboarding anticipado y podrás activar tu cuenta con precio fundador. El registro al early access no tiene costo ni requiere tarjeta.",
   },
   {
     question: "¿Mis datos están seguros?",
@@ -28,7 +28,7 @@ const faqs = [
   {
     question: "¿Puedo cancelar mi suscripción?",
     answer:
-      "Sí, puedes cancelar en cualquier momento sin penalidades. Con el Early Access, el descuento es de por vida mientras mantengas tu suscripción activa.",
+      "Sí, puedes cancelar en cualquier momento sin penalidades. El precio fundador conserva el 50% OFF mientras mantengas tu suscripción activa.",
   },
   {
     question: "¿Funciona en móvil?",
@@ -38,7 +38,7 @@ const faqs = [
   {
     question: "¿Cómo funciona el descuento de 50% OFF?",
     answer:
-      "Los primeros 100 en unirse a la lista de espera obtendrán 50% OFF de por vida en el plan Pro. Este descuento se aplica automáticamente cuando lance el producto.",
+      "Las primeras 100 agencias que reserven acceso obtienen precio fundador con 50% OFF de por vida sobre su plan al activarse Armio. Registrarte ahora solo reserva tu lugar; no se cobra nada hoy.",
   },
 ];
 

@@ -10,7 +10,7 @@ import { Users, Globe, Star } from "lucide-react";
 const metrics = [
   { icon: Users, value: "+23", label: "agencias ya en lista de espera" },
   { icon: Globe, value: "Colombia", label: "mercado inmobiliario objetivo" },
-  { icon: Star, value: "50% OFF", label: "de por vida para early adopters" },
+  { icon: Star, value: "Fundador", label: "precio bloqueado de por vida" },
 ];
 
 // TODO: Habilitar cuando tengamos testimonios reales

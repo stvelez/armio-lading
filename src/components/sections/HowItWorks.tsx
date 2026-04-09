@@ -29,7 +29,7 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section className="bg-[#F1EFE8] px-6 py-24">
+    <section id="how-it-works" className="bg-[#F1EFE8] px-6 py-24">
       <div className="mx-auto max-w-6xl">
         {/* Header */}
         <motion.div
@@ -129,7 +129,7 @@ export default function HowItWorks() {
         >
           <p className="mb-5 text-[#5F5E5A]">¿Listo para empezar?</p>
           <a
-            href="#pricing"
+            href="#cta"
             className="inline-flex items-center gap-2 rounded-full bg-[#0F6E56] px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[#0a5242] hover:shadow-md active:scale-95"
           >
             Únete a la lista de espera

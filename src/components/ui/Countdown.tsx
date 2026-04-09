@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Clock } from "lucide-react";
 
 interface CountdownProps {
@@ -20,42 +19,22 @@ export default function Countdown({
 }: CountdownProps) {
   const textColor = variant === "light" ? "text-[#0F6E56]" : "text-white";
   const mutedTextColor = variant === "light" ? "text-[#0F6E56]" : "text-white";
-  const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
-  const [remainingSpots, setRemainingSpots] = useState(spots - spotsTaken);
-
-  useEffect(() => {
-    if (deadline) {
-      const calculateTimeLeft = () => {
+  const timeLeft = deadline
+    ? (() => {
         const difference = deadline.getTime() - new Date().getTime();
 
-        if (difference > 0) {
-          setTimeLeft({
-            hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-            minutes: Math.floor((difference / 1000 / 60) % 60),
-            seconds: Math.floor((difference / 1000) % 60),
-          });
+        if (difference <= 0) {
+          return { hours: 0, minutes: 0, seconds: 0 };
         }
-      };
 
-      calculateTimeLeft();
-      const timer = setInterval(calculateTimeLeft, 1000);
-      return () => clearInterval(timer);
-    }
-  }, [deadline]);
-
-  useEffect(() => {
-    // Simulate spots decreasing over time for scarcity effect
-    if (remainingSpots > 10) {
-      const interval = setInterval(() => {
-        setRemainingSpots((prev) => {
-          const decrease = Math.random() > 0.7 ? Math.floor(Math.random() * 2) + 1 : 0;
-          return Math.max(10, prev - decrease);
-        });
-      }, 30000); // Check every 30 seconds
-
-      return () => clearInterval(interval);
-    }
-  }, [remainingSpots]);
+        return {
+          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+          minutes: Math.floor((difference / 1000 / 60) % 60),
+          seconds: Math.floor((difference / 1000) % 60),
+        };
+      })()
+    : { hours: 0, minutes: 0, seconds: 0 };
+  const remainingSpots = Math.max(0, spots - spotsTaken);
 
   return (
     <div className="flex items-center gap-2 text-sm">

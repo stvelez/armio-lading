@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Twitter, Linkedin, Instagram, Cookie } from "lucide-react";
+import { Instagram, Cookie } from "lucide-react";
 import NewsletterForm from "@/components/forms/NewsletterForm";
 
 const COOKIE_KEY = "armio_cookie_consent";
@@ -56,6 +56,8 @@ export default function Footer() {
               <ul className="space-y-3">
                 {[
                   { label: "Features", href: "#features" },
+                  { label: "Cómo funciona", href: "#how-it-works" },
+                  { label: "Producto", href: "#producto" },
                   { label: "Pricing", href: "#pricing" },
                   { label: "FAQ", href: "#faq" },
                 ].map(({ label, href }) => (
@@ -83,13 +85,14 @@ export default function Footer() {
                     Contacto
                   </a>
                 </li>
-                {["About", "Blog", "Carreras"].map((item) => (
-                  <li key={item}>
-                    <span className="cursor-default text-sm text-[#B4B2A9]/50" title="Próximamente">
-                      {item}
-                    </span>
-                  </li>
-                ))}
+                <li>
+                  <a
+                    href="#cta"
+                    className="text-sm text-[#B4B2A9] transition-colors hover:text-white"
+                  >
+                    Únete a la lista
+                  </a>
+                </li>
               </ul>
             </nav>
 
@@ -97,13 +100,11 @@ export default function Footer() {
             <nav aria-label="Legal">
               <h4 className="mb-4 text-sm font-semibold text-white">Legal</h4>
               <ul className="space-y-3">
-                {["Términos", "Privacidad", "Cookies"].map((item) => (
-                  <li key={item}>
-                    <span className="cursor-default text-sm text-[#B4B2A9]/50" title="Próximamente">
-                      {item}
-                    </span>
-                  </li>
-                ))}
+                <li>
+                  <span className="text-sm text-[#B4B2A9]">
+                    Política de privacidad y términos disponibles antes del lanzamiento público.
+                  </span>
+                </li>
               </ul>
             </nav>
           </div>
@@ -112,24 +113,6 @@ export default function Footer() {
           <div className="mt-12 border-t border-[#3C3C3A] pt-8">
             <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
               <div className="flex items-center gap-5">
-                <a
-                  href="https://twitter.com/armioapp"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#B4B2A9] transition-colors hover:text-white"
-                  aria-label="Twitter"
-                >
-                  <Twitter size={18} />
-                </a>
-                <a
-                  href="https://linkedin.com/company/armio"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#B4B2A9] transition-colors hover:text-white"
-                  aria-label="LinkedIn"
-                >
-                  <Linkedin size={18} />
-                </a>
                 <a
                   href="https://instagram.com/armioapp"
                   target="_blank"
@@ -170,10 +153,10 @@ export default function Footer() {
             <div className="flex items-center gap-2">
               <button
                 onClick={dismissConsent}
-                aria-label="Configurar preferencias de cookies"
+                aria-label="Cerrar aviso de cookies"
                 className="px-4 py-2 text-sm text-[#B4B2A9] transition-colors hover:text-white"
               >
-                Configurar
+                Más tarde
               </button>
               <button
                 onClick={dismissConsent}

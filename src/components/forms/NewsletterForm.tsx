@@ -4,17 +4,30 @@ import { useState } from "react";
 import { Mail, Check, Loader2, AlertCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { newsletterSchema, type NewsletterFormData, getErrorMessage } from "@/lib/validations";
-import { trackNewsletterSignup } from "@/lib/analytics";
+import {
+  newsletterSchema,
+  type NewsletterFormData,
+  type NewsletterSignupSource,
+} from "@/lib/validations";
+import { trackNewsletterSignup, trackNewsletterSignupResult } from "@/lib/analytics";
 import toast from "react-hot-toast";
 
 interface NewsletterFormProps {
-  location?: "hero" | "footer" | "popup" | "pricing" | "cta" | "cta-mobile";
+  location?: NewsletterSignupSource;
   showEmailField?: boolean;
   className?: string;
   placeholder?: string;
   buttonText?: string;
   onSuccess?: () => void;
+  successTitle?: string;
+  successDescription?: string;
+}
+
+interface NewsletterSignupResponse {
+  success?: boolean;
+  status?: "created" | "duplicate";
+  message?: string;
+  error?: string;
 }
 
 export default function NewsletterForm({
@@ -24,9 +37,14 @@ export default function NewsletterForm({
   placeholder = "tu@email.com",
   buttonText = "Únete a la lista de espera",
   onSuccess,
+  successTitle = "¡Reservaste tu acceso!",
+  successDescription = "Te escribiremos cuando abramos el onboarding con tu precio fundador.",
 }: NewsletterFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [submissionState, setSubmissionState] = useState<{
+    title: string;
+    description: string;
+  } | null>(null);
 
   const {
     register,
@@ -44,29 +62,46 @@ export default function NewsletterForm({
       const response = await fetch("/api/newsletter", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          email: data.email,
+          source: location,
+        }),
       });
 
-      const result = await response.json();
+      const result: NewsletterSignupResponse = await response.json();
 
       if (!response.ok) {
         throw new Error(result.error || "Error al procesar tu solicitud");
       }
 
-      setIsSuccess(true);
+      const isDuplicate = result.status === "duplicate";
+      const nextState = isDuplicate
+        ? {
+            title: "Este correo ya está reservado",
+            description: "Ya tienes tu lugar en early access. Te escribiremos cuando abramos.",
+          }
+        : {
+            title: successTitle,
+            description: successDescription,
+          };
+
+      setSubmissionState(nextState);
       trackNewsletterSignup(location);
-      toast.success("¡Estás en la lista! Te avisaremos pronto.");
+      trackNewsletterSignupResult(location, isDuplicate ? "duplicate" : "created");
+      toast.success(result.message || nextState.title);
 
       // Trigger confetti celebration — dynamic import so confetti is not in initial bundle
-      import("canvas-confetti").then(({ default: confetti }) => {
-        confetti({
-          particleCount: 250,
-          spread: 80,
-          origin: { x: 0.5, y: 0.6 },
-          ticks: 300,
-          colors: ["#1D9E75", "#0F6E56", "#ffffff"],
+      if (!isDuplicate) {
+        import("canvas-confetti").then(({ default: confetti }) => {
+          confetti({
+            particleCount: 250,
+            spread: 80,
+            origin: { x: 0.5, y: 0.6 },
+            ticks: 300,
+            colors: ["#1D9E75", "#0F6E56", "#ffffff"],
+          });
         });
-      });
+      }
 
       if (onSuccess) {
         onSuccess();
@@ -74,25 +109,26 @@ export default function NewsletterForm({
 
       // Reset success state after 5 seconds
       setTimeout(() => {
-        setIsSuccess(false);
+        setSubmissionState(null);
         reset();
       }, 5000);
     } catch (error) {
       console.error("Newsletter form error:", error);
+      trackNewsletterSignupResult(location, "error");
       toast.error(error instanceof Error ? error.message : "Error al procesar tu solicitud");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  if (isSuccess) {
+  if (submissionState) {
     return (
       <div className={className} role="status" aria-live="polite">
         <div className="animate-in slide-in-from-bottom-2 flex items-center gap-2 text-[#1D9E75]">
           <Check size={20} strokeWidth={2.5} aria-hidden="true" />
           <div>
-            <p className="text-sm font-medium">¡Estás en la lista!</p>
-            <p className="text-xs text-[#B4B2A9]">Te avisaremos cuando estemos listos.</p>
+            <p className="text-sm font-medium">{submissionState.title}</p>
+            <p className="text-xs text-[#B4B2A9]">{submissionState.description}</p>
           </div>
         </div>
       </div>

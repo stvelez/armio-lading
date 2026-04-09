@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import Countdown from "@/components/ui/Countdown";
 import Badge from "@/components/ui/Badge";
+import { EARLY_ACCESS_CLAIMED_SPOTS, EARLY_ACCESS_TOTAL_SPOTS } from "@/lib/early-access";
 
 const SHOW_PRICES = process.env.NEXT_PUBLIC_SHOW_PRICES === "true";
 
@@ -106,10 +107,14 @@ export default function Pricing() {
             Transparente para agencias en crecimiento
           </h2>
           <p className="mb-6 text-base text-balance text-[#5F5E5A]">
-            Planes en pesos colombianos, sin sorpresas
+            Planes en pesos colombianos, con precio fundador para early access
           </p>
           <div className="inline-flex items-center gap-3 rounded-full border border-[#1D9E75] bg-[#E1F5EE] px-5 py-2.5">
-            <Countdown spots={100} spotsTaken={23} variant="light" />
+            <Countdown
+              spots={EARLY_ACCESS_TOTAL_SPOTS}
+              spotsTaken={EARLY_ACCESS_CLAIMED_SPOTS}
+              variant="light"
+            />
           </div>
         </motion.div>
 
@@ -144,7 +149,7 @@ export default function Pricing() {
               {/* Plan header */}
               <div className="mb-2 flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-[#2C2C2A]">{plan.name}</h3>
-                {plan.earlyAccess && <Badge variant="warning">🔥 50% OFF</Badge>}
+                {plan.earlyAccess && <Badge variant="warning">⭐ Fundador</Badge>}
               </div>
               <p className="mb-4 text-xs text-[#5F5E5A]">{plan.description}</p>
 
@@ -173,8 +178,8 @@ export default function Pricing() {
                     </span>
                     <p className="mt-1 text-[11px] leading-snug text-[#5F5E5A]">
                       {plan.priceAnchor
-                        ? `${plan.priceAnchor} · Precio oficial próximamente`
-                        : "Sin tarjeta de crédito"}
+                        ? `${plan.priceAnchor} · Precio oficial después del lanzamiento`
+                        : "Sin tarjeta y sin cobro hoy"}
                     </p>
                   </div>
                 )}
@@ -223,6 +228,17 @@ export default function Pricing() {
             </motion.div>
           ))}
         </div>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="mt-8 text-center text-xs text-[#888780]"
+        >
+          El precio fundador de early access mantiene el 50% OFF mientras tu suscripción siga
+          activa. No hay cobro al registrarte.
+        </motion.p>
       </div>
     </section>
   );

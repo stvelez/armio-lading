@@ -6,6 +6,7 @@ import NewsletterForm from "@/components/forms/NewsletterForm";
 import Countdown from "@/components/ui/Countdown";
 import { useExitIntent } from "@/lib/exit-intent";
 import { trackExitIntentSignup } from "@/lib/analytics";
+import { EARLY_ACCESS_CLAIMED_SPOTS, EARLY_ACCESS_TOTAL_SPOTS } from "@/lib/early-access";
 
 export default function ExitIntent() {
   const [isOpen, setIsOpen] = useState(false);
@@ -49,17 +50,20 @@ export default function ExitIntent() {
         {/* Content */}
         <div className="mb-6 text-center">
           <p className="mb-2 text-2xl">👋</p>
-          <h2 className="mb-2 text-xl font-semibold text-white">¿Seguro que quieres irte?</h2>
+          <h2 className="mb-2 text-xl font-semibold text-white">
+            Antes de irte, reserva tu acceso preferencial
+          </h2>
           <p className="text-sm text-neutral-400">
-            Únete ahora y obtén{" "}
-            <span className="font-semibold text-[#1D9E75]">50% OFF de por vida</span>
+            Déjanos tu correo y asegura{" "}
+            <span className="font-semibold text-[#1D9E75]">50% OFF de por vida</span> con precio
+            fundador, sin tarjeta y sin cobro hoy.
           </p>
         </div>
 
         {/* Scarcity */}
         <div className="mb-6 flex justify-center">
           <div className="rounded-full border border-neutral-700 bg-neutral-800 px-4 py-2">
-            <Countdown spots={100} spotsTaken={23} />
+            <Countdown spots={EARLY_ACCESS_TOTAL_SPOTS} spotsTaken={EARLY_ACCESS_CLAIMED_SPOTS} />
           </div>
         </div>
 
@@ -67,13 +71,15 @@ export default function ExitIntent() {
         <NewsletterForm
           location="popup"
           placeholder="tu@email.com"
-          buttonText="¡Quiero el 50% OFF!"
+          buttonText="Reservar mi acceso"
+          successTitle="Acceso preferencial reservado"
+          successDescription="Te contactaremos cuando abramos el onboarding con tu precio fundador."
           className="flex flex-col gap-3"
           onSuccess={handleSuccess}
         />
 
         <p className="mt-4 text-center text-xs text-neutral-600">
-          Sin tarjeta de crédito · Sin compromiso
+          Sin tarjeta · Sin pagos hoy · Sin compromiso
         </p>
       </div>
     </div>
