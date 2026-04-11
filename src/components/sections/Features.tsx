@@ -144,7 +144,7 @@ const features = [
     icon: Users,
     title: "CRM de Leads",
     description:
-      "Captura leads desde múltiples canales, asigna a agentes y sigue el pipeline de ventas.",
+      "Captura leads desde múltiples canales, haz seguimiento sin perder conversaciones y ordena tu pipeline.",
     Preview: PreviewCRM,
     comingSoon: false,
     delay: 0.15,
@@ -178,10 +178,11 @@ export default function Features() {
             Las funcionalidades
           </p>
           <h2 className="mb-4 text-3xl font-semibold tracking-[-0.02em] text-[#2C2C2A] md:text-4xl">
-            Todo lo que tu agencia necesita
+            Todo lo que necesitas para operar con orden
           </h2>
           <p className="mx-auto max-w-xl text-base text-[#5F5E5A]">
-            Un sistema completo pensado para agencias inmobiliarias colombianas.
+            Un sistema completo para independientes y equipos inmobiliarios que quieren trabajar
+            mejor desde hoy.
           </p>
         </motion.div>
 

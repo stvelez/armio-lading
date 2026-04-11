@@ -197,7 +197,7 @@ export default function DemoVideo({ isOpen, onClose, videoSrc }: DemoVideoProps)
             {/* Footer */}
             <div className="flex items-center justify-between border-t border-white/10 px-5 py-3">
               <p className="text-xs text-[#888780]">
-                Recorrido del producto Armio · Sistema operativo para agencias inmobiliarias
+                Recorrido del producto Armio · Ordena tu operación inmobiliaria
               </p>
               <button
                 onClick={onClose}

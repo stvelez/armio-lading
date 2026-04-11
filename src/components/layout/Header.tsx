@@ -45,7 +45,7 @@ export default function Header() {
           {/* Nav links — desktop */}
           <nav className="hidden items-center gap-6 md:flex">
             {[
-              { label: "Features", href: "#features" },
+              { label: "Producto", href: "#features" },
               { label: "Cómo funciona", href: "#how-it-works" },
               { label: "Precios", href: "#pricing" },
             ].map(({ label, href }) => (
@@ -64,7 +64,7 @@ export default function Header() {
             href="#cta"
             className="rounded-md bg-[#1D9E75] px-4 py-2 text-sm font-semibold text-white transition-all duration-200 hover:bg-[#0F6E56] active:scale-95"
           >
-            Únete gratis
+            Reserva tu acceso
           </a>
         </div>
       </header>

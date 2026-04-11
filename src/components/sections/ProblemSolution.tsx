@@ -33,7 +33,7 @@ function ChaosPreview() {
       </div>
       {/* Header row */}
       <div className="grid grid-cols-4 border-b border-gray-200 bg-gray-50 px-1">
-        {["Propiedad", "Ciudad", "Precio", "Agente"].map((h) => (
+        {["Propiedad", "Ciudad", "Precio", "Estado"].map((h) => (
           <div
             key={h}
             className="border-r border-gray-200 px-1.5 py-1 text-[8px] font-semibold text-gray-500 last:border-0"
@@ -103,18 +103,18 @@ function ArmioPreview() {
 export default function ProblemSolution() {
   const problemItems = [
     { icon: FileSpreadsheet, text: "Propiedades dispersas en Excel y WhatsApp" },
-    { icon: AlertTriangle, text: "Leads perdidos en conversaciones personales" },
+    { icon: AlertTriangle, text: "Leads sin seguimiento claro ni recordatorios" },
     { icon: X, text: "Contratos manuales y desorganizados" },
-    { icon: AlertTriangle, text: "Sin visibilidad del pipeline de ventas" },
-    { icon: Layers, text: "10+ tabs abiertos todo el tiempo" },
+    { icon: AlertTriangle, text: "Poca visibilidad del trabajo diario y lo pendiente" },
+    { icon: Layers, text: "Demasiadas pestañas y chats para operar con calma" },
   ];
 
   const solutionItems = [
     { icon: CheckCircle2, text: "Todo centralizado en un solo lugar" },
-    { icon: CheckCircle2, text: "Leads organizados y asignados a agentes" },
-    { icon: CheckCircle2, text: "Contratos digitales automatizados" },
+    { icon: CheckCircle2, text: "Leads organizados con seguimiento visible" },
+    { icon: CheckCircle2, text: "Contratos digitales y documentos en orden" },
     { icon: CheckCircle2, text: "Dashboard con métricas en tiempo real" },
-    { icon: CheckCircle2, text: "Pipeline visual de cada propiedad" },
+    { icon: CheckCircle2, text: "Una base lista para operar solo o crecer con equipo" },
   ];
 
   return (
@@ -135,7 +135,8 @@ export default function ProblemSolution() {
             ¿Te suena familiar?
           </h2>
           <p className="mx-auto max-w-md text-base text-balance text-[#5F5E5A]">
-            Gestiona tu agencia sin el caos del Excel y los WhatsApps perdidos.
+            Si hoy operas entre Excel, WhatsApp y memoria, Armio te devuelve control sin
+            complicarte.
           </p>
         </motion.div>
 

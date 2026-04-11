@@ -40,7 +40,7 @@ export default function Footer() {
             <div>
               <h3 className="mb-3 text-2xl font-semibold tracking-[-0.01em] text-white">armio</h3>
               <p className="mb-6 text-sm leading-relaxed text-[#B4B2A9]">
-                El sistema operativo de tu agencia inmobiliaria
+                El sistema que ordena tu operación inmobiliaria
               </p>
               <NewsletterForm
                 location="footer"
@@ -55,10 +55,10 @@ export default function Footer() {
               <h4 className="mb-4 text-sm font-semibold text-white">Producto</h4>
               <ul className="space-y-3">
                 {[
-                  { label: "Features", href: "#features" },
+                  { label: "Producto", href: "#features" },
                   { label: "Cómo funciona", href: "#how-it-works" },
-                  { label: "Producto", href: "#producto" },
-                  { label: "Pricing", href: "#pricing" },
+                  { label: "Vista del producto", href: "#producto" },
+                  { label: "Precios", href: "#pricing" },
                   { label: "FAQ", href: "#faq" },
                 ].map(({ label, href }) => (
                   <li key={label}>

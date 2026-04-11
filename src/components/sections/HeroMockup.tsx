@@ -2,11 +2,11 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { CheckCircle2, TrendingUp } from "lucide-react";
+import { TrendingUp } from "lucide-react";
 
 export default function HeroMockup() {
   return (
-    <div className="relative w-full pb-10">
+    <div className="relative w-full pb-6">
       {/* Main mockup with 3D tilt */}
       <motion.div
         aria-hidden="true"
@@ -41,28 +41,12 @@ export default function HeroMockup() {
         </div>
       </motion.div>
 
-      {/* Floating card 1 — bottom left: publicación exitosa */}
-      <motion.div
-        initial={{ opacity: 0, y: 16, x: -8 }}
-        animate={{ opacity: 1, y: 0, x: 0 }}
-        transition={{ duration: 0.5, delay: 0.85 }}
-        className="absolute -bottom-2 left-4 z-10 flex items-start gap-3 rounded-xl border border-[#D3D1C7] bg-white px-4 py-3 shadow-[0_8px_24px_rgba(0,0,0,0.1)] md:left-8"
-      >
-        <div className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-[#EAF3DE]">
-          <CheckCircle2 size={16} className="text-[#3B6D11]" strokeWidth={2} />
-        </div>
-        <div>
-          <p className="text-[13px] font-semibold text-[#2C2C2A]">Propiedad publicada</p>
-          <p className="text-[11px] text-[#888780]">Apto 402, Laureles · hace 2 min</p>
-        </div>
-      </motion.div>
-
       {/* Floating card 2 — top right: métricas */}
       <motion.div
         initial={{ opacity: 0, y: -16, x: 8 }}
         animate={{ opacity: 1, y: 0, x: 0 }}
         transition={{ duration: 0.5, delay: 1.0 }}
-        className="absolute -top-4 right-4 z-10 flex items-center gap-3 rounded-xl border border-[#D3D1C7] bg-white px-4 py-3 shadow-[0_8px_24px_rgba(0,0,0,0.1)] md:right-8"
+        className="absolute -top-3 right-4 z-10 hidden items-center gap-3 rounded-xl border border-[#D3D1C7] bg-white/92 px-4 py-3 shadow-[0_8px_24px_rgba(0,0,0,0.08)] backdrop-blur-sm md:right-8 md:flex"
       >
         <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-[#E1F5EE]">
           <TrendingUp size={16} className="text-[#1D9E75]" strokeWidth={1.5} />

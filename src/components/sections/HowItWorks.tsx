@@ -45,7 +45,9 @@ export default function HowItWorks() {
           <h2 className="mb-4 text-3xl font-semibold tracking-[-0.02em] text-[#2C2C2A] md:text-4xl">
             ¿Cómo funciona?
           </h2>
-          <p className="text-lg text-[#5F5E5A]">En 3 simples pasos, transforma tu agencia</p>
+          <p className="text-lg text-[#5F5E5A]">
+            En 3 simples pasos, ordena tu operación y empieza a crecer
+          </p>
         </motion.div>
 
         {/* Steps — desktop: horizontal row; mobile: vertical stack */}

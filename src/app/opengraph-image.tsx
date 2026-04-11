@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "Armio — El sistema operativo de tu agencia inmobiliaria";
+export const alt = "Armio — Propiedades, leads y contratos en un solo lugar";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -47,7 +47,7 @@ export default function Image() {
           display: "flex",
         }}
       >
-        El sistema operativo de tu
+        Propiedades, leads y contratos
       </div>
 
       {/* Headline line 2 — accent color */}
@@ -62,7 +62,7 @@ export default function Image() {
           display: "flex",
         }}
       >
-        agencia inmobiliaria
+        en un solo lugar
       </div>
 
       {/* Subtitle */}
@@ -76,7 +76,7 @@ export default function Image() {
           display: "flex",
         }}
       >
-        Propiedades, leads y contratos. Diseñado para agencias colombianas.
+        Diseñado para independientes y agencias inmobiliarias en Colombia.
       </div>
 
       {/* Badge */}

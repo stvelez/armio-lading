@@ -11,6 +11,16 @@ const faqs = [
       "No, Armio está diseñado para ser intuitivo. Cualquier persona familiarizada con Excel o WhatsApp puede usarlo.",
   },
   {
+    question: "¿Sirve si trabajo solo?",
+    answer:
+      "Sí. Armio está pensado para que puedas empezar como independiente, organizar propiedades, leads y contratos, y después crecer sin cambiar de sistema.",
+  },
+  {
+    question: "¿Tengo que tener una agencia formal?",
+    answer:
+      "No. Puedes usar Armio como independiente o como equipo estructurado. Lo importante es que ya tengas una operación inmobiliaria que quieras ordenar.",
+  },
+  {
     question: "¿Puedo importar mis propiedades desde Excel?",
     answer:
       "Sí, puedes importar propiedades desde Excel o crearlas desde cero con nuestro formulario intuitivo. Soportamos hasta 500 propiedades por lote.",
@@ -33,12 +43,17 @@ const faqs = [
   {
     question: "¿Funciona en móvil?",
     answer:
-      "Sí, Armio está optimizado para funcionar perfectamente en móviles y tablets. Puedes gestionar tu agencia desde cualquier dispositivo.",
+      "Sí, Armio está optimizado para funcionar perfectamente en móviles y tablets. Puedes gestionar tu operación desde cualquier dispositivo.",
+  },
+  {
+    question: "¿Puedo empezar y luego sumar equipo?",
+    answer:
+      "Sí. La idea es que puedas empezar simple y subir de plan cuando necesites más capacidad, más usuarios o una operación más estructurada.",
   },
   {
     question: "¿Cómo funciona el descuento de 50% OFF?",
     answer:
-      "Las primeras 100 agencias que reserven acceso obtienen precio fundador con 50% OFF de por vida sobre su plan al activarse Armio. Registrarte ahora solo reserva tu lugar; no se cobra nada hoy.",
+      "Los primeros negocios inmobiliarios que reserven acceso obtienen precio fundador con 50% OFF de por vida sobre su plan al activarse Armio. Registrarte ahora solo reserva tu lugar; no se cobra nada hoy.",
   },
 ];
 
@@ -82,7 +97,7 @@ export default function FAQ() {
               Preguntas frecuentes
             </h2>
             <p className="text-base text-balance text-[#5F5E5A]">
-              Todo lo que necesitas saber sobre Armio
+              Todo lo que necesitas saber para empezar solo o con equipo
             </p>
           </motion.div>
 

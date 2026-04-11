@@ -15,14 +15,15 @@ interface PlanFeature {
 
 const plans = [
   {
-    name: "Emprendimiento",
+    name: "Free",
+    segment: "Prueba",
     price: "$0/mes",
     priceAnchor: null,
-    description: "Para empezar a explorar sin riesgos",
+    description: "Para explorar Armio sin riesgo y validar el encaje",
     features: [
-      { text: "1 agente" },
+      { text: "1 usuario" },
       { text: "5 propiedades activas" },
-      { text: "CRM de leads básico" },
+      { text: "Leads y clientes" },
       { text: "Contratos digitales" },
       { text: "Soporte por comunidad" },
     ] as PlanFeature[],
@@ -32,35 +33,18 @@ const plans = [
     ctaHref: "#cta",
   },
   {
-    name: "Agente",
+    name: "Starter",
+    segment: "Ideal para independientes",
     price: "$89.000/mes",
     originalPrice: "$179.000/mes",
-    priceAnchor: "Menos de $3.000 al día",
-    description: "Para agencias pequeñas en crecimiento",
+    priceAnchor: "Menos de $3.000 al día para operar con orden",
+    description: "La entrada clara para independientes y microequipos",
     features: [
-      { text: "5 agentes" },
+      { text: "1 usuario principal + apoyo" },
       { text: "50 propiedades activas" },
-      { text: "CRM de leads básico" },
+      { text: "Leads, clientes y Mi día" },
       { text: "Contratos digitales" },
       { text: "Soporte por email" },
-    ] as PlanFeature[],
-    popular: false,
-    earlyAccess: true,
-    cta: "Únete a la lista de espera",
-    ctaHref: "#cta",
-  },
-  {
-    name: "Pro",
-    price: "$219.000/mes",
-    originalPrice: "$439.000/mes",
-    priceAnchor: "Menos que 1 hora de trabajo de un agente",
-    description: "El plan del cliente ideal",
-    features: [
-      { text: "10 agentes" },
-      { text: "200 propiedades activas" },
-      { text: "CRM avanzado" },
-      { text: "Contratos + plantillas" },
-      { text: "Soporte email prioritario" },
     ] as PlanFeature[],
     popular: true,
     earlyAccess: true,
@@ -68,16 +52,36 @@ const plans = [
     ctaHref: "#cta",
   },
   {
+    name: "Pro",
+    segment: "Agencia en crecimiento",
+    price: "$219.000/mes",
+    originalPrice: "$439.000/mes",
+    priceAnchor: "Cuando ya necesitas operar y coordinar equipo",
+    description: "Para agencias que ya necesitan más capacidad y más control",
+    features: [
+      { text: "10 usuarios" },
+      { text: "200 propiedades activas" },
+      { text: "CRM y operación ampliada" },
+      { text: "Contratos + documentos" },
+      { text: "Soporte email prioritario" },
+    ] as PlanFeature[],
+    popular: false,
+    earlyAccess: true,
+    cta: "Únete a la lista de espera",
+    ctaHref: "#cta",
+  },
+  {
     name: "Agencia",
+    segment: "Operación consolidada",
     price: "$399.000/mes",
     originalPrice: "$799.000/mes",
-    priceAnchor: "Todo por menos de $400.000 al mes",
-    description: "Para agencias grandes sin límites",
+    priceAnchor: "Capacidad total para operar sin topes",
+    description: "Para equipos que necesitan escala, soporte y margen operativo",
     features: [
-      { text: "Agentes ilimitados" },
+      { text: "Usuarios ilimitados" },
       { text: "Propiedades ilimitadas" },
-      { text: "CRM avanzado" },
-      { text: "Contratos + plantillas" },
+      { text: "CRM y operación ampliada" },
+      { text: "Contratos + documentos" },
       { text: "WhatsApp nativo", comingSoon: true },
       { text: "Soporte prioritario" },
     ] as PlanFeature[],
@@ -104,10 +108,10 @@ export default function Pricing() {
             Precios
           </p>
           <h2 className="mb-4 text-3xl font-semibold tracking-[-0.02em] text-[#2C2C2A] md:text-4xl">
-            Transparente para agencias en crecimiento
+            Precios claros para operar solo y crecer con equipo
           </h2>
           <p className="mb-6 text-base text-balance text-[#5F5E5A]">
-            Planes en pesos colombianos, con precio fundador para early access
+            Empieza simple, mantén precio en pesos colombianos y escala sin cambiar de sistema
           </p>
           <div className="inline-flex items-center gap-3 rounded-full border border-[#1D9E75] bg-[#E1F5EE] px-5 py-2.5">
             <Countdown
@@ -122,7 +126,7 @@ export default function Pricing() {
         <div className="mx-auto grid max-w-6xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {plans.map((plan, index) => (
             <motion.div
-              key={index}
+              key={plan.name}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
@@ -141,7 +145,7 @@ export default function Pricing() {
               {plan.popular && (
                 <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
                   <span className="inline-flex items-center rounded-full bg-[#0F6E56] px-3 py-1 text-xs font-medium text-white shadow-sm">
-                    Más popular
+                    Recomendado
                   </span>
                 </div>
               )}
@@ -151,6 +155,9 @@ export default function Pricing() {
                 <h3 className="text-lg font-semibold text-[#2C2C2A]">{plan.name}</h3>
                 {plan.earlyAccess && <Badge variant="warning">⭐ Fundador</Badge>}
               </div>
+              <p className="mb-1 text-[11px] font-semibold tracking-[0.12em] text-[#1D9E75] uppercase">
+                {plan.segment}
+              </p>
               <p className="mb-4 text-xs text-[#5F5E5A]">{plan.description}</p>
 
               {/* Price */}
@@ -174,7 +181,7 @@ export default function Pricing() {
                 ) : (
                   <div>
                     <span className="text-2xl font-semibold text-[#2C2C2A]">
-                      {plan.name === "Emprendimiento" ? "Gratis" : "Early Access"}
+                      {plan.name === "Free" ? "Gratis" : "Early Access"}
                     </span>
                     <p className="mt-1 text-[11px] leading-snug text-[#5F5E5A]">
                       {plan.priceAnchor
@@ -228,6 +235,16 @@ export default function Pricing() {
             </motion.div>
           ))}
         </div>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="mt-6 text-center text-sm font-medium text-[#0F6E56]"
+        >
+          Empieza solo en Starter y sube a Pro o Agencia cuando armes equipo.
+        </motion.p>
 
         <motion.p
           initial={{ opacity: 0 }}

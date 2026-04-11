@@ -23,6 +23,7 @@
 
   /* Typography */
   --font-sans: var(--font-plus-jakarta-sans);
+  --font-display: var(--font-fraunces);
 }
 
 html {

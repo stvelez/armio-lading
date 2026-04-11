@@ -33,8 +33,8 @@ export default function ComingSoon() {
 
         {/* Subtext */}
         <p className="mb-10 max-w-sm text-base leading-relaxed font-normal text-[#B4B2A9]">
-          El sistema operativo de tu agencia inmobiliaria. Propiedades, leads y contratos — todo en
-          un solo lugar. Muy pronto.
+          Propiedades, leads y contratos en un solo lugar para independientes y equipos
+          inmobiliarios. Muy pronto.
         </p>
 
         {/* CTA */}

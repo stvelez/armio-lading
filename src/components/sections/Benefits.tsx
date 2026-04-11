@@ -10,7 +10,7 @@ const benefits = [
     unit: "horas / semana",
     title: "Ahorra tiempo valioso",
     subtext: "Automatiza tareas repetitivas y enfócate en vender más",
-    detail: "Eso son más de 500 horas al año para tu equipo",
+    detail: "Eso son más de 500 horas al año recuperadas para tu operación",
     delay: 0,
   },
   {

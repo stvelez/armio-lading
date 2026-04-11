@@ -27,7 +27,8 @@ export default function CTA() {
 
           {/* Subheadline */}
           <p className="mx-auto mb-7 max-w-xl text-lg leading-relaxed text-[#E1F5EE]">
-            Deja tu correo y reserva precio fundador para gestionar tu agencia con Armio.
+            Deja tu correo y reserva precio fundador para ordenar tu operación inmobiliaria, si
+            trabajas solo o con equipo.
           </p>
 
           {/* Benefits List */}
@@ -81,7 +82,7 @@ export default function CTA() {
           </div>
 
           <p className="mt-3 text-xs text-white/70">
-            Early access limitado a {EARLY_ACCESS_TOTAL_SPOTS} agencias.
+            Early access limitado a {EARLY_ACCESS_TOTAL_SPOTS} negocios inmobiliarios.
           </p>
         </div>
       </section>
@@ -94,7 +95,7 @@ export default function CTA() {
               <p className="truncate text-xs font-medium text-white">
                 Reserva tu acceso preferencial
               </p>
-              <p className="text-xs text-[#B4B2A9]">Sin tarjeta y sin cobro hoy</p>
+              <p className="text-xs text-[#B4B2A9]">Empieza solo y escala después</p>
             </div>
             <a
               href="#cta"

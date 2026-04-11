@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Toaster } from "react-hot-toast";
 import MotionProvider from "@/components/providers/MotionProvider";
@@ -12,15 +12,24 @@ const plusJakartaSans = Plus_Jakarta_Sans({
   display: "swap",
 });
 
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  style: ["normal", "italic"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://armio.co"),
-  title: "Armio — El sistema operativo de tu agencia inmobiliaria",
+  title: "Armio — Propiedades, leads y contratos en un solo lugar",
   description:
-    "Armio centraliza propiedades, leads y contratos para agencias inmobiliarias en Colombia. Deja atrás el Excel y el WhatsApp. Muy pronto.",
+    "Armio centraliza propiedades, leads y contratos para independientes y agencias inmobiliarias en Colombia. Deja atrás el Excel y el WhatsApp.",
   keywords: [
     "software inmobiliario Colombia",
     "CRM inmobiliario",
     "gestión agencia inmobiliaria",
+    "software para asesores inmobiliarios",
     "proptech Colombia",
     "sistema inmobiliario",
     "Armio",
@@ -36,15 +45,15 @@ export const metadata: Metadata = {
     locale: "es_CO",
     url: "https://armio.co",
     siteName: "Armio",
-    title: "Armio — El sistema operativo de tu agencia inmobiliaria",
+    title: "Armio — Propiedades, leads y contratos en un solo lugar",
     description:
-      "Armio centraliza propiedades, leads y contratos para agencias inmobiliarias en Colombia. Deja atrás el Excel y el WhatsApp. Muy pronto.",
+      "Armio centraliza propiedades, leads y contratos para independientes y agencias inmobiliarias en Colombia. Deja atrás el Excel y el WhatsApp.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Armio — El sistema operativo de tu agencia inmobiliaria",
+    title: "Armio — Propiedades, leads y contratos en un solo lugar",
     description:
-      "Software para agencias inmobiliarias en Colombia. Propiedades, leads y contratos en un solo lugar.",
+      "Software para independientes y agencias inmobiliarias en Colombia. Propiedades, leads y contratos en un solo lugar.",
   },
   robots: {
     index: true,
@@ -116,7 +125,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${plusJakartaSans.variable} antialiased`}>
+      <body className={`${plusJakartaSans.variable} ${fraunces.variable} antialiased`}>
         <MotionProvider>{children}</MotionProvider>
         <Toaster
           position="bottom-right"
