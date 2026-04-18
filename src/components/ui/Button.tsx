@@ -19,22 +19,22 @@ const sizeClasses: Record<Size, string> = {
 
 const variantClasses: Record<Variant, string> = {
   primary: [
-    "relative overflow-hidden text-white font-semibold",
+    "relative overflow-hidden text-[#0D1117] font-semibold",
     "rounded-xl transition-all duration-200",
     "hover:scale-[1.03] active:scale-[0.98]",
-    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1D9E75] focus-visible:ring-offset-2",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00C47A] focus-visible:ring-offset-2",
   ].join(" "),
   secondary: [
-    "border-2 border-[#1D9E75] text-[#1D9E75] font-semibold",
+    "border-2 border-[#00C47A] text-[#00C47A] font-semibold",
     "rounded-xl bg-transparent transition-all duration-200",
-    "hover:bg-[#0F6E56] hover:text-white hover:scale-[1.03] active:scale-[0.98]",
-    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1D9E75] focus-visible:ring-offset-2",
+    "hover:bg-[#00C47A] hover:text-[#0D1117] hover:scale-[1.03] active:scale-[0.98]",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00C47A] focus-visible:ring-offset-2",
   ].join(" "),
   ghost: [
-    "text-[#5F5E5A] font-medium bg-transparent",
+    "text-[#8B949E] font-medium bg-transparent",
     "rounded-xl transition-all duration-200",
-    "hover:bg-[#F1EFE8] hover:text-[#2C2C2A] active:scale-[0.98]",
-    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1D9E75] focus-visible:ring-offset-2",
+    "hover:bg-[#F9FAFB] hover:text-[#111827] active:scale-[0.98]",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00C47A] focus-visible:ring-offset-2",
   ].join(" "),
 };
 
@@ -80,8 +80,8 @@ export default function Button({
           to { transform: scale(4); opacity: 0; }
         }
         @keyframes pulse-cta {
-          0%, 100% { box-shadow: 0 0 0 0 rgba(29,158,117,0.4); }
-          50% { box-shadow: 0 0 0 8px rgba(29,158,117,0); }
+          0%, 100% { box-shadow: 0 0 0 0 rgba(0,196,122,0.4); }
+          50% { box-shadow: 0 0 0 8px rgba(0,196,122,0); }
         }
       `}</style>
       <button
@@ -90,8 +90,8 @@ export default function Button({
         style={
           variant === "primary"
             ? {
-                background: "linear-gradient(135deg, #1D9E75 0%, #0F6E56 100%)",
-                boxShadow: pulse ? undefined : "0 4px 16px rgba(0,0,0,0.12)",
+                background: "linear-gradient(135deg, #00C47A 0%, #00965E 100%)",
+                boxShadow: pulse ? undefined : "0 4px 20px rgba(0,196,122,0.25)",
                 animation: pulse ? "pulse-cta 2s ease-in-out infinite" : undefined,
               }
             : undefined

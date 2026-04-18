@@ -43,7 +43,7 @@ export default function TrustBar() {
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
-      className="border-y border-[#D3D1C7] bg-white px-6 py-10"
+      className="border-y border-[#21262D] bg-[#161B22] px-6 py-10"
     >
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-wrap justify-center gap-8 lg:gap-16">
@@ -56,12 +56,12 @@ export default function TrustBar() {
               transition={{ duration: 0.5, delay: i * 0.1 }}
               className="flex items-center gap-3"
             >
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#E1F5EE]">
-                <Icon size={16} className="text-[#1D9E75]" strokeWidth={1.5} />
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#00C47A]/10">
+                <Icon size={16} className="text-[#00C47A]" strokeWidth={1.5} />
               </div>
               <div>
-                <p className="text-lg leading-none font-bold text-[#2C2C2A]">{value}</p>
-                <p className="text-xs text-[#888780]">{label}</p>
+                <p className="text-lg leading-none font-bold text-[#F0F6FC]">{value}</p>
+                <p className="text-xs text-[#8B949E]">{label}</p>
               </div>
             </motion.div>
           ))}

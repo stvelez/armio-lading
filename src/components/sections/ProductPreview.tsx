@@ -41,7 +41,7 @@ export default function ProductPreview() {
   }, [isPaused]);
 
   return (
-    <section id="producto" className="bg-[#1D9E75] px-6 py-24">
+    <section id="producto" className="bg-[#0D1117] px-6 py-24">
       <div className="mx-auto max-w-6xl">
         {/* Header */}
         <motion.div
@@ -51,13 +51,13 @@ export default function ProductPreview() {
           transition={{ duration: 0.6 }}
           className="mb-10 text-center"
         >
-          <p className="mb-3 text-sm font-medium tracking-widest text-[#E1F5EE] uppercase">
+          <p className="mb-3 text-xs font-semibold tracking-[0.18em] text-[#00C47A] uppercase">
             Mira cómo funciona Armio
           </p>
-          <h2 className="mb-4 text-3xl font-semibold tracking-[-0.02em] text-white md:text-4xl">
-            Todo tu negocio inmobiliario, <span className="text-[#E1F5EE]">en un solo lugar</span>
+          <h2 className="mb-4 text-3xl font-bold tracking-[-0.03em] text-white md:text-4xl">
+            Todo tu negocio inmobiliario, <span className="text-[#4DDBA0]">en un solo lugar</span>
           </h2>
-          <p className="text-lg text-[#E1F5EE]">
+          <p className="text-lg text-[#8B949E]">
             Explora cada módulo del sistema y ve cómo trabajan juntos
           </p>
         </motion.div>
@@ -71,7 +71,7 @@ export default function ProductPreview() {
           className="mb-6 flex flex-col items-center gap-3"
         >
           <div className="overflow-x-auto pb-1">
-            <div className="inline-flex gap-1 rounded-full bg-[#0F6E56] p-1">
+            <div className="inline-flex gap-1 rounded-full border border-[#21262D] bg-[#161B22] p-1">
               {tabs.map((tab, i) => {
                 const Icon = tab.icon;
                 return (
@@ -83,8 +83,8 @@ export default function ProductPreview() {
                     }}
                     className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm whitespace-nowrap transition-all duration-200 ${
                       active === i
-                        ? "bg-white font-semibold text-[#0F6E56] shadow-sm"
-                        : "text-[#E1F5EE] hover:bg-[#17845F]"
+                        ? "bg-[#00C47A] font-semibold text-[#0D1117] shadow-sm"
+                        : "text-[#8B949E] hover:bg-[#21262D] hover:text-[#F0F6FC]"
                     }`}
                   >
                     <Icon size={15} strokeWidth={1.5} />
@@ -94,10 +94,10 @@ export default function ProductPreview() {
               })}
             </div>
           </div>
-          <div className="h-0.5 w-full max-w-2xl overflow-hidden rounded-full bg-[#0F6E56]">
+          <div className="h-0.5 w-full max-w-2xl overflow-hidden rounded-full bg-[#21262D]">
             <motion.div
               key={active}
-              className="h-full rounded-full bg-white/50"
+              className="h-full rounded-full bg-[#00C47A]/60"
               initial={{ width: "0%" }}
               animate={{ width: isPaused ? "0%" : "100%" }}
               transition={{ duration: 4, ease: "linear" }}
@@ -113,17 +113,17 @@ export default function ProductPreview() {
           transition={{ duration: 0.7, delay: 0.15 }}
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
-          className="overflow-hidden rounded-2xl border border-[#D3D1C7] shadow-2xl"
+          className="overflow-hidden rounded-2xl border border-[#21262D] shadow-[0_32px_80px_rgba(0,0,0,0.6)]"
         >
-          <div className="flex items-center justify-between border-b border-[#D3D1C7] bg-[#F1EFE8] px-4 py-2">
+          <div className="flex items-center justify-between border-b border-[#21262D] bg-[#161B22] px-4 py-2">
             <div className="flex gap-1.5">
               <div className="h-3 w-3 rounded-full bg-[#FF5F57]" />
               <div className="h-3 w-3 rounded-full bg-[#FFBD2E]" />
               <div className="h-3 w-3 rounded-full bg-[#28C840]" />
             </div>
-            <div className="flex items-center gap-1.5 rounded-md border border-[#D3D1C7] bg-white px-3 py-0.5">
-              <div className="h-2 w-2 rounded-full bg-[#1D9E75]" />
-              <span className="text-[11px] text-[#888780]">app.armio.co</span>
+            <div className="flex items-center gap-1.5 rounded-md border border-[#21262D] bg-[#0D1117] px-3 py-0.5">
+              <div className="h-2 w-2 rounded-full bg-[#00C47A]" />
+              <span className="text-[11px] text-[#8B949E]">app.armio.co</span>
             </div>
             <div className="w-16" />
           </div>
@@ -134,7 +134,7 @@ export default function ProductPreview() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.25 }}
-              className="relative aspect-[16/9] w-full bg-[#F1EFE8]"
+              className="relative aspect-[16/9] w-full bg-[#161B22]"
             >
               <Image
                 src={tabs[active].image}
@@ -157,10 +157,10 @@ export default function ProductPreview() {
         >
           <button
             onClick={() => setShowModal(true)}
-            className="group inline-flex items-center gap-2.5 rounded-full bg-white px-7 py-3.5 text-sm font-semibold text-[#0F6E56] shadow-md transition-all duration-200 hover:bg-[#F1EFE8] active:scale-95"
+            className="group inline-flex items-center gap-2.5 rounded-full border border-[#21262D] bg-[#161B22] px-7 py-3.5 text-sm font-semibold text-[#00C47A] transition-all duration-200 hover:border-[#00C47A]/40 hover:bg-[#21262D] active:scale-95"
           >
-            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#E1F5EE] transition-colors group-hover:bg-[#D3D1C7]">
-              <Play size={11} className="ml-0.5" />
+            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#00C47A]/10 transition-colors group-hover:bg-[#00C47A]/20">
+              <Play size={11} className="ml-0.5 text-[#00C47A]" />
             </span>
             Ver adelanto del producto
           </button>

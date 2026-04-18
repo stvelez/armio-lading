@@ -98,7 +98,7 @@ export default function NewsletterForm({
             spread: 80,
             origin: { x: 0.5, y: 0.6 },
             ticks: 300,
-            colors: ["#1D9E75", "#0F6E56", "#ffffff"],
+            colors: ["#00C47A", "#4DDBA0", "#ffffff"],
           });
         });
       }
@@ -124,11 +124,11 @@ export default function NewsletterForm({
   if (submissionState) {
     return (
       <div className={className} role="status" aria-live="polite">
-        <div className="animate-in slide-in-from-bottom-2 flex items-center gap-2 text-[#1D9E75]">
+        <div className="animate-in slide-in-from-bottom-2 flex items-center gap-2 text-[#00C47A]">
           <Check size={20} strokeWidth={2.5} aria-hidden="true" />
           <div>
             <p className="text-sm font-medium">{submissionState.title}</p>
-            <p className="text-xs text-[#B4B2A9]">{submissionState.description}</p>
+            <p className="text-xs text-[#8B949E]">{submissionState.description}</p>
           </div>
         </div>
       </div>
@@ -151,8 +151,8 @@ export default function NewsletterForm({
               {...register("email")}
               aria-describedby={errors.email ? `newsletter-email-error-${location}` : undefined}
               aria-invalid={errors.email ? "true" : undefined}
-              className={`w-full rounded-md border bg-[#2C2C2A] px-4 py-3 text-base text-white placeholder:text-[#888780] focus:ring-2 focus:ring-[#1D9E75] focus:outline-none ${
-                errors.email ? "border-red-500" : "border-[#3C3C3A]"
+              className={`w-full rounded-md border bg-[#161B22] px-4 py-3 text-base text-white placeholder:text-[#484F58] focus:ring-2 focus:ring-[#00C47A] focus:outline-none ${
+                errors.email ? "border-red-500" : "border-[#21262D]"
               }`}
               disabled={isSubmitting}
             />
@@ -171,7 +171,7 @@ export default function NewsletterForm({
         <button
           type="submit"
           disabled={isSubmitting || !isDirty || !isValid}
-          className="flex min-h-[48px] w-full items-center justify-center gap-2 rounded-md bg-[#0F6E56] px-5 py-3 text-sm font-medium whitespace-nowrap text-white transition-colors duration-150 hover:bg-[#0a5242] disabled:cursor-not-allowed disabled:bg-[#3C3C3A] sm:w-auto"
+          className="flex min-h-[48px] w-full items-center justify-center gap-2 rounded-md bg-[#00C47A] px-5 py-3 text-sm font-medium whitespace-nowrap text-[#0D1117] transition-colors duration-150 hover:bg-[#4DDBA0] disabled:cursor-not-allowed disabled:bg-[#21262D] disabled:text-[#484F58] sm:w-auto"
         >
           {isSubmitting ? (
             <>

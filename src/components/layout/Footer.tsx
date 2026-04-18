@@ -33,13 +33,13 @@ export default function Footer() {
 
   return (
     <>
-      <footer className="border-t border-[#3C3C3A] bg-[#2C2C2A] px-6 py-16">
+      <footer className="border-t border-[#21262D] bg-[#0D1117] px-6 py-16">
         <div className="mx-auto max-w-6xl">
           <div className="grid gap-12 md:grid-cols-4">
             {/* Logo & Tagline */}
             <div>
               <h3 className="mb-3 text-2xl font-semibold tracking-[-0.01em] text-white">armio</h3>
-              <p className="mb-6 text-sm leading-relaxed text-[#B4B2A9]">
+              <p className="mb-6 text-sm leading-relaxed text-[#8B949E]">
                 El sistema que ordena tu operación inmobiliaria
               </p>
               <NewsletterForm
@@ -64,7 +64,7 @@ export default function Footer() {
                   <li key={label}>
                     <a
                       href={href}
-                      className="text-sm text-[#B4B2A9] transition-colors hover:text-white"
+                      className="text-sm text-[#8B949E] transition-colors hover:text-white"
                     >
                       {label}
                     </a>
@@ -80,7 +80,7 @@ export default function Footer() {
                 <li>
                   <a
                     href="mailto:hola@armio.co"
-                    className="text-sm text-[#B4B2A9] transition-colors hover:text-white"
+                    className="text-sm text-[#8B949E] transition-colors hover:text-white"
                   >
                     Contacto
                   </a>
@@ -88,7 +88,7 @@ export default function Footer() {
                 <li>
                   <a
                     href="#cta"
-                    className="text-sm text-[#B4B2A9] transition-colors hover:text-white"
+                    className="text-sm text-[#8B949E] transition-colors hover:text-white"
                   >
                     Únete a la lista
                   </a>
@@ -101,7 +101,7 @@ export default function Footer() {
               <h4 className="mb-4 text-sm font-semibold text-white">Legal</h4>
               <ul className="space-y-3">
                 <li>
-                  <span className="text-sm text-[#B4B2A9]">
+                  <span className="text-sm text-[#8B949E]">
                     Política de privacidad y términos disponibles antes del lanzamiento público.
                   </span>
                 </li>
@@ -110,28 +110,28 @@ export default function Footer() {
           </div>
 
           {/* Bottom bar */}
-          <div className="mt-12 border-t border-[#3C3C3A] pt-8">
+          <div className="mt-12 border-t border-[#21262D] pt-8">
             <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
               <div className="flex items-center gap-5">
                 <a
                   href="https://instagram.com/armioapp"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[#B4B2A9] transition-colors hover:text-white"
+                  className="text-[#8B949E] transition-colors hover:text-white"
                   aria-label="Instagram"
                 >
                   <Instagram size={18} />
                 </a>
               </div>
 
-              <div className="flex items-center gap-5 text-sm text-[#B4B2A9]">
+              <div className="flex items-center gap-5 text-sm text-[#8B949E]">
                 <a href="mailto:hola@armio.co" className="transition-colors hover:text-white">
                   hola@armio.co
                 </a>
                 <span>@armioapp</span>
               </div>
 
-              <div className="text-sm text-[#B4B2A9]">
+              <div className="text-sm text-[#8B949E]">
                 © {new Date().getFullYear()} Armio ·{" "}
                 <a href="https://armio.co" className="transition-colors hover:text-white">
                   armio.co
@@ -144,24 +144,24 @@ export default function Footer() {
 
       {/* Cookie Consent Banner */}
       {showCookieConsent && (
-        <div className="fixed right-0 bottom-0 left-0 z-50 border-t border-[#3C3C3A] bg-[#2C2C2A] p-4">
+        <div className="fixed right-0 bottom-0 left-0 z-50 border-t border-[#21262D] bg-[#161B22] p-4">
           <div className="mx-auto flex max-w-6xl items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <Cookie size={18} className="flex-shrink-0 text-[#1D9E75]" />
-              <p className="text-sm text-[#B4B2A9]">Usamos cookies para mejorar tu experiencia.</p>
+              <Cookie size={18} className="flex-shrink-0 text-[#00C47A]" />
+              <p className="text-sm text-[#8B949E]">Usamos cookies para mejorar tu experiencia.</p>
             </div>
             <div className="flex items-center gap-2">
               <button
                 onClick={dismissConsent}
                 aria-label="Cerrar aviso de cookies"
-                className="px-4 py-2 text-sm text-[#B4B2A9] transition-colors hover:text-white"
+                className="px-4 py-2 text-sm text-[#8B949E] transition-colors hover:text-white"
               >
                 Más tarde
               </button>
               <button
                 onClick={dismissConsent}
                 aria-label="Aceptar todas las cookies"
-                className="rounded-md bg-[#0F6E56] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#0a5242]"
+                className="rounded-md bg-[#00C47A] px-4 py-2 text-sm font-medium text-[#0D1117] transition-colors hover:bg-[#4DDBA0]"
               >
                 Aceptar
               </button>

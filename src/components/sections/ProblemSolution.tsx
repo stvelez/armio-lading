@@ -128,13 +128,13 @@ export default function ProblemSolution() {
           transition={{ duration: 0.6 }}
           className="mb-10 text-center"
         >
-          <p className="mb-3 text-sm font-medium tracking-[0.12em] text-[#0F6E56] uppercase">
+          <p className="mb-3 text-xs font-semibold tracking-[0.18em] text-[#00C47A] uppercase">
             El antes y el después
           </p>
-          <h2 className="mb-4 text-3xl font-semibold tracking-[-0.02em] text-[#2C2C2A] md:text-4xl">
+          <h2 className="mb-4 text-3xl font-bold tracking-[-0.03em] text-[#111827] md:text-4xl">
             ¿Te suena familiar?
           </h2>
-          <p className="mx-auto max-w-md text-base text-balance text-[#5F5E5A]">
+          <p className="mx-auto max-w-md text-base text-balance text-[#4B5563]">
             Si hoy operas entre Excel, WhatsApp y memoria, Armio te devuelve control sin
             complicarte.
           </p>
@@ -182,7 +182,7 @@ export default function ProblemSolution() {
 
           {/* VS badge — desktop only */}
           <div className="hidden items-center justify-center pt-20 md:flex">
-            <span className="rounded-full border border-[#D3D1C7] bg-[#F1EFE8] px-3 py-1.5 text-xs font-semibold text-[#5F5E5A]">
+            <span className="rounded-full border border-[#E5E7EB] bg-[#F9FAFB] px-3 py-1.5 text-xs font-semibold text-[#4B5563]">
               VS
             </span>
           </div>
@@ -193,13 +193,13 @@ export default function ProblemSolution() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="rounded-2xl border border-[#1D9E75]/25 bg-[#EAF6F1] p-6 md:p-8"
+            className="rounded-2xl border border-[#00C47A]/25 bg-[#D6FFF0]/30 p-6 md:p-8"
           >
             <div className="mb-5 flex items-center gap-2">
-              <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[#D1EDE3]">
-                <CheckCircle2 size={12} className="text-[#0F6E56]" strokeWidth={2.5} />
+              <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[#D6FFF0]">
+                <CheckCircle2 size={12} className="text-[#00965E]" strokeWidth={2.5} />
               </div>
-              <h3 className="text-base font-semibold text-[#0F6E56]">Con Armio</h3>
+              <h3 className="text-base font-semibold text-[#00965E]">Con Armio</h3>
             </div>
             <div className="mb-6">
               <ArmioPreview />
@@ -216,7 +216,7 @@ export default function ProblemSolution() {
                 >
                   <Icon
                     size={16}
-                    className="mt-0.5 flex-shrink-0 text-[#0F6E56]"
+                    className="mt-0.5 flex-shrink-0 text-[#00C47A]"
                     aria-hidden="true"
                   />
                   <span className="text-sm text-[#2C2C2A]">{text}</span>

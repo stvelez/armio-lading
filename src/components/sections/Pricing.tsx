@@ -94,7 +94,7 @@ const plans = [
 
 export default function Pricing() {
   return (
-    <section id="pricing" className="bg-[#F1EFE8] px-6 py-24">
+    <section id="pricing" className="bg-[#0D1117] px-6 py-24">
       <div className="mx-auto max-w-6xl">
         {/* Section Title */}
         <motion.div
@@ -104,20 +104,20 @@ export default function Pricing() {
           transition={{ duration: 0.6 }}
           className="mb-16 text-center"
         >
-          <p className="mb-3 text-sm font-medium tracking-widest text-[#0F6E56] uppercase">
+          <p className="mb-3 text-xs font-semibold tracking-[0.18em] text-[#00C47A] uppercase">
             Precios
           </p>
-          <h2 className="mb-4 text-3xl font-semibold tracking-[-0.02em] text-[#2C2C2A] md:text-4xl">
+          <h2 className="mb-4 text-3xl font-bold tracking-[-0.03em] text-[#F0F6FC] md:text-4xl">
             Precios claros para operar solo y crecer con equipo
           </h2>
-          <p className="mb-6 text-base text-balance text-[#5F5E5A]">
+          <p className="mb-6 text-base text-balance text-[#8B949E]">
             Empieza simple, mantén precio en pesos colombianos y escala sin cambiar de sistema
           </p>
-          <div className="inline-flex items-center gap-3 rounded-full border border-[#1D9E75] bg-[#E1F5EE] px-5 py-2.5">
+          <div className="inline-flex items-center gap-3 rounded-full border border-[#00C47A]/30 bg-[#00C47A]/8 px-5 py-2.5">
             <Countdown
               spots={EARLY_ACCESS_TOTAL_SPOTS}
               spotsTaken={EARLY_ACCESS_CLAIMED_SPOTS}
-              variant="light"
+              variant="dark"
             />
           </div>
         </motion.div>
@@ -132,19 +132,19 @@ export default function Pricing() {
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.55, delay: index * 0.1 }}
               whileHover={{ scale: 1.02, y: plan.popular ? -8 : -4 }}
-              className={`group relative flex flex-col rounded-2xl border p-6 transition-shadow duration-300 ${
+              className={`group relative flex flex-col rounded-2xl border p-6 transition-all duration-300 ${
                 plan.popular
-                  ? "border-2 border-[#1D9E75] bg-white shadow-lg hover:shadow-[0_16px_40px_rgba(29,158,117,0.15)]"
-                  : "border-[#D3D1C7] bg-white hover:border-[#1D9E75]/40 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)]"
+                  ? "border-2 border-[#00C47A] bg-[#161B22] shadow-[0_0_0_1px_rgba(0,196,122,0.3),0_0_40px_rgba(0,196,122,0.12)] hover:shadow-[0_0_0_1px_rgba(0,196,122,0.5),0_0_60px_rgba(0,196,122,0.2)]"
+                  : "border-[#21262D] bg-[#161B22] hover:border-[#00C47A]/25 hover:shadow-[0_0_0_1px_rgba(0,196,122,0.15),0_8px_32px_rgba(0,0,0,0.4)]"
               }`}
             >
               {/* Top accent glow line */}
-              <div className="pointer-events-none absolute inset-x-0 top-0 h-px rounded-t-2xl bg-gradient-to-r from-transparent via-[#1D9E75]/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-px rounded-t-2xl bg-gradient-to-r from-transparent via-[#00C47A]/60 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
               {/* Popular badge */}
               {plan.popular && (
                 <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-                  <span className="inline-flex items-center rounded-full bg-[#0F6E56] px-3 py-1 text-xs font-medium text-white shadow-sm">
+                  <span className="inline-flex items-center rounded-full bg-[#00C47A] px-3 py-1 text-xs font-medium text-[#0D1117] shadow-sm">
                     Recomendado
                   </span>
                 </div>
@@ -152,38 +152,38 @@ export default function Pricing() {
 
               {/* Plan header */}
               <div className="mb-2 flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-[#2C2C2A]">{plan.name}</h3>
+                <h3 className="text-lg font-semibold text-[#F0F6FC]">{plan.name}</h3>
                 {plan.earlyAccess && <Badge variant="warning">⭐ Fundador</Badge>}
               </div>
-              <p className="mb-1 text-[11px] font-semibold tracking-[0.12em] text-[#1D9E75] uppercase">
+              <p className="mb-1 text-[11px] font-semibold tracking-[0.12em] text-[#00C47A] uppercase">
                 {plan.segment}
               </p>
-              <p className="mb-4 text-xs text-[#5F5E5A]">{plan.description}</p>
+              <p className="mb-4 text-xs text-[#8B949E]">{plan.description}</p>
 
               {/* Price */}
               <div className="mb-6">
                 {SHOW_PRICES ? (
                   <div>
                     <div className="flex items-baseline gap-2">
-                      <span className="text-3xl font-semibold text-[#2C2C2A]">{plan.price}</span>
+                      <span className="text-3xl font-semibold text-[#F0F6FC]">{plan.price}</span>
                       {plan.earlyAccess && plan.originalPrice && (
-                        <span className="text-sm text-[#B4B2A9] line-through">
+                        <span className="text-sm text-[#484F58] line-through">
                           {plan.originalPrice}
                         </span>
                       )}
                     </div>
                     {plan.priceAnchor && (
-                      <p className="mt-1 text-[11px] font-medium text-[#1D9E75]">
+                      <p className="mt-1 text-[11px] font-medium text-[#00C47A]">
                         {plan.priceAnchor}
                       </p>
                     )}
                   </div>
                 ) : (
                   <div>
-                    <span className="text-2xl font-semibold text-[#2C2C2A]">
+                    <span className="text-2xl font-semibold text-[#F0F6FC]">
                       {plan.name === "Free" ? "Gratis" : "Early Access"}
                     </span>
-                    <p className="mt-1 text-[11px] leading-snug text-[#5F5E5A]">
+                    <p className="mt-1 text-[11px] leading-snug text-[#8B949E]">
                       {plan.priceAnchor
                         ? `${plan.priceAnchor} · Precio oficial después del lanzamiento`
                         : "Sin tarjeta y sin cobro hoy"}
@@ -201,16 +201,16 @@ export default function Pricing() {
                       strokeWidth={2}
                       className={`mt-0.5 flex-shrink-0 ${
                         plan.popular
-                          ? "text-[#1D9E75]"
+                          ? "text-[#00C47A]"
                           : plan.earlyAccess
-                            ? "text-[#0F6E56]"
-                            : "text-[#5F5E5A]"
+                            ? "text-[#4DDBA0]"
+                            : "text-[#484F58]"
                       }`}
                     />
-                    <span className="flex flex-wrap items-center gap-1.5 text-sm text-[#5F5E5A]">
+                    <span className="flex flex-wrap items-center gap-1.5 text-sm text-[#8B949E]">
                       {feature.text}
                       {feature.comingSoon && (
-                        <span className="inline-flex items-center rounded-full bg-[#E1F5EE] px-2 py-0.5 text-[10px] font-semibold text-[#0F6E56]">
+                        <span className="inline-flex items-center rounded-full border border-[#00C47A]/20 bg-[#00C47A]/10 px-2 py-0.5 text-[10px] font-semibold text-[#00C47A]">
                           Próximamente
                         </span>
                       )}
@@ -224,10 +224,10 @@ export default function Pricing() {
                 href={plan.ctaHref}
                 className={`w-full rounded-xl border px-4 py-2.5 text-center text-sm font-semibold transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] ${
                   plan.popular
-                    ? "border-[#0F6E56] bg-[#0F6E56] text-white hover:border-[#0a5242] hover:bg-[#0a5242]"
+                    ? "border-[#00C47A] bg-[#00C47A] font-bold text-[#0D1117] hover:border-[#4DDBA0] hover:bg-[#4DDBA0]"
                     : plan.earlyAccess
-                      ? "border-2 border-[#1D9E75] bg-transparent text-[#1D9E75] hover:border-[#0F6E56] hover:bg-[#0F6E56] hover:text-white"
-                      : "border border-[#D3D1C7] bg-white text-[#5F5E5A] hover:border-[#1D9E75] hover:text-[#1D9E75]"
+                      ? "border border-[#00C47A]/40 bg-transparent text-[#00C47A] hover:border-[#00C47A] hover:bg-[#00C47A]/10"
+                      : "border border-[#21262D] bg-transparent text-[#8B949E] hover:border-[#8B949E] hover:text-[#F0F6FC]"
                 }`}
               >
                 {plan.cta}
@@ -241,7 +241,7 @@ export default function Pricing() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-6 text-center text-sm font-medium text-[#0F6E56]"
+          className="mt-6 text-center text-sm font-medium text-[#4DDBA0]"
         >
           Empieza solo en Starter y sube a Pro o Agencia cuando armes equipo.
         </motion.p>
@@ -251,7 +251,7 @@ export default function Pricing() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-8 text-center text-xs text-[#888780]"
+          className="mt-8 text-center text-xs text-[#484F58]"
         >
           El precio fundador de early access mantiene el 50% OFF mientras tu suscripción siga
           activa. No hay cobro al registrarte.

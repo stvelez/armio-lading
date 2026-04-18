@@ -13,20 +13,29 @@ export default function CTA() {
 
   return (
     <>
-      <section id="cta" className="bg-[#1D9E75] px-6 py-24">
-        <div className="mx-auto max-w-4xl text-center">
+      <section id="cta" className="relative overflow-hidden bg-[#0D1117] px-6 py-24">
+        {/* Central green glow */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 65% 55% at 50% 50%, rgba(0,196,122,0.18) 0%, transparent 70%)",
+          }}
+        />
+        <div className="relative mx-auto max-w-4xl text-center">
           {/* Eyebrow */}
-          <p className="mb-4 text-sm font-medium tracking-wide text-[#E1F5EE] uppercase">
+          <p className="mb-4 text-xs font-semibold tracking-[0.18em] text-[#00C47A] uppercase">
             Early Access
           </p>
 
           {/* Headline */}
-          <h2 className="mx-auto mb-4 max-w-3xl text-3xl font-semibold text-white md:text-4xl">
+          <h2 className="mx-auto mb-4 max-w-3xl text-3xl font-bold tracking-[-0.03em] text-white md:text-5xl">
             Asegura tu acceso preferencial a Armio
           </h2>
 
           {/* Subheadline */}
-          <p className="mx-auto mb-7 max-w-xl text-lg leading-relaxed text-[#E1F5EE]">
+          <p className="mx-auto mb-7 max-w-xl text-lg leading-relaxed text-[#8B949E]">
             Deja tu correo y reserva precio fundador para ordenar tu operación inmobiliaria, si
             trabajas solo o con equipo.
           </p>
@@ -36,11 +45,15 @@ export default function CTA() {
             {benefits.map((benefit, index) => (
               <div
                 key={index}
-                className="rounded-full border border-white/20 bg-white/10 px-4 py-2.5 backdrop-blur-sm"
+                className="rounded-full border border-[#21262D] bg-[#161B22] px-4 py-2.5 backdrop-blur-sm"
               >
                 <div className="flex items-center gap-2.5">
-                  <CheckCircle2 size={16} className="flex-shrink-0 text-white" strokeWidth={2} />
-                  <span className="text-sm whitespace-nowrap text-[#E1F5EE]">{benefit}</span>
+                  <CheckCircle2
+                    size={16}
+                    className="flex-shrink-0 text-[#00C47A]"
+                    strokeWidth={2}
+                  />
+                  <span className="text-sm whitespace-nowrap text-[#F0F6FC]">{benefit}</span>
                 </div>
               </div>
             ))}
@@ -71,17 +84,17 @@ export default function CTA() {
           </div>
 
           {/* Fine Print */}
-          <p className="mb-5 text-sm text-white/80">
+          <p className="mb-5 text-sm text-[#484F58]">
             Te escribiremos cuando abramos acceso. Sin spam.
           </p>
 
           <div className="flex justify-center">
-            <div className="rounded-full border border-white/30 bg-white/15 px-4 py-2">
+            <div className="rounded-full border border-[#21262D] bg-[#161B22] px-4 py-2">
               <Countdown spots={EARLY_ACCESS_TOTAL_SPOTS} spotsTaken={EARLY_ACCESS_CLAIMED_SPOTS} />
             </div>
           </div>
 
-          <p className="mt-3 text-xs text-white/70">
+          <p className="mt-3 text-xs text-[#484F58]">
             Early access limitado a {EARLY_ACCESS_TOTAL_SPOTS} negocios inmobiliarios.
           </p>
         </div>
@@ -89,24 +102,24 @@ export default function CTA() {
 
       {/* Fixed bottom CTA — mobile only (PWA-style) */}
       {!fixedCTADismissed && (
-        <div className="fixed right-0 bottom-0 left-0 z-50 border-t border-[#3C3C3A] bg-[#1D1D1B] px-4 py-3 shadow-xl sm:hidden">
+        <div className="fixed right-0 bottom-0 left-0 z-50 border-t border-[#21262D] bg-[#0D1117] px-4 py-3 shadow-xl sm:hidden">
           <div className="flex items-center gap-3">
             <div className="min-w-0 flex-1">
               <p className="truncate text-xs font-medium text-white">
                 Reserva tu acceso preferencial
               </p>
-              <p className="text-xs text-[#B4B2A9]">Empieza solo y escala después</p>
+              <p className="text-xs text-[#8B949E]">Empieza solo y escala después</p>
             </div>
             <a
               href="#cta"
-              className="shrink-0 rounded-md bg-[#0F6E56] px-4 py-2 text-xs font-semibold whitespace-nowrap text-white"
+              className="shrink-0 rounded-md bg-[#00C47A] px-4 py-2 text-xs font-semibold whitespace-nowrap text-[#0D1117]"
               onClick={() => setFixedCTADismissed(true)}
             >
               Ver formulario
             </a>
             <button
               onClick={() => setFixedCTADismissed(true)}
-              className="shrink-0 text-lg leading-none text-[#888780]"
+              className="shrink-0 text-lg leading-none text-[#484F58]"
               aria-label="Cerrar"
             >
               ×

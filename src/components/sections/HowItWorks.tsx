@@ -29,7 +29,7 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="bg-[#F1EFE8] px-6 py-24">
+    <section id="how-it-works" className="bg-[#F9FAFB] px-6 py-24">
       <div className="mx-auto max-w-6xl">
         {/* Header */}
         <motion.div
@@ -39,13 +39,13 @@ export default function HowItWorks() {
           transition={{ duration: 0.6 }}
           className="mb-16 text-center"
         >
-          <p className="mb-3 text-sm font-medium tracking-widest text-[#0F6E56] uppercase">
+          <p className="mb-3 text-xs font-semibold tracking-[0.18em] text-[#00C47A] uppercase">
             Simple de empezar
           </p>
-          <h2 className="mb-4 text-3xl font-semibold tracking-[-0.02em] text-[#2C2C2A] md:text-4xl">
+          <h2 className="mb-4 text-3xl font-bold tracking-[-0.03em] text-[#111827] md:text-4xl">
             ¿Cómo funciona?
           </h2>
-          <p className="text-lg text-[#5F5E5A]">
+          <p className="text-lg text-[#4B5563]">
             En 3 simples pasos, ordena tu operación y empieza a crecer
           </p>
         </motion.div>
@@ -63,31 +63,34 @@ export default function HowItWorks() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.55, delay: i * 0.15 }}
-                whileHover={{ scale: 1.03, y: -4 }}
-                className="group relative flex w-full flex-col rounded-2xl border border-[#D3D1C7] bg-white p-8 shadow-sm transition-shadow duration-300 hover:border-[#1D9E75]/30 hover:shadow-md md:max-w-[280px]"
+                whileHover={{ scale: 1.025, y: -10 }}
+                className="group relative flex w-full flex-col rounded-2xl border border-[#E5E7EB] bg-white p-8 shadow-sm transition-all duration-300 hover:border-[#00C47A]/35 hover:shadow-[0_8px_28px_rgba(0,196,122,0.08)] md:max-w-[280px]"
               >
                 {/* Top accent line on hover */}
-                <div className="pointer-events-none absolute inset-x-0 top-0 h-0.5 rounded-t-2xl bg-[#1D9E75] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                <div className="pointer-events-none absolute inset-x-0 top-0 h-1 rounded-t-2xl bg-[#00C47A] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
-                {/* Step number */}
-                <span className="mb-4 text-4xl font-bold tracking-[-0.04em] text-[#E8E6DF]">
+                {/* Step number — editorial Fraunces */}
+                <span
+                  className="mb-4 text-5xl font-bold tracking-[-0.04em] text-[#00C47A]/20"
+                  style={{ fontFamily: "var(--font-display), serif" }}
+                >
                   {step.number}
                 </span>
 
                 {/* Icon */}
-                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-[#E1F5EE]">
-                  <step.icon size={22} className="text-[#1D9E75]" strokeWidth={1.5} />
+                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-[#D6FFF0]">
+                  <step.icon size={22} className="text-[#00965E]" strokeWidth={1.5} />
                 </div>
 
                 {/* Title */}
-                <h3 className="mb-2 text-lg font-semibold text-[#2C2C2A]">{step.title}</h3>
+                <h3 className="mb-2 text-lg font-semibold text-[#111827]">{step.title}</h3>
 
                 {/* Description */}
-                <p className="mb-4 text-sm leading-relaxed text-[#5F5E5A]">{step.description}</p>
+                <p className="mb-4 text-sm leading-relaxed text-[#4B5563]">{step.description}</p>
 
                 {/* Detail pill */}
-                <div className="mt-auto rounded-lg border border-[#D3D1C7] bg-[#F1EFE8] px-3 py-2">
-                  <p className="text-xs font-medium text-[#0F6E56]">{step.detail}</p>
+                <div className="mt-auto rounded-lg border border-[#E5E7EB] bg-[#F0FDF8] px-3 py-2">
+                  <p className="text-xs font-medium text-[#00965E]">{step.detail}</p>
                 </div>
               </motion.div>
 
@@ -102,7 +105,7 @@ export default function HowItWorks() {
                     transition={{ duration: 0.4, delay: i * 0.15 + 0.3 }}
                     className="hidden shrink-0 items-center justify-center px-4 md:flex"
                   >
-                    <ArrowRight size={24} className="text-[#1D9E75]/50" strokeWidth={1.5} />
+                    <ArrowRight size={24} className="text-[#00C47A]/40" strokeWidth={1.5} />
                   </motion.div>
 
                   {/* Mobile chevron */}
@@ -113,7 +116,7 @@ export default function HowItWorks() {
                     transition={{ duration: 0.4, delay: i * 0.15 + 0.3 }}
                     className="my-3 flex md:hidden"
                   >
-                    <ChevronDown size={24} className="text-[#1D9E75]/50" strokeWidth={1.5} />
+                    <ChevronDown size={24} className="text-[#00C47A]/40" strokeWidth={1.5} />
                   </motion.div>
                 </>
               )}
@@ -129,10 +132,10 @@ export default function HowItWorks() {
           transition={{ duration: 0.5, delay: 0.5 }}
           className="mt-14 text-center"
         >
-          <p className="mb-5 text-[#5F5E5A]">¿Listo para empezar?</p>
+          <p className="mb-5 text-[#4B5563]">¿Listo para empezar?</p>
           <a
             href="#cta"
-            className="inline-flex items-center gap-2 rounded-full bg-[#0F6E56] px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[#0a5242] hover:shadow-md active:scale-95"
+            className="inline-flex items-center gap-2 rounded-full bg-[#00C47A] px-7 py-3.5 text-sm font-semibold text-[#0D1117] shadow-[0_0_20px_rgba(0,196,122,0.25)] transition-all duration-200 hover:bg-[#4DDBA0] hover:shadow-[0_0_32px_rgba(0,196,122,0.4)] active:scale-95"
           >
             Únete a la lista de espera
             <ArrowRight size={15} strokeWidth={2} />

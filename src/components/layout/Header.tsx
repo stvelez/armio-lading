@@ -22,7 +22,7 @@ export default function Header() {
     <>
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-md focus:bg-[#1D9E75] focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-white focus:outline-none"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-md focus:bg-[#00C47A] focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-[#0D1117] focus:outline-none"
       >
         Ir al contenido principal
       </a>
@@ -32,13 +32,13 @@ export default function Header() {
           "transition-all duration-300 ease-out",
           hidden ? "-translate-y-full" : "translate-y-0",
           scrolled
-            ? "border-b border-[#D3D1C7] bg-white/95 shadow-[0_2px_12px_rgba(0,0,0,0.06)] backdrop-blur-[12px]"
-            : "bg-[#F1EFE8]/80 backdrop-blur-[8px]",
+            ? "border-b border-[#21262D] bg-[#0D1117]/90 shadow-[0_2px_12px_rgba(0,0,0,0.3)] backdrop-blur-[12px]"
+            : "bg-transparent",
         ].join(" ")}
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           {/* Logo */}
-          <span className="text-xl font-semibold tracking-[-0.02em] text-[#2C2C2A] select-none">
+          <span className="text-xl font-semibold tracking-[-0.02em] text-white select-none">
             armio
           </span>
 
@@ -52,7 +52,7 @@ export default function Header() {
               <a
                 key={label}
                 href={href}
-                className="text-sm font-medium text-[#5F5E5A] transition-colors hover:text-[#2C2C2A]"
+                className="text-sm font-medium text-[#8B949E] transition-colors hover:text-white"
               >
                 {label}
               </a>
@@ -62,7 +62,7 @@ export default function Header() {
           {/* CTA */}
           <a
             href="#cta"
-            className="rounded-md bg-[#1D9E75] px-4 py-2 text-sm font-semibold text-white transition-all duration-200 hover:bg-[#0F6E56] active:scale-95"
+            className="rounded-md bg-[#00C47A] px-4 py-2 text-sm font-semibold text-[#0D1117] shadow-[0_0_16px_rgba(0,196,122,0.3)] transition-all duration-200 hover:bg-[#4DDBA0] hover:shadow-[0_0_24px_rgba(0,196,122,0.45)] active:scale-95"
           >
             Reserva tu acceso
           </a>

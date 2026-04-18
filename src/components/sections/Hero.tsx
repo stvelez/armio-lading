@@ -7,29 +7,29 @@ import Countdown from "@/components/ui/Countdown";
 import { EARLY_ACCESS_CLAIMED_SPOTS, EARLY_ACCESS_TOTAL_SPOTS } from "@/lib/early-access";
 
 const SOCIAL_PROOF_AVATARS = [
-  { initials: "CM", bg: "#1D9E75", text: "#fff" },
-  { initials: "LP", bg: "#5DCAA5", text: "#fff" },
-  { initials: "AR", bg: "#0F6E56", text: "#fff" },
-  { initials: "JT", bg: "#E1F5EE", text: "#0F6E56" },
+  { initials: "CM", bg: "#00C47A", text: "#0D1117" },
+  { initials: "LP", bg: "#4DDBA0", text: "#0D1117" },
+  { initials: "AR", bg: "#00965E", text: "#F0F6FC" },
+  { initials: "JT", bg: "#161B22", text: "#00C47A" },
 ];
 
 export default function Hero() {
   return (
     <section
       id="waitlist"
-      className="relative flex min-h-screen items-start overflow-hidden bg-[#F1EFE8] px-6 pt-24 pb-0 md:min-h-[calc(100svh-12px)]"
+      className="relative flex min-h-screen items-start overflow-hidden bg-[#0D1117] px-6 pt-24 pb-0 md:min-h-[calc(100svh-12px)]"
     >
-      {/* Mesh gradient background — 3 blobs */}
+      {/* Radial green glow — top center */}
+      <div aria-hidden="true" className="glow-green-radial pointer-events-none absolute inset-0" />
+
+      {/* Fine grid overlay */}
+      <div aria-hidden="true" className="hero-grid-overlay pointer-events-none absolute inset-0" />
+
+      {/* Bottom fade to dark */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background: [
-            "radial-gradient(ellipse 50% 40% at 85% 15%, rgba(29,158,117,0.13) 0%, transparent 60%)",
-            "radial-gradient(ellipse 40% 35% at 10% 85%, rgba(29,158,117,0.07) 0%, transparent 55%)",
-            "radial-gradient(ellipse 60% 30% at 50% -5%, rgba(93,202,165,0.09) 0%, transparent 50%)",
-          ].join(", "),
-        }}
+        className="pointer-events-none absolute right-0 bottom-0 left-0 h-48"
+        style={{ background: "linear-gradient(to bottom, transparent, #0D1117)" }}
       />
 
       <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-col">
@@ -40,13 +40,13 @@ export default function Hero() {
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.05 }}
-            className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#D3D1C7] bg-white px-3.5 py-1.5 shadow-sm"
+            className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#21262D] bg-[#161B22] px-3.5 py-1.5 shadow-sm"
           >
             <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#1D9E75] opacity-60" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-[#1D9E75]" />
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#00C47A] opacity-60" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-[#00C47A]" />
             </span>
-            <span className="text-xs font-medium text-[#5F5E5A]">
+            <span className="text-xs font-medium text-[#8B949E]">
               Early access abierto — cupos limitados
             </span>
           </motion.div>
@@ -56,10 +56,25 @@ export default function Hero() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, delay: 0.15 }}
-            className="mb-4 max-w-[12ch] text-5xl leading-[0.98] font-semibold tracking-[-0.04em] text-[#2C2C2A] md:text-6xl lg:text-[78px]"
-            style={{ fontFamily: "var(--font-display), serif" }}
+            className="mb-4 max-w-[12ch] font-bold tracking-[-0.05em] text-[#F0F6FC]"
+            style={{
+              fontFamily: "var(--font-display), serif",
+              fontSize: "clamp(52px, 8vw, 112px)",
+              lineHeight: "0.95",
+            }}
           >
-            Ordena tu <span className="text-[#1D9E75] italic">operación</span>
+            Ordena tu{" "}
+            <span
+              className="italic"
+              style={{
+                background: "linear-gradient(135deg, #00C47A 0%, #4DDBA0 60%, #00E5FF 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              operación
+            </span>
             <br />
             inmobiliaria
           </motion.h1>
@@ -69,7 +84,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.28 }}
-            className="mb-7 max-w-lg text-base leading-[1.55] text-balance text-[#5F5E5A] md:text-lg"
+            className="mb-7 max-w-lg text-base leading-[1.6] text-balance text-[#8B949E] md:text-lg"
           >
             Propiedades, leads y contratos en un solo lugar para trabajar con orden, si vas solo o
             con equipo.
@@ -84,10 +99,11 @@ export default function Hero() {
           >
             <a
               href="#cta"
-              className="inline-flex items-center gap-2 rounded-xl px-7 py-3.5 text-sm font-medium text-white transition-all duration-200 hover:scale-[1.03] hover:shadow-[0_6px_20px_rgba(29,158,117,0.35)] focus-visible:ring-2 focus-visible:ring-[#1D9E75] focus-visible:ring-offset-2 focus-visible:outline-none active:scale-[0.98]"
+              className="inline-flex items-center gap-2 rounded-xl px-7 py-3.5 text-sm font-semibold text-[#0D1117] transition-all duration-200 hover:scale-[1.03] focus-visible:ring-2 focus-visible:ring-[#00C47A] focus-visible:ring-offset-2 focus-visible:outline-none active:scale-[0.98]"
               style={{
-                background: "linear-gradient(135deg, #1D9E75 0%, #0F6E56 100%)",
-                boxShadow: "0 4px 14px rgba(29,158,117,0.25)",
+                background: "linear-gradient(135deg, #00C47A 0%, #00965E 100%)",
+                boxShadow: "0 4px 20px rgba(0,196,122,0.35)",
+                animation: "glow-pulse 3s ease-in-out infinite",
               }}
             >
               Reservar acceso
@@ -95,7 +111,7 @@ export default function Hero() {
             </a>
             <a
               href="#producto"
-              className="inline-flex items-center gap-2 rounded-xl border border-[#D3D1C7] bg-white px-7 py-3.5 text-sm font-medium text-[#5F5E5A] transition-all duration-200 hover:scale-[1.03] hover:border-[#1D9E75] hover:text-[#1D9E75] focus-visible:ring-2 focus-visible:ring-[#1D9E75] focus-visible:ring-offset-2 focus-visible:outline-none active:scale-[0.98]"
+              className="inline-flex items-center gap-2 rounded-xl border border-[#21262D] bg-[#161B22] px-7 py-3.5 text-sm font-medium text-[#8B949E] transition-all duration-200 hover:scale-[1.03] hover:border-[#00C47A]/40 hover:text-[#00C47A] focus-visible:ring-2 focus-visible:ring-[#00C47A] focus-visible:ring-offset-2 focus-visible:outline-none active:scale-[0.98]"
             >
               <Play size={13} strokeWidth={2} className="fill-current" />
               Explorar producto
@@ -113,20 +129,20 @@ export default function Hero() {
               {SOCIAL_PROOF_AVATARS.map((a) => (
                 <div
                   key={a.initials}
-                  className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-[#F1EFE8] text-[10px] font-medium"
+                  className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-[#0D1117] text-[10px] font-medium"
                   style={{ backgroundColor: a.bg, color: a.text }}
                 >
                   {a.initials}
                 </div>
               ))}
             </div>
-            <p className="text-[#5F5E5A]">
-              <span className="font-semibold text-[#2C2C2A]">
+            <p className="text-[#8B949E]">
+              <span className="font-semibold text-[#F0F6FC]">
                 {EARLY_ACCESS_CLAIMED_SPOTS} equipos
               </span>{" "}
               ya reservaron acceso
             </p>
-            <span className="hidden text-[#D3D1C7] md:inline">·</span>
+            <span className="hidden text-[#484F58] md:inline">·</span>
             <Countdown
               spots={EARLY_ACCESS_TOTAL_SPOTS}
               spotsTaken={EARLY_ACCESS_CLAIMED_SPOTS}

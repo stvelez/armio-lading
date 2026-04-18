@@ -1,27 +1,39 @@
 @import "tailwindcss";
 
 @theme inline {
-  /* Brand colors — Armio brand book */
-  --color-primary: #1d9e75;
-  --color-primary-dark: #0f6e56;
-  --color-primary-light: #e1f5ee;
-  --color-primary-mid: #5dcaa5;
+  /* ── Brand green — upgraded to vivid ── */
+  --color-primary: #00c47a;
+  --color-primary-dark: #00965e;
+  --color-primary-light: #d6fff0;
+  --color-primary-mid: #4ddba0;
+  --color-primary-glow: rgba(0, 196, 122, 0.18);
 
-  --color-neutral-900: #2c2c2a;
-  --color-neutral-700: #5f5e5a;
-  --color-neutral-400: #888780;
-  --color-neutral-200: #b4b2a9;
-  --color-neutral-100: #d3d1c7;
-  --color-neutral-50: #f1efe8;
+  /* ── Dark surface system ── */
+  --color-dark-base: #0d1117;
+  --color-dark-surface: #161b22;
+  --color-dark-border: #21262d;
+  --color-dark-border-subtle: #30363d;
+  --color-dark-text-primary: #f0f6fc;
+  --color-dark-text-secondary: #8b949e;
+  --color-dark-text-muted: #484f58;
 
-  /* Shadows — calibrados para fondos claros */
-  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.1);
-  --shadow-hover-primary: 0 6px 20px rgba(29, 158, 117, 0.25);
-  --shadow-hover-card: 0 8px 28px rgba(0, 0, 0, 0.1);
+  /* ── Neutrals — cooler, crisper ── */
+  --color-neutral-900: #111827;
+  --color-neutral-700: #4b5563;
+  --color-neutral-400: #9ca3af;
+  --color-neutral-200: #d1d5db;
+  --color-neutral-100: #e5e7eb;
+  --color-neutral-50: #f9fafb;
 
-  /* Typography */
+  /* ── Shadows ── */
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.16);
+  --shadow-hover-primary: 0 6px 24px rgba(0, 196, 122, 0.35);
+  --shadow-hover-card: 0 8px 28px rgba(0, 0, 0, 0.14);
+  --shadow-glow-green: 0 0 60px rgba(0, 196, 122, 0.15), 0 0 120px rgba(0, 196, 122, 0.08);
+
+  /* ── Typography ── */
   --font-sans: var(--font-plus-jakarta-sans);
   --font-display: var(--font-fraunces);
 }
@@ -31,8 +43,8 @@ html {
 }
 
 body {
-  background-color: #f1efe8;
-  color: #2c2c2a;
+  background-color: #0d1117;
+  color: #f0f6fc;
   font-family: var(--font-plus-jakarta-sans), sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -44,8 +56,39 @@ section[id] {
 }
 
 :focus-visible {
-  outline: 2px solid #1d9e75;
+  outline: 2px solid #00c47a;
   outline-offset: 2px;
+}
+
+/* ── Hero background utilities ── */
+.hero-grid-overlay {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
+}
+
+.glow-green-radial {
+  background: radial-gradient(
+    ellipse 70% 50% at 50% -10%,
+    rgba(0, 196, 122, 0.22) 0%,
+    transparent 70%
+  );
+}
+
+/* ── CTA glow pulse animation ── */
+@keyframes glow-pulse {
+  0%,
+  100% {
+    box-shadow: 0 4px 20px rgba(0, 196, 122, 0.35);
+  }
+  50% {
+    box-shadow:
+      0 6px 32px rgba(0, 196, 122, 0.6),
+      0 0 0 4px rgba(0, 196, 122, 0.08);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

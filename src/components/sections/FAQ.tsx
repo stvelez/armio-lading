@@ -80,7 +80,7 @@ export default function FAQ() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
 
-      <section id="faq" className="bg-[#F1EFE8] px-6 py-24">
+      <section id="faq" className="bg-white px-6 py-24">
         <div className="mx-auto max-w-4xl">
           {/* Section Title */}
           <motion.div
@@ -90,13 +90,13 @@ export default function FAQ() {
             transition={{ duration: 0.6 }}
             className="mb-16 text-center"
           >
-            <p className="mb-3 text-sm font-medium tracking-widest text-[#0F6E56] uppercase">
+            <p className="mb-3 text-xs font-semibold tracking-[0.18em] text-[#00C47A] uppercase">
               Resolvemos tus dudas
             </p>
-            <h2 className="mb-4 text-3xl font-semibold tracking-[-0.02em] text-[#2C2C2A] md:text-4xl">
+            <h2 className="mb-4 text-3xl font-bold tracking-[-0.03em] text-[#111827] md:text-4xl">
               Preguntas frecuentes
             </h2>
-            <p className="text-base text-balance text-[#5F5E5A]">
+            <p className="text-base text-balance text-[#4B5563]">
               Todo lo que necesitas saber para empezar solo o con equipo
             </p>
           </motion.div>
@@ -106,14 +106,14 @@ export default function FAQ() {
             {faqs.map((faq, index) => (
               <div
                 key={index}
-                className="overflow-hidden rounded-xl border border-[#D3D1C7] bg-white"
+                className="overflow-hidden rounded-xl border border-[#E5E7EB] bg-white"
               >
                 <button
                   onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                  className="flex w-full items-center justify-between px-6 py-4 text-left transition-colors duration-150 hover:bg-[#F1EFE8]"
+                  className="flex w-full items-center justify-between px-6 py-4 text-left transition-colors duration-150 hover:bg-[#F9FAFB]"
                   aria-expanded={openIndex === index}
                 >
-                  <span className="pr-4 text-sm font-medium text-[#2C2C2A]">{faq.question}</span>
+                  <span className="pr-4 text-sm font-medium text-[#111827]">{faq.question}</span>
                   <motion.div
                     animate={{ rotate: openIndex === index ? 180 : 0 }}
                     transition={{ duration: 0.2 }}
@@ -122,7 +122,7 @@ export default function FAQ() {
                     <ChevronDown
                       size={18}
                       className={`transition-colors ${
-                        openIndex === index ? "text-[#1D9E75]" : "text-[#B4B2A9]"
+                        openIndex === index ? "text-[#00C47A]" : "text-[#D1D5DB]"
                       }`}
                     />
                   </motion.div>
@@ -136,8 +136,8 @@ export default function FAQ() {
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <div className="border-t border-[#F1EFE8] px-6 pt-0 pb-5">
-                        <p className="text-sm leading-relaxed text-[#5F5E5A]">{faq.answer}</p>
+                      <div className="border-t border-[#F3F4F6] px-6 pt-0 pb-5">
+                        <p className="text-sm leading-relaxed text-[#4B5563]">{faq.answer}</p>
                       </div>
                     </motion.div>
                   )}
@@ -148,10 +148,10 @@ export default function FAQ() {
 
           {/* CTA */}
           <div className="mt-12 text-center">
-            <p className="mb-4 text-[#5F5E5A]">¿Tienes más preguntas?</p>
+            <p className="mb-4 text-[#4B5563]">¿Tienes más preguntas?</p>
             <a
               href="mailto:hola@armio.co"
-              className="text-sm font-medium text-[#0F6E56] transition-colors hover:text-[#0a5242]"
+              className="text-sm font-medium text-[#00C47A] transition-colors hover:text-[#00965E]"
             >
               Escríbenos a hola@armio.co →
             </a>

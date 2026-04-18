@@ -8,14 +8,14 @@ import "./globals.css";
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta-sans",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: ["300", "500", "600", "700", "900"],
   style: ["normal", "italic"],
   display: "swap",
 });
@@ -131,9 +131,9 @@ export default function RootLayout({
           position="bottom-right"
           toastOptions={{
             style: {
-              background: "#1D1D1B",
-              color: "#ffffff",
-              border: "1px solid #3C3C3A",
+              background: "#161B22",
+              color: "#F0F6FC",
+              border: "1px solid #21262D",
             },
           }}
         />
