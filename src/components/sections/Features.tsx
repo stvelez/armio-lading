@@ -1,7 +1,9 @@
 "use client";
 
+import { useRef } from "react";
 import { motion } from "framer-motion";
 import { Building2, Users, FileText, Globe, MapPin, DollarSign } from "lucide-react";
+import { trackFeatureHover } from "@/lib/analytics";
 
 const fadeUp = (delay: number) => ({
   initial: { opacity: 0, y: 24 },
@@ -182,6 +184,17 @@ const features = [
 ];
 
 export default function Features() {
+  const trackedFeaturesRef = useRef(new Set<string>());
+
+  const handleFeatureHover = (title: string) => {
+    if (trackedFeaturesRef.current.has(title)) {
+      return;
+    }
+
+    trackedFeaturesRef.current.add(title);
+    trackFeatureHover(title);
+  };
+
   return (
     <section id="features" className="bg-[#0D1117] px-6 py-24">
       <div className="mx-auto max-w-7xl">
@@ -204,6 +217,7 @@ export default function Features() {
           {features.map(({ icon: Icon, title, description, Preview, comingSoon, delay }) => (
             <motion.div
               key={title}
+              onMouseEnter={() => handleFeatureHover(title)}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}

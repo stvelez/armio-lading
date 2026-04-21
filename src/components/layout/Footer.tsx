@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Instagram, Cookie } from "lucide-react";
 import NewsletterForm from "@/components/forms/NewsletterForm";
+import { trackCTAClick } from "@/lib/analytics";
 
 const COOKIE_KEY = "armio_cookie_consent";
 
@@ -88,6 +89,7 @@ export default function Footer() {
                 <li>
                   <a
                     href="#cta"
+                    onClick={() => trackCTAClick("footer")}
                     className="text-sm text-[#8B949E] transition-colors hover:text-white"
                   >
                     Únete a la lista

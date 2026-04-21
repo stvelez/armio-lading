@@ -4,6 +4,7 @@ import { useState } from "react";
 import { CheckCircle2 } from "lucide-react";
 import NewsletterForm from "@/components/forms/NewsletterForm";
 import Countdown from "@/components/ui/Countdown";
+import { trackCTAClick } from "@/lib/analytics";
 import { EARLY_ACCESS_CLAIMED_SPOTS, EARLY_ACCESS_TOTAL_SPOTS } from "@/lib/early-access";
 
 const benefits = ["50% OFF de por vida", "Acceso anticipado", "Sin tarjeta ni cobro hoy"];
@@ -112,8 +113,11 @@ export default function CTA() {
             </div>
             <a
               href="#cta"
+              onClick={() => {
+                trackCTAClick("cta-mobile");
+                setFixedCTADismissed(true);
+              }}
               className="shrink-0 rounded-md bg-[#00C47A] px-4 py-2 text-xs font-semibold whitespace-nowrap text-[#0D1117]"
-              onClick={() => setFixedCTADismissed(true)}
             >
               Ver formulario
             </a>

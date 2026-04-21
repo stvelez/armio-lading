@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -13,6 +13,7 @@ import {
   Play,
 } from "lucide-react";
 import DemoVideo from "@/components/ui/DemoVideo";
+import { trackFeatureHover } from "@/lib/analytics";
 
 interface Tab {
   label: string;
@@ -33,6 +34,19 @@ export default function ProductPreview() {
   const [active, setActive] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const trackedTabsRef = useRef(new Set<string>());
+
+  const handleTabClick = (index: number, label: string) => {
+    setActive(index);
+    setIsPaused(true);
+
+    if (trackedTabsRef.current.has(label)) {
+      return;
+    }
+
+    trackedTabsRef.current.add(label);
+    trackFeatureHover(label);
+  };
 
   useEffect(() => {
     if (isPaused) return;
@@ -77,10 +91,7 @@ export default function ProductPreview() {
                 return (
                   <button
                     key={tab.label}
-                    onClick={() => {
-                      setActive(i);
-                      setIsPaused(true);
-                    }}
+                    onClick={() => handleTabClick(i, tab.label)}
                     className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm whitespace-nowrap transition-all duration-200 ${
                       active === i
                         ? "bg-[#00C47A] font-semibold text-[#0D1117] shadow-sm"

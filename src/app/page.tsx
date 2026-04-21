@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic";
+import ScrollDepthTracker from "@/components/analytics/ScrollDepthTracker";
 import Header from "@/components/layout/Header";
 import Hero from "@/components/sections/Hero";
 import ComingSoon from "@/components/ComingSoon";
@@ -53,6 +54,7 @@ export default function Home() {
     <>
       <Header />
       <main id="main-content">
+        <ScrollDepthTracker />
         <Hero />
         <Features />
         <Benefits />

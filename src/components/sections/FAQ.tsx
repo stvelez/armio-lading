@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { trackFAQExpand } from "@/lib/analytics";
 
 const faqs = [
   {
@@ -60,6 +61,15 @@ const faqs = [
 export default function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
+  const handleToggle = (index: number, question: string) => {
+    const isOpening = openIndex !== index;
+    setOpenIndex(isOpening ? index : null);
+
+    if (isOpening) {
+      trackFAQExpand(question);
+    }
+  };
+
   const schema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -109,7 +119,7 @@ export default function FAQ() {
                 className="overflow-hidden rounded-xl border border-[#E5E7EB] bg-white"
               >
                 <button
-                  onClick={() => setOpenIndex(openIndex === index ? null : index)}
+                  onClick={() => handleToggle(index, faq.question)}
                   className="flex w-full items-center justify-between px-6 py-4 text-left transition-colors duration-150 hover:bg-[#F9FAFB]"
                   aria-expanded={openIndex === index}
                 >

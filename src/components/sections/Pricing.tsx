@@ -1,9 +1,11 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import Countdown from "@/components/ui/Countdown";
 import Badge from "@/components/ui/Badge";
+import { trackCTAClick, trackPricingView } from "@/lib/analytics";
 import { EARLY_ACCESS_CLAIMED_SPOTS, EARLY_ACCESS_TOTAL_SPOTS } from "@/lib/early-access";
 
 const SHOW_PRICES = process.env.NEXT_PUBLIC_SHOW_PRICES === "true";
@@ -93,8 +95,33 @@ const plans = [
 ];
 
 export default function Pricing() {
+  const hasTrackedView = useRef(false);
+  const sectionRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section || hasTrackedView.current) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting && !hasTrackedView.current) {
+          hasTrackedView.current = true;
+          trackPricingView();
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.35 }
+    );
+
+    observer.observe(section);
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section id="pricing" className="bg-[#0D1117] px-6 py-24">
+    <section id="pricing" ref={sectionRef} className="bg-[#0D1117] px-6 py-24">
       <div className="mx-auto max-w-6xl">
         {/* Section Title */}
         <motion.div
@@ -222,6 +249,7 @@ export default function Pricing() {
               {/* CTA */}
               <a
                 href={plan.ctaHref}
+                onClick={() => trackCTAClick("pricing", plan.name)}
                 className={`w-full rounded-xl border px-4 py-2.5 text-center text-sm font-semibold transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] ${
                   plan.popular
                     ? "border-[#00C47A] bg-[#00C47A] font-bold text-[#0D1117] hover:border-[#4DDBA0] hover:bg-[#4DDBA0]"

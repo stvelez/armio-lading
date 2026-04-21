@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Play, ArrowRight } from "lucide-react";
 import HeroMockup from "@/components/sections/HeroMockup";
 import Countdown from "@/components/ui/Countdown";
+import { trackCTAClick } from "@/lib/analytics";
 import { EARLY_ACCESS_CLAIMED_SPOTS, EARLY_ACCESS_TOTAL_SPOTS } from "@/lib/early-access";
 
 const SOCIAL_PROOF_AVATARS = [
@@ -99,6 +100,7 @@ export default function Hero() {
           >
             <a
               href="#cta"
+              onClick={() => trackCTAClick("hero")}
               className="inline-flex items-center gap-2 rounded-xl px-7 py-3.5 text-sm font-semibold text-[#0D1117] transition-all duration-200 hover:scale-[1.03] focus-visible:ring-2 focus-visible:ring-[#00C47A] focus-visible:ring-offset-2 focus-visible:outline-none active:scale-[0.98]"
               style={{
                 background: "linear-gradient(135deg, #00C47A 0%, #00965E 100%)",

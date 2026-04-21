@@ -3,22 +3,13 @@
 import { useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Play, Maximize2 } from "lucide-react";
+import { trackVideoEvent } from "@/lib/analytics";
 
 interface DemoVideoProps {
   isOpen: boolean;
   onClose: () => void;
   /** YouTube URL, Vimeo URL, or local MP4 path. If omitted, shows placeholder. */
   videoSrc?: string;
-}
-
-interface WindowWithGtag extends Window {
-  gtag?: (command: string, eventName: string, params?: Record<string, unknown>) => void;
-}
-
-function trackGA4(eventName: string, params?: Record<string, unknown>) {
-  if (typeof window !== "undefined" && typeof (window as WindowWithGtag).gtag === "function") {
-    (window as WindowWithGtag).gtag!("event", eventName, params);
-  }
 }
 
 export default function DemoVideo({ isOpen, onClose, videoSrc }: DemoVideoProps) {
@@ -48,13 +39,13 @@ export default function DemoVideo({ isOpen, onClose, videoSrc }: DemoVideoProps)
 
   const handlePlay = useCallback(() => {
     if (!hasTrackedStart.current) {
-      trackGA4("video_start", { video_title: "Demo Armio" });
+      trackVideoEvent("start", "Demo Armio");
       hasTrackedStart.current = true;
     }
   }, []);
 
   const handleEnded = useCallback(() => {
-    trackGA4("video_complete", { video_title: "Demo Armio" });
+    trackVideoEvent("complete", "Demo Armio");
   }, []);
 
   const handleFullscreen = () => {
