@@ -1,38 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import { Instagram, Cookie } from "lucide-react";
 import NewsletterForm from "@/components/forms/NewsletterForm";
 import { trackCTAClick } from "@/lib/analytics";
-
-const COOKIE_KEY = "armio_cookie_consent";
-// Dirección pública de la app (donde viven /terminos y /privacidad). Sin definir, se muestra el aviso previo.
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, "");
+import { getConsent, setConsent, subscribeConsent } from "@/lib/consent";
+import { privacyUrl, termsUrl } from "@/lib/legal";
 
 export default function Footer() {
-  const [showCookieConsent, setShowCookieConsent] = useState(false);
-
-  useEffect(() => {
-    const checkConsent = () => {
-      try {
-        if (!localStorage.getItem(COOKIE_KEY)) {
-          setShowCookieConsent(true);
-        }
-      } catch {
-        setShowCookieConsent(true);
-      }
-    };
-    checkConsent();
-  }, []);
-
-  const dismissConsent = () => {
-    try {
-      localStorage.setItem(COOKIE_KEY, "1");
-    } catch {
-      // Ignore storage errors in private browsing
-    }
-    setShowCookieConsent(false);
-  };
+  // Hasta decidir, no se carga la analítica. SSR devuelve "accepted" para no mostrar el aviso en el servidor.
+  const consent = useSyncExternalStore(subscribeConsent, getConsent, () => "accepted" as const);
+  const showCookieConsent = consent === null;
 
   return (
     <>
@@ -104,11 +82,11 @@ export default function Footer() {
             <nav aria-label="Legal">
               <h4 className="mb-4 text-sm font-semibold text-white">Legal</h4>
               <ul className="space-y-3">
-                {APP_URL ? (
+                {privacyUrl && termsUrl ? (
                   <>
                     <li>
                       <a
-                        href={`${APP_URL}/terminos`}
+                        href={termsUrl}
                         className="text-sm text-[#8B949E] transition-colors hover:text-white"
                       >
                         Términos y condiciones
@@ -116,7 +94,7 @@ export default function Footer() {
                     </li>
                     <li>
                       <a
-                        href={`${APP_URL}/privacidad`}
+                        href={privacyUrl}
                         className="text-sm text-[#8B949E] transition-colors hover:text-white"
                       >
                         Política de privacidad
@@ -167,25 +145,39 @@ export default function Footer() {
         </div>
       </footer>
 
-      {/* Cookie Consent Banner */}
+      {/* Aviso de cookies: la analítica (Google Analytics) solo se carga si se acepta */}
       {showCookieConsent && (
-        <div className="fixed right-0 bottom-0 left-0 z-50 border-t border-[#21262D] bg-[#161B22] p-4">
-          <div className="mx-auto flex max-w-6xl items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <Cookie size={18} className="flex-shrink-0 text-[#00C47A]" />
-              <p className="text-sm text-[#8B949E]">Usamos cookies para mejorar tu experiencia.</p>
+        <div
+          role="region"
+          aria-label="Aviso de cookies"
+          className="fixed right-0 bottom-0 left-0 z-50 border-t border-[#21262D] bg-[#161B22] p-4"
+        >
+          <div className="mx-auto flex max-w-6xl flex-col gap-3 md:flex-row md:items-center md:justify-between md:gap-4">
+            <div className="flex items-start gap-3">
+              <Cookie size={18} className="mt-0.5 flex-shrink-0 text-[#00C47A]" />
+              <p className="text-sm text-[#8B949E]">
+                Usamos cookies de analítica (Google Analytics) para medir las visitas y mejorar el
+                sitio. Solo se activan si las aceptas.
+                {privacyUrl && (
+                  <>
+                    {" "}
+                    <a href={privacyUrl} className="underline transition-colors hover:text-white">
+                      Más información
+                    </a>
+                    .
+                  </>
+                )}
+              </p>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 self-end md:self-auto">
               <button
-                onClick={dismissConsent}
-                aria-label="Cerrar aviso de cookies"
+                onClick={() => setConsent("rejected")}
                 className="px-4 py-2 text-sm text-[#8B949E] transition-colors hover:text-white"
               >
-                Más tarde
+                Rechazar
               </button>
               <button
-                onClick={dismissConsent}
-                aria-label="Aceptar todas las cookies"
+                onClick={() => setConsent("accepted")}
                 className="rounded-md bg-[#00C47A] px-4 py-2 text-sm font-medium text-[#0D1117] transition-colors hover:bg-[#4DDBA0]"
               >
                 Aceptar

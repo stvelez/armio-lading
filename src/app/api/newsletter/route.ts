@@ -27,7 +27,11 @@ export async function POST(request: NextRequest) {
 
     const email = normalizeEmail(result.data.email);
     const source = result.data.source;
-    const { created } = await createWaitlistSignup({ email, source });
+    const { created } = await createWaitlistSignup({
+      email,
+      source,
+      policyVersion: result.data.policyVersion,
+    });
 
     if (!created) {
       console.info("Newsletter signup duplicate", { email, source });

@@ -19,15 +19,24 @@ export const newsletterSchema = z.object({
   name: z.string().optional(),
 });
 
+const CONSENT_MESSAGE = "Debes autorizar el uso de tu correo para unirte a la lista";
+
+/** Formulario: el correo y la autorización de tratamiento de datos (Ley 1581 de 2012) */
+export const newsletterFormSchema = newsletterSchema.extend({
+  consent: z.literal(true, { message: CONSENT_MESSAGE }),
+});
+
 export const newsletterRequestSchema = z.object({
   email: z.string().min(1, "Email es requerido").email("Email inválido"),
   source: z.enum(newsletterSignupSources).default("hero"),
+  consent: z.literal(true, { message: CONSENT_MESSAGE }),
+  policyVersion: z.string().min(1).max(20),
 });
 
 /**
  * Type for newsletter form data
  */
-export type NewsletterFormData = z.infer<typeof newsletterSchema>;
+export type NewsletterFormData = z.infer<typeof newsletterFormSchema>;
 export type NewsletterRequestData = z.infer<typeof newsletterRequestSchema>;
 
 /**

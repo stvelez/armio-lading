@@ -20,6 +20,12 @@ async function ensureWaitlistTable() {
           metadata_json JSONB
         )
       `);
+      // Prueba de la autorización de tratamiento de datos (Ley 1581 de 2012)
+      await getPostgresPool().query(`
+        ALTER TABLE waitlist_signups
+          ADD COLUMN IF NOT EXISTS consent_at TIMESTAMPTZ,
+          ADD COLUMN IF NOT EXISTS consent_policy_version TEXT
+      `);
     })();
   }
 
@@ -29,6 +35,7 @@ async function ensureWaitlistTable() {
 export async function createWaitlistSignup(input: {
   email: string;
   source: NewsletterSignupSource;
+  policyVersion: string;
 }) {
   await ensureWaitlistTable();
 
@@ -39,12 +46,12 @@ export async function createWaitlistSignup(input: {
     created_at: string;
   }>(
     `
-      INSERT INTO waitlist_signups (email, source)
-      VALUES ($1, $2)
+      INSERT INTO waitlist_signups (email, source, consent_at, consent_policy_version)
+      VALUES ($1, $2, NOW(), $3)
       ON CONFLICT (email) DO NOTHING
       RETURNING email, source, created_at
     `,
-    [normalizedEmail, input.source]
+    [normalizedEmail, input.source, input.policyVersion]
   );
 
   return {

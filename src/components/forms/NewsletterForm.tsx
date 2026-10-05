@@ -5,12 +5,13 @@ import { Mail, Check, Loader2, AlertCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  newsletterSchema,
+  newsletterFormSchema,
   type NewsletterFormData,
   type NewsletterSignupSource,
 } from "@/lib/validations";
 import { trackNewsletterSignup, trackNewsletterSignupResult } from "@/lib/analytics";
 import toast from "react-hot-toast";
+import { PRIVACY_CONTACT_EMAIL, PRIVACY_POLICY_VERSION, privacyUrl } from "@/lib/legal";
 
 interface NewsletterFormProps {
   location?: NewsletterSignupSource;
@@ -52,7 +53,7 @@ export default function NewsletterForm({
     formState: { errors, isDirty, isValid },
     reset,
   } = useForm<NewsletterFormData>({
-    resolver: zodResolver(newsletterSchema),
+    resolver: zodResolver(newsletterFormSchema),
     mode: "onChange",
   });
 
@@ -65,6 +66,8 @@ export default function NewsletterForm({
         body: JSON.stringify({
           email: data.email,
           source: location,
+          consent: data.consent,
+          policyVersion: PRIVACY_POLICY_VERSION,
         }),
       });
 
@@ -185,6 +188,41 @@ export default function NewsletterForm({
             </>
           )}
         </button>
+      </div>
+
+      {/* Autorización de tratamiento de datos personales (Ley 1581 de 2012) */}
+      <div className="mt-3">
+        <label
+          htmlFor={`newsletter-consent-${location}`}
+          className="flex cursor-pointer items-start gap-2 text-xs leading-5 text-[#8B949E]"
+        >
+          <input
+            id={`newsletter-consent-${location}`}
+            type="checkbox"
+            {...register("consent")}
+            aria-invalid={errors.consent ? "true" : undefined}
+            disabled={isSubmitting}
+            className="mt-1 h-4 w-4 flex-shrink-0 rounded border-[#21262D] bg-[#161B22] accent-[#00C47A]"
+          />
+          <span>
+            Autorizo a Armio a usar mi correo para informarme sobre el lanzamiento y las novedades,
+            según la{" "}
+            {privacyUrl ? (
+              <a href={privacyUrl} className="underline transition-colors hover:text-white">
+                Política de privacidad
+              </a>
+            ) : (
+              "Política de privacidad"
+            )}
+            . Puedo retirar mi autorización escribiendo a {PRIVACY_CONTACT_EMAIL}.
+          </span>
+        </label>
+        {errors.consent && (
+          <p role="alert" className="mt-1 flex items-center gap-1 text-xs text-red-400">
+            <AlertCircle size={12} aria-hidden="true" />
+            <span>{errors.consent.message}</span>
+          </p>
+        )}
       </div>
     </form>
   );
