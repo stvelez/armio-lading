@@ -6,6 +6,8 @@ import NewsletterForm from "@/components/forms/NewsletterForm";
 import { trackCTAClick } from "@/lib/analytics";
 
 const COOKIE_KEY = "armio_cookie_consent";
+// Dirección pública de la app (donde viven /terminos y /privacidad). Sin definir, se muestra el aviso previo.
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, "");
 
 export default function Footer() {
   const [showCookieConsent, setShowCookieConsent] = useState(false);
@@ -102,11 +104,32 @@ export default function Footer() {
             <nav aria-label="Legal">
               <h4 className="mb-4 text-sm font-semibold text-white">Legal</h4>
               <ul className="space-y-3">
-                <li>
-                  <span className="text-sm text-[#8B949E]">
-                    Política de privacidad y términos disponibles antes del lanzamiento público.
-                  </span>
-                </li>
+                {APP_URL ? (
+                  <>
+                    <li>
+                      <a
+                        href={`${APP_URL}/terminos`}
+                        className="text-sm text-[#8B949E] transition-colors hover:text-white"
+                      >
+                        Términos y condiciones
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href={`${APP_URL}/privacidad`}
+                        className="text-sm text-[#8B949E] transition-colors hover:text-white"
+                      >
+                        Política de privacidad
+                      </a>
+                    </li>
+                  </>
+                ) : (
+                  <li>
+                    <span className="text-sm text-[#8B949E]">
+                      Política de privacidad y términos disponibles antes del lanzamiento público.
+                    </span>
+                  </li>
+                )}
               </ul>
             </nav>
           </div>
