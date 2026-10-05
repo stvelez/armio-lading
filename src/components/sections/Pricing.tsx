@@ -35,14 +35,33 @@ const plans = [
     ctaHref: "#cta",
   },
   {
+    name: "Independiente",
+    segment: "Asesor o broker solo",
+    price: "$49.000/mes",
+    originalPrice: "$98.000/mes",
+    priceAnchor: "Menos de $1.700 al día para operar con orden",
+    description: "Para el asesor que opera solo y quiere dejar de llevar todo en la cabeza",
+    features: [
+      { text: "1 usuario" },
+      { text: "20 propiedades activas" },
+      { text: "Leads y clientes" },
+      { text: "Contratos digitales" },
+      { text: "Soporte por email" },
+    ] as PlanFeature[],
+    popular: false,
+    earlyAccess: true,
+    cta: "Únete a la lista de espera",
+    ctaHref: "#cta",
+  },
+  {
     name: "Starter",
-    segment: "Ideal para independientes",
+    segment: "Microequipo",
     price: "$89.000/mes",
     originalPrice: "$179.000/mes",
     priceAnchor: "Menos de $3.000 al día para operar con orden",
-    description: "La entrada clara para independientes y microequipos",
+    description: "La entrada clara para microequipos y agencias pequeñas",
     features: [
-      { text: "1 usuario principal + apoyo" },
+      { text: "5 usuarios" },
       { text: "50 propiedades activas" },
       { text: "Leads, clientes y Mi día" },
       { text: "Contratos digitales" },
@@ -150,7 +169,7 @@ export default function Pricing() {
         </motion.div>
 
         {/* Pricing Cards */}
-        <div className="mx-auto grid max-w-6xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mx-auto grid max-w-7xl gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {plans.map((plan, index) => (
             <motion.div
               key={plan.name}
