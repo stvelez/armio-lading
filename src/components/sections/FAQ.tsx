@@ -29,7 +29,7 @@ const faqs = [
   {
     question: "¿Hay un período de prueba gratuito?",
     answer:
-      "Cuando lancemos, tendrás onboarding anticipado y podrás activar tu cuenta con precio fundador. El registro al early access no tiene costo ni requiere tarjeta.",
+      "Sí. Al crear tu cuenta pruebas 3 meses gratis el plan que elijas, sin tarjeta de crédito. Antes de que termine te avisamos por correo; si no eliges un plan, tu cuenta pasa al plan Free y conservas todos tus datos.",
   },
   {
     question: "¿Mis datos están seguros?",
@@ -39,7 +39,7 @@ const faqs = [
   {
     question: "¿Puedo cancelar mi suscripción?",
     answer:
-      "Sí, puedes cancelar en cualquier momento sin penalidades. El precio fundador conserva el 50% OFF mientras mantengas tu suscripción activa.",
+      "Sí, sin penalidades. Tu plan no se renueva solo: cada pago activa 30 días y, si no pagas otro periodo, al vencer (más unos días de gracia) pasas al plan Free sin perder tus datos. El precio fundador conserva el 50% OFF mientras mantengas tu suscripción activa.",
   },
   {
     question: "¿Funciona en móvil?",
@@ -54,7 +54,7 @@ const faqs = [
   {
     question: "¿Cómo funciona el descuento de 50% OFF?",
     answer:
-      "Los primeros negocios inmobiliarios que reserven acceso obtienen precio fundador con 50% OFF de por vida sobre su plan al activarse Armio. Registrarte ahora solo reserva tu lugar; no se cobra nada hoy.",
+      "Los primeros negocios inmobiliarios que reserven acceso obtienen precio fundador con 50% OFF de por vida sobre su plan al activarse Armio. Registrarte ahora no tiene costo ni requiere tarjeta: tienes 3 meses gratis y solo pagas si decides continuar.",
   },
 ];
 
