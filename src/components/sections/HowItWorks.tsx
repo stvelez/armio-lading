@@ -1,5 +1,6 @@
 "use client";
 
+import { REGISTER_URL } from "@/lib/app-links";
 import { motion } from "framer-motion";
 import { UserPlus, Upload, Target, ArrowRight, ChevronDown } from "lucide-react";
 
@@ -134,10 +135,10 @@ export default function HowItWorks() {
         >
           <p className="mb-5 text-[#4B5563]">¿Listo para empezar?</p>
           <a
-            href="#cta"
+            href={REGISTER_URL}
             className="inline-flex items-center gap-2 rounded-full bg-[#00C47A] px-7 py-3.5 text-sm font-semibold text-[#0D1117] shadow-[0_0_20px_rgba(0,196,122,0.25)] transition-all duration-200 hover:bg-[#4DDBA0] hover:shadow-[0_0_32px_rgba(0,196,122,0.4)] active:scale-95"
           >
-            Únete a la lista de espera
+            Empieza gratis 3 meses
             <ArrowRight size={15} strokeWidth={2} />
           </a>
         </motion.div>

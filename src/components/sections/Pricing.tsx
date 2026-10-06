@@ -1,5 +1,6 @@
 "use client";
 
+import { REGISTER_URL } from "@/lib/app-links";
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
@@ -31,8 +32,8 @@ const plans = [
     ] as PlanFeature[],
     popular: false,
     earlyAccess: false,
-    cta: "Reservar mi lugar gratis",
-    ctaHref: "#cta",
+    cta: "Crear cuenta gratis",
+    ctaHref: REGISTER_URL,
   },
   {
     name: "Independiente",
@@ -50,8 +51,8 @@ const plans = [
     ] as PlanFeature[],
     popular: false,
     earlyAccess: true,
-    cta: "Únete a la lista de espera",
-    ctaHref: "#cta",
+    cta: "Probar 3 meses gratis",
+    ctaHref: REGISTER_URL,
   },
   {
     name: "Starter",
@@ -69,8 +70,8 @@ const plans = [
     ] as PlanFeature[],
     popular: true,
     earlyAccess: true,
-    cta: "Únete a la lista de espera",
-    ctaHref: "#cta",
+    cta: "Probar 3 meses gratis",
+    ctaHref: REGISTER_URL,
   },
   {
     name: "Pro",
@@ -88,8 +89,8 @@ const plans = [
     ] as PlanFeature[],
     popular: false,
     earlyAccess: true,
-    cta: "Únete a la lista de espera",
-    ctaHref: "#cta",
+    cta: "Probar 3 meses gratis",
+    ctaHref: REGISTER_URL,
   },
   {
     name: "Agencia",
@@ -108,8 +109,8 @@ const plans = [
     ] as PlanFeature[],
     popular: false,
     earlyAccess: true,
-    cta: "Únete a la lista de espera",
-    ctaHref: "#cta",
+    cta: "Probar 3 meses gratis",
+    ctaHref: REGISTER_URL,
   },
 ];
 

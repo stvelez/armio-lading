@@ -2,11 +2,9 @@
 
 import { useState, useCallback } from "react";
 import { X } from "lucide-react";
-import NewsletterForm from "@/components/forms/NewsletterForm";
-import Countdown from "@/components/ui/Countdown";
 import { useExitIntent } from "@/lib/exit-intent";
-import { trackExitIntentSignup } from "@/lib/analytics";
-import { EARLY_ACCESS_CLAIMED_SPOTS, EARLY_ACCESS_TOTAL_SPOTS } from "@/lib/early-access";
+import { trackCTAClick } from "@/lib/analytics";
+import { REGISTER_URL } from "@/lib/app-links";
 
 export default function ExitIntent() {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,11 +16,6 @@ export default function ExitIntent() {
   useExitIntent(handleTrigger);
 
   const handleClose = () => setIsOpen(false);
-
-  const handleSuccess = () => {
-    trackExitIntentSignup();
-    setTimeout(() => setIsOpen(false), 2500);
-  };
 
   if (!isOpen) return null;
 
@@ -51,35 +44,25 @@ export default function ExitIntent() {
         <div className="mb-6 text-center">
           <p className="mb-2 text-2xl">👋</p>
           <h2 className="mb-2 text-xl font-semibold text-white">
-            Antes de irte, reserva tu acceso preferencial
+            Antes de irte: prueba Armio 3 meses gratis
           </h2>
           <p className="text-sm text-neutral-400">
-            Déjanos tu correo y asegura{" "}
+            Crea tu cuenta en minutos, elige el plan que necesitas y consigue{" "}
             <span className="font-semibold text-[#1D9E75]">50% OFF de por vida</span> con precio
-            fundador, sin tarjeta y sin cobro hoy.
+            fundador. Sin tarjeta.
           </p>
         </div>
 
-        {/* Scarcity */}
-        <div className="mb-6 flex justify-center">
-          <div className="rounded-full border border-neutral-700 bg-neutral-800 px-4 py-2">
-            <Countdown spots={EARLY_ACCESS_TOTAL_SPOTS} spotsTaken={EARLY_ACCESS_CLAIMED_SPOTS} />
-          </div>
-        </div>
-
-        {/* Form */}
-        <NewsletterForm
-          location="popup"
-          placeholder="tu@email.com"
-          buttonText="Reservar mi acceso"
-          successTitle="Acceso preferencial reservado"
-          successDescription="Te contactaremos cuando abramos el onboarding con tu precio fundador."
-          className="flex flex-col gap-3"
-          onSuccess={handleSuccess}
-        />
+        <a
+          href={REGISTER_URL}
+          onClick={() => trackCTAClick("exit-intent")}
+          className="flex w-full items-center justify-center rounded-lg bg-[#00C47A] px-6 py-3 text-sm font-semibold text-[#0D1117] transition-colors hover:bg-[#4DDBA0]"
+        >
+          Crear mi cuenta gratis
+        </a>
 
         <p className="mt-4 text-center text-xs text-neutral-600">
-          Sin tarjeta · Sin pagos hoy · Sin compromiso
+          Sin tarjeta · Sin compromiso · Cancela cuando quieras
         </p>
       </div>
     </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { REGISTER_URL } from "@/lib/app-links";
 import { useEffect, useState } from "react";
 import { trackCTAClick } from "@/lib/analytics";
 
@@ -62,11 +63,11 @@ export default function Header() {
 
           {/* CTA */}
           <a
-            href="#cta"
+            href={REGISTER_URL}
             onClick={() => trackCTAClick("cta")}
             className="rounded-md bg-[#00C47A] px-4 py-2 text-sm font-semibold text-[#0D1117] shadow-[0_0_16px_rgba(0,196,122,0.3)] transition-all duration-200 hover:bg-[#4DDBA0] hover:shadow-[0_0_24px_rgba(0,196,122,0.45)] active:scale-95"
           >
-            Reserva tu acceso
+            Empieza gratis
           </a>
         </div>
       </header>

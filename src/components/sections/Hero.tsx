@@ -3,16 +3,8 @@
 import { motion } from "framer-motion";
 import { Play, ArrowRight } from "lucide-react";
 import HeroMockup from "@/components/sections/HeroMockup";
-import Countdown from "@/components/ui/Countdown";
 import { trackCTAClick } from "@/lib/analytics";
-import { EARLY_ACCESS_CLAIMED_SPOTS, EARLY_ACCESS_TOTAL_SPOTS } from "@/lib/early-access";
-
-const SOCIAL_PROOF_AVATARS = [
-  { initials: "CM", bg: "#00C47A", text: "#0D1117" },
-  { initials: "LP", bg: "#4DDBA0", text: "#0D1117" },
-  { initials: "AR", bg: "#00965E", text: "#F0F6FC" },
-  { initials: "JT", bg: "#161B22", text: "#00C47A" },
-];
+import { REGISTER_URL } from "@/lib/app-links";
 
 export default function Hero() {
   return (
@@ -48,7 +40,7 @@ export default function Hero() {
               <span className="relative inline-flex h-2 w-2 rounded-full bg-[#00C47A]" />
             </span>
             <span className="text-xs font-medium text-[#8B949E]">
-              Early access abierto — cupos limitados
+              3 meses gratis · sin tarjeta · precio fundador
             </span>
           </motion.div>
 
@@ -99,7 +91,7 @@ export default function Hero() {
             className="mb-5 flex flex-wrap items-center justify-center gap-3"
           >
             <a
-              href="#cta"
+              href={REGISTER_URL}
               onClick={() => trackCTAClick("hero")}
               className="inline-flex items-center gap-2 rounded-xl px-7 py-3.5 text-sm font-semibold text-[#0D1117] transition-all duration-200 hover:scale-[1.03] focus-visible:ring-2 focus-visible:ring-[#00C47A] focus-visible:ring-offset-2 focus-visible:outline-none active:scale-[0.98]"
               style={{
@@ -108,7 +100,7 @@ export default function Hero() {
                 animation: "glow-pulse 3s ease-in-out infinite",
               }}
             >
-              Reservar acceso
+              Empieza gratis 3 meses
               <ArrowRight size={15} strokeWidth={2} />
             </a>
             <a
@@ -120,37 +112,16 @@ export default function Hero() {
             </a>
           </motion.div>
 
-          {/* Social proof + scarcity — comprimido */}
-          <motion.div
+          {/* Promesa verificable: lo que realmente ocurre al registrarse */}
+          <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.48 }}
-            className="mb-8 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-xs"
+            className="mb-8 text-xs text-[#8B949E]"
           >
-            <div className="flex -space-x-2">
-              {SOCIAL_PROOF_AVATARS.map((a) => (
-                <div
-                  key={a.initials}
-                  className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-[#0D1117] text-[10px] font-medium"
-                  style={{ backgroundColor: a.bg, color: a.text }}
-                >
-                  {a.initials}
-                </div>
-              ))}
-            </div>
-            <p className="text-[#8B949E]">
-              <span className="font-semibold text-[#F0F6FC]">
-                {EARLY_ACCESS_CLAIMED_SPOTS} equipos
-              </span>{" "}
-              ya reservaron acceso
-            </p>
-            <span className="hidden text-[#484F58] md:inline">·</span>
-            <Countdown
-              spots={EARLY_ACCESS_TOTAL_SPOTS}
-              spotsTaken={EARLY_ACCESS_CLAIMED_SPOTS}
-              variant="light"
-            />
-          </motion.div>
+            Sin tarjeta · Elige tu plan y pruébalo 3 meses · 50% OFF de por vida para los primeros
+            negocios
+          </motion.p>
         </div>
 
         {/* Product Mockup — full width, perspective 3D */}

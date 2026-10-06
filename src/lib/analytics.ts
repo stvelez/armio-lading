@@ -13,7 +13,7 @@ declare global {
 }
 
 export type SignupLocation = NewsletterSignupSource;
-export type CTALocation = "hero" | "footer" | "pricing" | "cta" | "cta-mobile";
+export type CTALocation = "hero" | "footer" | "pricing" | "cta" | "cta-mobile" | "exit-intent";
 type SignupResult = "created" | "duplicate" | "error";
 type ScrollDepth = 25 | 50 | 75 | 90;
 
