@@ -39,9 +39,7 @@ export default function Hero() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#00C47A] opacity-60" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-[#00C47A]" />
             </span>
-            <span className="text-xs font-medium text-[#8B949E]">
-              3 meses gratis · sin tarjeta · precio fundador
-            </span>
+            <span className="text-xs font-medium text-[#8B949E]">3 meses gratis · sin tarjeta</span>
           </motion.div>
 
           {/* Headline */}
@@ -119,8 +117,7 @@ export default function Hero() {
             transition={{ duration: 0.5, delay: 0.48 }}
             className="mb-8 text-xs text-[#8B949E]"
           >
-            Sin tarjeta · Elige tu plan y pruébalo 3 meses · 50% OFF de por vida para los primeros
-            negocios
+            Sin tarjeta · Elige tu plan y pruébalo 3 meses · Pagas solo si decides continuar
           </motion.p>
         </div>
 

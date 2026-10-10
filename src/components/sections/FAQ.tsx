@@ -39,7 +39,7 @@ const faqs = [
   {
     question: "¿Puedo cancelar mi suscripción?",
     answer:
-      "Sí, sin penalidades. Tu plan no se renueva solo: cada pago activa 30 días y, si no pagas otro periodo, al vencer (más unos días de gracia) pasas al plan Free sin perder tus datos. El precio fundador conserva el 50% OFF mientras mantengas tu suscripción activa.",
+      "Sí, sin penalidades. Tu plan no se renueva solo: cada pago activa 30 días y, si no pagas otro periodo, al vencer (más unos días de gracia) pasas al plan Free sin perder tus datos.",
   },
   {
     question: "¿Funciona en móvil?",
@@ -52,9 +52,9 @@ const faqs = [
       "Sí. La idea es que puedas empezar simple y subir de plan cuando necesites más capacidad, más usuarios o una operación más estructurada.",
   },
   {
-    question: "¿Cómo funciona el descuento de 50% OFF?",
+    question: "¿Cómo funciona la prueba gratis de 3 meses?",
     answer:
-      "Los primeros negocios inmobiliarios que reserven acceso obtienen precio fundador con 50% OFF de por vida sobre su plan al activarse Armio. Registrarte ahora no tiene costo ni requiere tarjeta: tienes 3 meses gratis y solo pagas si decides continuar.",
+      "Te registras sin tarjeta, eliges el plan que necesitas y lo usas completo durante 3 meses sin pagar nada. Al terminar, si quieres seguir pagas mes a mes (tu plan no se renueva solo); si no, pasas al plan Free y conservas tus datos.",
   },
 ];
 

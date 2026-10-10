@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({
         success: true,
         status: "duplicate",
-        message: "Este correo ya está reservado en early access.",
+        message: "Este correo ya está suscrito.",
       });
     }
 
@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
       {
         success: true,
         status: "created",
-        message: "Reservaste tu acceso a Armio.",
+        message: "Te suscribiste a las novedades de Armio.",
       },
       { status: 201 }
     );

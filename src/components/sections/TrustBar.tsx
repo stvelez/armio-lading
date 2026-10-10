@@ -10,7 +10,7 @@ import { Users, Globe, Star } from "lucide-react";
 const metrics = [
   { icon: Users, value: "3 meses", label: "gratis, sin tarjeta" },
   { icon: Globe, value: "Colombia", label: "mercado inmobiliario objetivo" },
-  { icon: Star, value: "Fundador", label: "precio bloqueado de por vida" },
+  { icon: Star, value: "Sin cobro automático", label: "pagas mes a mes, solo si decides seguir" },
 ];
 
 // TODO: Habilitar cuando tengamos testimonios reales

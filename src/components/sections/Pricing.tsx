@@ -4,10 +4,7 @@ import { API_URL, REGISTER_URL } from "@/lib/app-links";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
-import Countdown from "@/components/ui/Countdown";
-import Badge from "@/components/ui/Badge";
 import { trackCTAClick, trackPricingView } from "@/lib/analytics";
-import { EARLY_ACCESS_CLAIMED_SPOTS, EARLY_ACCESS_TOTAL_SPOTS } from "@/lib/early-access";
 
 const SHOW_PRICES = process.env.NEXT_PUBLIC_SHOW_PRICES === "true";
 
@@ -31,7 +28,7 @@ const plans = [
       { text: "Soporte por comunidad" },
     ] as PlanFeature[],
     popular: false,
-    earlyAccess: false,
+    paid: false,
     cta: "Crear cuenta gratis",
     ctaHref: REGISTER_URL,
   },
@@ -39,7 +36,6 @@ const plans = [
     name: "Independiente",
     segment: "Asesor o broker solo",
     price: "$49.000/mes",
-    originalPrice: "$98.000/mes",
     priceAnchor: "Menos de $1.700 al día para operar con orden",
     description: "Para el asesor que opera solo y quiere dejar de llevar todo en la cabeza",
     features: [
@@ -50,7 +46,7 @@ const plans = [
       { text: "Soporte por email" },
     ] as PlanFeature[],
     popular: false,
-    earlyAccess: true,
+    paid: true,
     cta: "Probar 3 meses gratis",
     ctaHref: REGISTER_URL,
   },
@@ -58,7 +54,6 @@ const plans = [
     name: "Starter",
     segment: "Microequipo",
     price: "$89.000/mes",
-    originalPrice: "$179.000/mes",
     priceAnchor: "Menos de $3.000 al día para operar con orden",
     description: "La entrada clara para microequipos y agencias pequeñas",
     features: [
@@ -69,7 +64,7 @@ const plans = [
       { text: "Soporte por email" },
     ] as PlanFeature[],
     popular: true,
-    earlyAccess: true,
+    paid: true,
     cta: "Probar 3 meses gratis",
     ctaHref: REGISTER_URL,
   },
@@ -77,7 +72,6 @@ const plans = [
     name: "Pro",
     segment: "Agencia en crecimiento",
     price: "$219.000/mes",
-    originalPrice: "$439.000/mes",
     priceAnchor: "Cuando ya necesitas operar y coordinar equipo",
     description: "Para agencias que ya necesitan más capacidad y más control",
     features: [
@@ -88,7 +82,7 @@ const plans = [
       { text: "Soporte por email" },
     ] as PlanFeature[],
     popular: false,
-    earlyAccess: true,
+    paid: true,
     cta: "Probar 3 meses gratis",
     ctaHref: REGISTER_URL,
   },
@@ -96,7 +90,6 @@ const plans = [
     name: "Agencia",
     segment: "Operación consolidada",
     price: "$399.000/mes",
-    originalPrice: "$799.000/mes",
     priceAnchor: "Capacidad total para operar sin topes",
     description: "Para equipos que necesitan escala, soporte y margen operativo",
     features: [
@@ -108,7 +101,7 @@ const plans = [
       { text: "Soporte por email" },
     ] as PlanFeature[],
     popular: false,
-    earlyAccess: true,
+    paid: true,
     cta: "Probar 3 meses gratis",
     ctaHref: REGISTER_URL,
   },
@@ -182,11 +175,9 @@ export default function Pricing() {
             Empieza simple, mantén precio en pesos colombianos y escala sin cambiar de sistema
           </p>
           <div className="inline-flex items-center gap-3 rounded-full border border-[#00C47A]/30 bg-[#00C47A]/8 px-5 py-2.5">
-            <Countdown
-              spots={EARLY_ACCESS_TOTAL_SPOTS}
-              spotsTaken={EARLY_ACCESS_CLAIMED_SPOTS}
-              variant="dark"
-            />
+            <span className="text-sm font-semibold text-[#4DDBA0]">
+              3 meses gratis en cualquier plan · sin tarjeta
+            </span>
           </div>
         </motion.div>
 
@@ -221,7 +212,6 @@ export default function Pricing() {
               {/* Plan header */}
               <div className="mb-2 flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-[#F0F6FC]">{plan.name}</h3>
-                {plan.earlyAccess && <Badge variant="warning">⭐ Fundador</Badge>}
               </div>
               <p className="mb-1 text-[11px] font-semibold tracking-[0.12em] text-[#00C47A] uppercase">
                 {plan.segment}
@@ -234,11 +224,6 @@ export default function Pricing() {
                   <div>
                     <div className="flex items-baseline gap-2">
                       <span className="text-3xl font-semibold text-[#F0F6FC]">{plan.price}</span>
-                      {plan.earlyAccess && plan.originalPrice && (
-                        <span className="text-sm text-[#484F58] line-through">
-                          {plan.originalPrice}
-                        </span>
-                      )}
                     </div>
                     {vatNote && plan.name !== "Free" && (
                       <p className="mt-0.5 text-[11px] text-[#8B949E]">{vatNote}</p>
@@ -252,12 +237,10 @@ export default function Pricing() {
                 ) : (
                   <div>
                     <span className="text-2xl font-semibold text-[#F0F6FC]">
-                      {plan.name === "Free" ? "Gratis" : "Early Access"}
+                      {plan.name === "Free" ? "Gratis" : "3 meses gratis"}
                     </span>
                     <p className="mt-1 text-[11px] leading-snug text-[#8B949E]">
-                      {plan.priceAnchor
-                        ? `${plan.priceAnchor} · Precio oficial después del lanzamiento`
-                        : "Sin tarjeta y sin cobro hoy"}
+                      {plan.priceAnchor ? plan.priceAnchor : "Sin tarjeta y sin cobro hoy"}
                     </p>
                   </div>
                 )}
@@ -273,7 +256,7 @@ export default function Pricing() {
                       className={`mt-0.5 flex-shrink-0 ${
                         plan.popular
                           ? "text-[#00C47A]"
-                          : plan.earlyAccess
+                          : plan.paid
                             ? "text-[#4DDBA0]"
                             : "text-[#484F58]"
                       }`}
@@ -297,7 +280,7 @@ export default function Pricing() {
                 className={`w-full rounded-xl border px-4 py-2.5 text-center text-sm font-semibold transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] ${
                   plan.popular
                     ? "border-[#00C47A] bg-[#00C47A] font-bold text-[#0D1117] hover:border-[#4DDBA0] hover:bg-[#4DDBA0]"
-                    : plan.earlyAccess
+                    : plan.paid
                       ? "border border-[#00C47A]/40 bg-transparent text-[#00C47A] hover:border-[#00C47A] hover:bg-[#00C47A]/10"
                       : "border border-[#21262D] bg-transparent text-[#8B949E] hover:border-[#8B949E] hover:text-[#F0F6FC]"
                 }`}

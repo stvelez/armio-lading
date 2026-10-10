@@ -47,9 +47,9 @@ export default function ExitIntent() {
             Antes de irte: prueba Armio 3 meses gratis
           </h2>
           <p className="text-sm text-neutral-400">
-            Crea tu cuenta en minutos, elige el plan que necesitas y consigue{" "}
-            <span className="font-semibold text-[#1D9E75]">50% OFF de por vida</span> con precio
-            fundador. Sin tarjeta.
+            Crea tu cuenta en minutos, elige el plan que necesitas y úsalo{" "}
+            <span className="font-semibold text-[#1D9E75]">sin pagar nada</span> durante 3 meses.
+            Sin tarjeta.
           </p>
         </div>
 
@@ -62,7 +62,7 @@ export default function ExitIntent() {
         </a>
 
         <p className="mt-4 text-center text-xs text-neutral-600">
-          Sin tarjeta · Sin compromiso · Cancela cuando quieras
+          Sin tarjeta · Sin compromiso · Sin cobro automático
         </p>
       </div>
     </div>

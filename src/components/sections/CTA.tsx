@@ -5,11 +5,7 @@ import { CheckCircle2 } from "lucide-react";
 import { trackCTAClick } from "@/lib/analytics";
 import { REGISTER_URL } from "@/lib/app-links";
 
-const benefits = [
-  "3 meses gratis",
-  "Sin tarjeta",
-  "50% OFF de por vida para los primeros negocios",
-];
+const benefits = ["3 meses gratis", "Sin tarjeta", "Pagas solo si decides continuar"];
 
 export default function CTA() {
   const [fixedCTADismissed, setFixedCTADismissed] = useState(false);

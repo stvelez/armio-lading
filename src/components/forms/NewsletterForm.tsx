@@ -36,10 +36,10 @@ export default function NewsletterForm({
   showEmailField = true,
   className = "",
   placeholder = "tu@email.com",
-  buttonText = "Únete a la lista de espera",
+  buttonText = "Suscribirme a las novedades",
   onSuccess,
-  successTitle = "¡Reservaste tu acceso!",
-  successDescription = "Te escribiremos cuando abramos el onboarding con tu precio fundador.",
+  successTitle = "¡Listo, ya estás suscrito!",
+  successDescription = "Te escribiremos con novedades de Armio. Si quieres probarlo ya, crea tu cuenta: 3 meses gratis, sin tarjeta.",
 }: NewsletterFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionState, setSubmissionState] = useState<{
@@ -80,8 +80,9 @@ export default function NewsletterForm({
       const isDuplicate = result.status === "duplicate";
       const nextState = isDuplicate
         ? {
-            title: "Este correo ya está reservado",
-            description: "Ya tienes tu lugar en early access. Te escribiremos cuando abramos.",
+            title: "Este correo ya está suscrito",
+            description:
+              "Ya recibes nuestras novedades. Si aún no tienes cuenta, puedes crearla gratis por 3 meses.",
           }
         : {
             title: successTitle,
@@ -205,8 +206,7 @@ export default function NewsletterForm({
             className="mt-1 h-4 w-4 flex-shrink-0 rounded border-[#21262D] bg-[#161B22] accent-[#00C47A]"
           />
           <span>
-            Autorizo a Armio a usar mi correo para informarme sobre el lanzamiento y las novedades,
-            según la{" "}
+            Autorizo a Armio a usar mi correo para informarme sobre las novedades de Armio, según la{" "}
             {privacyUrl ? (
               <a href={privacyUrl} className="underline transition-colors hover:text-white">
                 Política de privacidad

@@ -101,7 +101,7 @@ export default function Image() {
           }}
         />
         <div style={{ fontSize: 20, color: "#0F6E56", fontWeight: 600, display: "flex" }}>
-          Early access abierto
+          3 meses gratis · sin tarjeta
         </div>
       </div>
 
