@@ -1,7 +1,7 @@
 "use client";
 
-import { REGISTER_URL } from "@/lib/app-links";
-import { useEffect, useRef } from "react";
+import { API_URL, REGISTER_URL } from "@/lib/app-links";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import Countdown from "@/components/ui/Countdown";
@@ -83,9 +83,9 @@ const plans = [
     features: [
       { text: "10 usuarios" },
       { text: "200 propiedades activas" },
-      { text: "CRM y operación ampliada" },
-      { text: "Contratos + documentos" },
-      { text: "Soporte email prioritario" },
+      { text: "Leads, clientes y Mi día" },
+      { text: "Contratos digitales" },
+      { text: "Soporte por email" },
     ] as PlanFeature[],
     popular: false,
     earlyAccess: true,
@@ -102,10 +102,10 @@ const plans = [
     features: [
       { text: "Usuarios ilimitados" },
       { text: "Propiedades ilimitadas" },
-      { text: "CRM y operación ampliada" },
-      { text: "Contratos + documentos" },
+      { text: "Leads, clientes y Mi día" },
+      { text: "Contratos digitales" },
       { text: "WhatsApp nativo", comingSoon: true },
-      { text: "Soporte prioritario" },
+      { text: "Soporte por email" },
     ] as PlanFeature[],
     popular: false,
     earlyAccess: true,
@@ -114,7 +114,28 @@ const plans = [
   },
 ];
 
+/** Si el precio publicado incluye IVA o se suma aparte: lo define el API (no se asume). */
+function useVatNote() {
+  const [note, setNote] = useState<string | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`${API_URL}/billing/pricing`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((body) => {
+        const vat = (body?.data ?? body)?.vat as { rate: number; included: boolean } | undefined;
+        if (cancelled || !vat) return;
+        setNote(vat.included ? "IVA incluido" : `+ IVA (${Math.round(vat.rate * 100)} %)`);
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+  return note;
+}
+
 export default function Pricing() {
+  const vatNote = useVatNote();
   const hasTrackedView = useRef(false);
   const sectionRef = useRef<HTMLElement | null>(null);
 
@@ -219,6 +240,9 @@ export default function Pricing() {
                         </span>
                       )}
                     </div>
+                    {vatNote && plan.name !== "Free" && (
+                      <p className="mt-0.5 text-[11px] text-[#8B949E]">{vatNote}</p>
+                    )}
                     {plan.priceAnchor && (
                       <p className="mt-1 text-[11px] font-medium text-[#00C47A]">
                         {plan.priceAnchor}
@@ -301,8 +325,8 @@ export default function Pricing() {
           transition={{ duration: 0.5, delay: 0.4 }}
           className="mt-8 text-center text-xs text-[#484F58]"
         >
-          El precio fundador de early access mantiene el 50% OFF mientras tu suscripción siga
-          activa. No hay cobro al registrarte.
+          Precios en pesos colombianos{vatNote ? `, ${vatNote.toLowerCase()}` : ""}. Pagas mes a mes
+          cuando tú decidas: no hay cobro automático ni cobro al registrarte.
         </motion.p>
       </div>
     </section>
