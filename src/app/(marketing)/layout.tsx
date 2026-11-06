@@ -5,7 +5,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Toaster } from "react-hot-toast";
 import MotionProvider from "@/components/providers/MotionProvider";
 import AnalyticsGate from "@/components/providers/AnalyticsGate";
-import "./globals.css";
+import "../globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta-sans",

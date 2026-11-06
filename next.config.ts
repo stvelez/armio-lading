@@ -9,6 +9,13 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ["lucide-react", "framer-motion"],
   },
+  images: {
+    remotePatterns: [
+      { protocol: "https", hostname: "media.armio.co" },
+      { protocol: "https", hostname: "*.r2.dev" },
+      { protocol: "https", hostname: "res.cloudinary.com" },
+    ],
+  },
   turbopack: {
     root: __dirname,
   },
