@@ -22,12 +22,15 @@ function luminance(hex: string): number {
   return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2];
 }
 
+const DARK_TEXT = "#111827";
+
 /** Blanco o casi negro, el que dé más contraste sobre el color dado. */
 export function onColor(hex: string): string {
   const l = luminance(hex);
   const contrastWhite = 1.05 / (l + 0.05);
-  const contrastBlack = (l + 0.05) / 0.05;
-  return contrastWhite >= contrastBlack ? "#FFFFFF" : "#111827";
+  // El texto oscuro es #111827 (no negro puro): su contraste se calcula con su propia luminancia
+  const contrastDark = (l + 0.05) / (luminance(DARK_TEXT) + 0.05);
+  return contrastWhite >= contrastDark ? "#FFFFFF" : DARK_TEXT;
 }
 
 const priceFormatter = new Intl.NumberFormat("es-CO");
