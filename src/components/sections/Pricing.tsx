@@ -40,7 +40,7 @@ const plans = [
     description: "Para el asesor que opera solo y quiere dejar de llevar todo en la cabeza",
     features: [
       { text: "1 usuario" },
-      { text: "20 propiedades activas" },
+      { text: "30 propiedades activas" },
       { text: "Leads y clientes" },
       { text: "Contratos digitales" },
       { text: "Soporte por email" },
@@ -57,8 +57,9 @@ const plans = [
     priceAnchor: "Menos de $3.000 al día para operar con orden",
     description: "La entrada clara para microequipos y agencias pequeñas",
     features: [
-      { text: "5 usuarios" },
-      { text: "50 propiedades activas" },
+      { text: "3 usuarios incluidos (hasta 5)" },
+      { text: "120 propiedades activas" },
+      { text: "Usuario extra: $16.000/mes" },
       { text: "Leads, clientes y Mi día" },
       { text: "Contratos digitales" },
       { text: "Soporte por email" },
@@ -75,8 +76,9 @@ const plans = [
     priceAnchor: "Cuando ya necesitas operar y coordinar equipo",
     description: "Para agencias que ya necesitan más capacidad y más control",
     features: [
-      { text: "10 usuarios" },
-      { text: "200 propiedades activas" },
+      { text: "8 usuarios incluidos" },
+      { text: "Propiedades ilimitadas" },
+      { text: "Usuario extra: $16.000/mes" },
       { text: "Leads, clientes y Mi día" },
       { text: "Contratos digitales" },
       { text: "Soporte por email" },
@@ -93,8 +95,9 @@ const plans = [
     priceAnchor: "Capacidad total para operar sin topes",
     description: "Para equipos que necesitan escala, soporte y margen operativo",
     features: [
-      { text: "Usuarios ilimitados" },
+      { text: "20 usuarios incluidos" },
       { text: "Propiedades ilimitadas" },
+      { text: "Usuario extra: $16.000/mes" },
       { text: "Leads, clientes y Mi día" },
       { text: "Contratos digitales" },
       { text: "WhatsApp nativo", comingSoon: true },
