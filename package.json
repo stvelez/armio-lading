@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
-    "@next/third-parties": "^16.4.0",
+    "@next/third-parties": "^16.4.5",
     "@types/canvas-confetti": "^1.9.0",
     "@types/pg": "^8.20.0",
     "@vercel/analytics": "^2.0.1",
@@ -23,14 +23,14 @@
     "canvas-confetti": "^1.9.4",
     "framer-motion": "^12.38.0",
     "lucide-react": "^0.577.0",
-    "next": "^16.4.0",
+    "next": "^16.4.5",
     "pg": "^8.20.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-hook-form": "^7.71.2",
     "react-hot-toast": "^2.6.0",
     "resend": "^6.9.4",
-    "zod": "^4.3.6"
+    "zod": "^4.6.7"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
@@ -46,7 +46,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "^16.4.0",
+    "eslint-config-next": "^16.4.5",
     "eslint-config-prettier": "^10.1.8",
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",
