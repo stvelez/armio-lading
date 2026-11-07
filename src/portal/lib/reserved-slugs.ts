@@ -58,4 +58,8 @@ export const RESERVED_SLUGS: ReadonlySet<string> = new Set([
   "ftp",
   "smtp",
   "root",
+  "send",
+  "autoconfig",
+  "autodiscover",
+  "stage-app",
 ]);
