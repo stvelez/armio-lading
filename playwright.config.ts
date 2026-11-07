@@ -1,6 +1,9 @@
 import { defineConfig, devices } from "@playwright/test";
 
-const BASE_URL = "http://localhost:3000";
+// El portal vive en subdominios: Chromium resuelve *.localhost a loopback.
+const ROOT = "localhost:3000";
+const BASE_URL = "http://inmobiliaria-demo.localhost:3000";
+const ROOT_URL = `http://${ROOT}`;
 
 export default defineConfig({
   testDir: "./tests/e2e",
@@ -30,9 +33,12 @@ export default defineConfig({
   ],
   webServer: {
     command: "npm run dev",
-    url: BASE_URL,
+    url: ROOT_URL,
     reuseExistingServer: true,
     timeout: 120_000,
-    env: { PORTAL_API_URL: "http://localhost:4000/api/v1" },
+    env: {
+      NEXT_PUBLIC_PORTAL_ROOT_DOMAIN: ROOT,
+      PORTAL_API_URL: "http://localhost:4000/api/v1",
+    },
   },
 });

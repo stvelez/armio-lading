@@ -4,7 +4,8 @@ import { Search } from "lucide-react";
 import JsonLd from "@/portal/components/JsonLd";
 import PropertyGrid from "@/portal/components/PropertyGrid";
 import { getProfile, getProperties, loadProfile } from "@/portal/lib/api";
-import { absoluteUrl, portalPath, truncate } from "@/portal/lib/format";
+import { truncate } from "@/portal/lib/format";
+import { portalPath, portalUrl } from "@/portal/lib/urls";
 import { agentJsonLd, buildMetadata } from "@/portal/lib/seo";
 
 type Props = { params: Promise<{ tenant: string }> };
@@ -21,7 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return buildMetadata({
     title: `${profile.name}${profile.tagline ? ` – ${profile.tagline}` : " – Propiedades en arriendo y venta"}`,
     description,
-    path: portalPath(profile.slug),
+    url: portalUrl(profile.slug),
     image: profile.logo_url,
     siteName: profile.name,
   });
@@ -32,12 +33,12 @@ const select =
 
 export default async function PortalHomePage({ params }: Props) {
   const { tenant } = await params;
-  const profile = await getProfile(tenant, (slug) => portalPath(slug));
+  const profile = await getProfile(tenant, (slug) => portalUrl(slug));
   const slug = profile.slug;
   const { items: latest } = await getProperties(
     slug,
     { orden: "recientes" },
-    (s) => portalPath(s),
+    (s) => portalUrl(s),
     6
   );
   const featured = profile.featured;
@@ -46,7 +47,7 @@ export default async function PortalHomePage({ params }: Props) {
 
   return (
     <>
-      <JsonLd data={agentJsonLd(profile, absoluteUrl(portalPath(slug)))} />
+      <JsonLd data={agentJsonLd(profile, portalUrl(slug))} />
 
       <section className="bg-portal text-on-portal">
         <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
@@ -56,7 +57,7 @@ export default async function PortalHomePage({ params }: Props) {
           <p className="mt-2 text-lg opacity-90">Propiedades en arriendo y venta</p>
 
           <form
-            action={portalPath(slug, "/propiedades")}
+            action={portalPath("/propiedades")}
             method="get"
             className="mt-8 grid gap-3 rounded-xl bg-white p-4 text-stone-900 shadow-lg sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_auto]"
             aria-label="Buscar propiedades"
@@ -116,7 +117,7 @@ export default async function PortalHomePage({ params }: Props) {
               Propiedades destacadas
             </h2>
             <div className="mt-6">
-              <PropertyGrid tenant={slug} properties={featured} priorityCount={3} />
+              <PropertyGrid properties={featured} priorityCount={3} />
             </div>
           </section>
         )}
@@ -128,18 +129,14 @@ export default async function PortalHomePage({ params }: Props) {
                 Últimas publicadas
               </h2>
               <Link
-                href={portalPath(slug, "/propiedades")}
+                href={portalPath("/propiedades")}
                 className="text-sm font-semibold text-stone-800 underline underline-offset-4"
               >
                 Ver todas
               </Link>
             </div>
             <div className="mt-6">
-              <PropertyGrid
-                tenant={slug}
-                properties={recent}
-                priorityCount={featured.length > 0 ? 0 : 3}
-              />
+              <PropertyGrid properties={recent} priorityCount={featured.length > 0 ? 0 : 3} />
             </div>
           </section>
         )}

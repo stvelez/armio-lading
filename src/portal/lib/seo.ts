@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { PortalProfile, PortalPropertyDetail } from "../types";
-import { absoluteUrl, httpsUrl, operationLabel, truncate } from "./format";
+import { httpsUrl, operationLabel, truncate } from "./format";
+import { portalUrl } from "./urls";
 
 export function placeLabel(loc: { area: string | null; city: string | null }): string {
   return loc.area || loc.city || "";
@@ -24,12 +25,13 @@ export function propertyDescription(property: PortalPropertyDetail, profile: Por
 export function buildMetadata(opts: {
   title: string;
   description: string;
-  path: string;
+  /** URL absoluta en el subdominio del tenant (`portalUrl`). */
+  url: string;
   image?: string | null;
   siteName: string;
   noindex?: boolean;
 }): Metadata {
-  const url = absoluteUrl(opts.path);
+  const { url } = opts;
   const image = httpsUrl(opts.image);
   return {
     title: { absolute: opts.title },
@@ -124,13 +126,13 @@ export function propertyJsonLd(opts: {
         "@type": "ListItem",
         position: 1,
         name: profile.name,
-        item: absoluteUrl(`/p/${profile.slug}`),
+        item: portalUrl(profile.slug),
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Propiedades",
-        item: absoluteUrl(`/p/${profile.slug}/propiedades`),
+        item: portalUrl(profile.slug, "/propiedades"),
       },
       { "@type": "ListItem", position: 3, name: property.title, item: url },
     ],

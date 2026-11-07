@@ -2,15 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { MessageCircle, Phone } from "lucide-react";
 import type { PortalProfile } from "../types";
-import { httpsUrl, imageProps, portalPath, telHref, whatsappHref } from "../lib/format";
+import { httpsUrl, imageProps, telHref, whatsappHref } from "../lib/format";
+import { portalPath } from "../lib/urls";
 
-export default function PortalHeader({
-  profile,
-  slug,
-}: {
-  profile: PortalProfile | null;
-  slug: string;
-}) {
+export default function PortalHeader({ profile }: { profile: PortalProfile | null }) {
   const logo = httpsUrl(profile?.logo_url);
   const wa = profile
     ? whatsappHref(profile.contact.whatsapp, `Hola ${profile.name}, quiero más información.`)
@@ -22,7 +17,7 @@ export default function PortalHeader({
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
         {profile ? (
           <Link
-            href={portalPath(slug)}
+            href={portalPath()}
             className="flex min-w-0 items-center gap-3"
             aria-label={`${profile.name} – inicio`}
           >
@@ -43,7 +38,7 @@ export default function PortalHeader({
         {profile && (
           <nav aria-label="Principal" className="flex items-center gap-1 sm:gap-2">
             <Link
-              href={portalPath(slug, "/propiedades")}
+              href={portalPath("/propiedades")}
               className="rounded-lg px-3 py-2 text-sm font-medium text-stone-700 hover:bg-stone-100"
             >
               Propiedades

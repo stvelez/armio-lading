@@ -1,15 +1,10 @@
 import Link from "next/link";
 import { Facebook, Instagram, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import type { PortalProfile } from "../types";
-import { httpsUrl, portalPath, telHref, whatsappHref } from "../lib/format";
+import { httpsUrl, telHref, whatsappHref } from "../lib/format";
+import { portalPath } from "../lib/urls";
 
-export default function PortalFooter({
-  profile,
-  slug,
-}: {
-  profile: PortalProfile | null;
-  slug: string;
-}) {
+export default function PortalFooter({ profile }: { profile: PortalProfile | null }) {
   const instagram = httpsUrl(profile?.social.instagram);
   const facebook = httpsUrl(profile?.social.facebook);
   const wa = profile
@@ -100,12 +95,12 @@ export default function PortalFooter({
               </h2>
               <ul className="mt-3 space-y-2 text-sm text-stone-800">
                 <li>
-                  <Link href={portalPath(slug, "/propiedades")} className="hover:underline">
+                  <Link href={portalPath("/propiedades")} className="hover:underline">
                     Propiedades
                   </Link>
                 </li>
                 <li>
-                  <Link href={portalPath(slug, "/privacidad")} className="hover:underline">
+                  <Link href={portalPath("/privacidad")} className="hover:underline">
                     Aviso de privacidad
                   </Link>
                 </li>

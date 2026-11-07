@@ -6,7 +6,9 @@ import { expect, test, type Page } from "@playwright/test";
  */
 
 const TENANT = "inmobiliaria-demo";
-const PORTAL = `/p/${TENANT}`;
+const ROOT = "localhost:3000";
+const ORIGIN = `http://${TENANT}.${ROOT}`; // = baseURL de playwright.config.ts
+const PORTAL = ""; // las rutas del portal cuelgan de la raíz del subdominio
 const CANONICAL_SLUG = "9-penthouse-con-terraza-en-granada";
 const PROPERTY_URL = `${PORTAL}/propiedades/${CANONICAL_SLUG}`;
 
@@ -44,7 +46,7 @@ async function openFilters(page: Page) {
 
 test.describe("inicio y listado", () => {
   test("el inicio carga con el nombre de la inmobiliaria", async ({ page }) => {
-    const res = await page.goto(PORTAL);
+    const res = await page.goto("/");
     expect(res?.status()).toBe(200);
     await expect(page).toHaveTitle(/Inmobiliaria Demo/);
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
@@ -88,7 +90,7 @@ test.describe("inicio y listado", () => {
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
       "href",
-      /^https?:\/\/.+\/p\/inmobiliaria-demo\/propiedades\?operacion=venta$/
+      /^http:\/\/inmobiliaria-demo\.localhost:3000\/propiedades\?operacion=venta$/
     );
   });
 });
@@ -97,7 +99,8 @@ test.describe("ficha de propiedad", () => {
   test("/propiedades/9 redirige 308 a la URL canónica", async ({ request, page }) => {
     const res = await request.get(`${PORTAL}/propiedades/9`, { maxRedirects: 0 });
     expect(res.status()).toBe(308);
-    expect(res.headers()["location"]).toContain(PROPERTY_URL);
+    // Canonicalización dentro del mismo subdominio: Location sin /p/{slug}
+    expect(res.headers()["location"]).toBe(PROPERTY_URL);
 
     await page.goto(`${PORTAL}/propiedades/9`);
     await expect(page).toHaveURL(new RegExp(`${PROPERTY_URL}$`));
@@ -150,8 +153,7 @@ test.describe("ficha de propiedad", () => {
       await expect(page.locator(`meta[property="${prop}"]`)).toHaveAttribute("content", /.+/);
     }
     const canonical = await page.locator('link[rel="canonical"]').getAttribute("href");
-    expect(canonical).toMatch(/^https?:\/\//);
-    expect(canonical).toMatch(new RegExp(`${PROPERTY_URL}$`));
+    expect(canonical).toBe(`${ORIGIN}${PROPERTY_URL}`);
     await expect(page.locator('meta[property="og:url"]')).toHaveAttribute("content", canonical!);
 
     const blocks = await page.locator('script[type="application/ld+json"]').allTextContents();
@@ -176,12 +178,8 @@ test.describe("ficha de propiedad", () => {
   });
 
   test("tenant inexistente da 404 (inicio, listado y ficha)", async ({ page }) => {
-    for (const path of [
-      "/p/tenant-que-no-existe",
-      "/p/tenant-que-no-existe/propiedades",
-      "/p/tenant-que-no-existe/propiedades/9",
-    ]) {
-      const res = await page.goto(path);
+    for (const path of ["/", "/propiedades", "/propiedades/9"]) {
+      const res = await page.goto(`http://tenant-que-no-existe.${ROOT}${path}`);
       expect(res?.status(), path).toBe(404);
       await expect(page.getByText("No encontramos esta página")).toBeVisible();
     }
@@ -190,7 +188,7 @@ test.describe("ficha de propiedad", () => {
 
 test.describe("sin scroll horizontal", () => {
   for (const [name, path] of [
-    ["inicio", PORTAL],
+    ["inicio", "/"],
     ["listado", `${PORTAL}/propiedades`],
     ["ficha", PROPERTY_URL],
     ["ficha sin fotos", `${PORTAL}/propiedades/8-casa-remodelada-en-ciudad-jardin`],
@@ -264,5 +262,92 @@ test.describe("formulario de interés", () => {
     await page.getByLabel(/Autorizo a/).check();
     await page.getByRole("button", { name: "Enviar" }).click();
     await expect(page.getByText(/Has enviado varias solicitudes/)).toBeVisible();
+  });
+});
+
+test.describe("subdominio del portal", () => {
+  test("el inicio trae canónica y og:url del subdominio, sin /p/", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", ORIGIN);
+    await expect(page.locator('meta[property="og:url"]')).toHaveAttribute("content", ORIGIN);
+    expect(await page.content()).not.toContain("/p/inmobiliaria-demo");
+  });
+
+  test("los enlaces internos son relativos a la raíz del subdominio", async ({ page }) => {
+    await page.goto("/propiedades");
+    const hrefs = await page
+      .locator("a[href]")
+      .evaluateAll((as) => as.map((a) => a.getAttribute("href") ?? ""));
+    const internal = hrefs.filter((h) => h.startsWith("/"));
+    expect(internal).toContain("/propiedades");
+    expect(internal).toContain("/privacidad");
+    expect(internal.some((h) => /^\/propiedades\/\d+-/.test(h))).toBe(true);
+    expect(hrefs.filter((h) => h.includes("/p/"))).toEqual([]);
+  });
+
+  test("/propiedades?operacion=venta muestra 5", async ({ page }) => {
+    await page.goto("/propiedades?operacion=venta");
+    await expect(page.getByText("5 propiedades", { exact: true })).toBeVisible();
+  });
+
+  test("sitemap.xml del subdominio lista URLs del subdominio", async ({ request }) => {
+    const res = await request.get("/sitemap.xml");
+    expect(res.status()).toBe(200);
+    const xml = await res.text();
+    const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+    expect(locs.length).toBeGreaterThanOrEqual(8);
+    expect(locs.every((l) => l.startsWith(`${ORIGIN}`))).toBe(true);
+    expect(xml).not.toContain("/p/");
+    expect(locs).toContain(`${ORIGIN}/propiedades`);
+  });
+
+  test("robots.txt del subdominio permite todo y apunta al sitemap", async ({ request }) => {
+    const res = await request.get("/robots.txt");
+    expect(res.status()).toBe(200);
+    const body = await res.text();
+    expect(body).toContain("Allow: /");
+    expect(body).toContain(`Sitemap: ${ORIGIN}/sitemap.xml`);
+  });
+
+  test("/api/portal/leads responde desde el subdominio y desde la raíz", async ({ request }) => {
+    for (const base of [ORIGIN, `http://${ROOT}`]) {
+      const res = await request.post(`${base}/api/portal/leads`, { data: { nada: true } });
+      expect(res.status(), base).toBe(400); // validación propia de la ruta: existe
+    }
+  });
+});
+
+test.describe("dominio raíz y hosts reservados", () => {
+  test("/p/{slug}/... en la raíz responde 301 al subdominio", async ({ request }) => {
+    const res = await request.get(`http://${ROOT}/p/${TENANT}/propiedades?operacion=venta`, {
+      maxRedirects: 0,
+    });
+    expect(res.status()).toBe(301);
+    expect(res.headers()["location"]).toBe(`${ORIGIN}/propiedades?operacion=venta`);
+  });
+
+  test("el navegador termina en el subdominio y el portal carga", async ({ page }) => {
+    await page.goto(`http://${ROOT}/p/${TENANT}/propiedades`);
+    await expect(page).toHaveURL(`${ORIGIN}/propiedades`);
+    await expect(page.getByText("6 propiedades", { exact: true })).toBeVisible();
+  });
+
+  test("localhost y www.localhost siguen sirviendo marketing", async ({ request }) => {
+    for (const host of [ROOT, `www.${ROOT}`]) {
+      const res = await request.get(`http://${host}/`);
+      expect(res.status(), host).toBe(200);
+      const html = await res.text();
+      expect(html, host).toMatch(/Armio/);
+      expect(html, host).not.toContain("Portal inmobiliario");
+    }
+  });
+
+  test("un subdominio reservado no sirve el portal", async ({ request }) => {
+    for (const host of ["admin", "app", "api"]) {
+      const res = await request.get(`http://${host}.${ROOT}/propiedades`);
+      expect(res.status(), host).toBe(404);
+    }
+    const home = await request.get(`http://admin.${ROOT}/`);
+    expect(await home.text()).not.toContain("Inmobiliaria Demo");
   });
 });

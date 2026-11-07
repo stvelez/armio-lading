@@ -1,7 +1,5 @@
 import type { PortalPurposeSlug } from "../types";
 
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://armio.co").replace(/\/$/, "");
-
 /** Color por defecto de Armio, usado cuando el tenant no tiene (o tiene inválido) su color primario. */
 export const DEFAULT_PRIMARY = "#00965E";
 
@@ -55,19 +53,6 @@ export function truncate(text: string, max: number): string {
   const clean = text.replace(/\s+/g, " ").trim();
   if (clean.length <= max) return clean;
   return `${clean.slice(0, max - 1).trimEnd()}…`;
-}
-
-/** Ruta relativa al portal del tenant. */
-export function portalPath(tenant: string, sub = ""): string {
-  return `/p/${tenant}${sub}`;
-}
-
-export function propertyPath(tenant: string, code: number, slug: string): string {
-  return `/p/${tenant}/propiedades/${code}-${slug}`;
-}
-
-export function absoluteUrl(path: string): string {
-  return `${SITE_URL}${path}`;
 }
 
 /** Solo acepta URLs https absolutas (para imágenes y enlaces que vienen de datos del tenant). */

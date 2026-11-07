@@ -4,7 +4,8 @@ import "@/portal/portal.css";
 import PortalFooter from "@/portal/components/PortalFooter";
 import PortalHeader from "@/portal/components/PortalHeader";
 import { loadProfile } from "@/portal/lib/api";
-import { SITE_URL, onColor, safeColor } from "@/portal/lib/format";
+import { onColor, safeColor } from "@/portal/lib/format";
+import { portalOrigin } from "@/portal/lib/urls";
 
 const inter = Inter({
   variable: "--font-portal",
@@ -12,11 +13,18 @@ const inter = Inter({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
-  title: "Portal inmobiliario",
-  openGraph: { type: "website", locale: "es_CO" },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ tenant: string }>;
+}): Promise<Metadata> {
+  const { tenant } = await params;
+  return {
+    metadataBase: new URL(portalOrigin(tenant)),
+    title: "Portal inmobiliario",
+    openGraph: { type: "website", locale: "es_CO" },
+  };
+}
 
 /**
  * Layout raíz del portal público. Es independiente del sitio de marketing: sin analítica ni
@@ -52,11 +60,11 @@ export default async function PortalLayout({
         >
           Saltar al contenido
         </a>
-        <PortalHeader profile={profile} slug={profile?.slug ?? tenant} />
+        <PortalHeader profile={profile} />
         <main id="contenido" className="flex-1">
           {children}
         </main>
-        <PortalFooter profile={profile} slug={profile?.slug ?? tenant} />
+        <PortalFooter profile={profile} />
       </body>
     </html>
   );

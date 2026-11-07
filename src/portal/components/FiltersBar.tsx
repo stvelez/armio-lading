@@ -8,7 +8,7 @@ import type { PortalFilters, PortalProfile } from "../types";
 import { ORDEN_LABELS, ORDENES, toQuery } from "../lib/filters";
 
 interface Props {
-  /** Ruta del listado, p. ej. `/p/mi-agencia/propiedades`. */
+  /** Ruta del listado, p. ej. `/propiedades` (relativa al subdominio). */
   basePath: string;
   filters: PortalFilters;
   facets: PortalProfile["facets"];

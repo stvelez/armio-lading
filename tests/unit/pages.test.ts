@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { absoluteUrl } from "@/portal/lib/format";
+import { portalUrl } from "@/portal/lib/urls";
 import { makeProfile, makeProperty } from "./fixtures";
 
 const state = vi.hoisted(() => ({
@@ -69,7 +69,7 @@ describe("generateMetadata de la ficha", () => {
   it("canónica absoluta {code}-{slug}", async () => {
     const m = await meta("9");
     expect(m.alternates?.canonical).toBe(
-      absoluteUrl(`/p/inmobiliaria-demo/propiedades/${canonical}`)
+      portalUrl("inmobiliaria-demo", `/propiedades/${canonical}`)
     );
     expect(m.robots).toEqual({ index: true, follow: true });
   });
@@ -89,7 +89,8 @@ describe("redirección y 404 de la ficha", () => {
   it("code sin slug -> redirección permanente (308) a la canónica", async () => {
     const err: any = await render("9").catch((e) => e);
     expect(err.digest).toMatch(/^NEXT_REDIRECT;replace;/);
-    expect(err.digest).toContain(`/p/inmobiliaria-demo/propiedades/${canonical}`);
+    expect(err.digest).toContain(`;/propiedades/${canonical};`);
+    expect(err.digest).not.toContain("/p/");
     expect(err.digest).toContain(";308;");
   });
 
@@ -113,7 +114,8 @@ describe("redirección y 404 de la ficha", () => {
   it("slug de tenant cambiado (redirect_to) -> 308 a la misma ficha con el slug nuevo", async () => {
     state.profile = { kind: "redirect", slug: "nuevo-slug" };
     const err: any = await render(canonical).catch((e) => e);
-    expect(err.digest).toContain(`/p/nuevo-slug/propiedades/${canonical}`);
+    expect(err.digest).toContain(`;${portalUrl("nuevo-slug", `/propiedades/${canonical}`)};`);
+    expect(err.digest).not.toContain("/p/");
     expect(err.digest).toContain(";308;");
   });
 
@@ -128,7 +130,7 @@ describe("generateMetadata del listado", () => {
       params: Promise.resolve({ tenant: "inmobiliaria-demo" }),
       searchParams: Promise.resolve(sp),
     });
-  const base = absoluteUrl("/p/inmobiliaria-demo/propiedades");
+  const base = portalUrl("inmobiliaria-demo", "/propiedades");
 
   it("sin filtros: canónica limpia e indexable", async () => {
     const m = await listing({});

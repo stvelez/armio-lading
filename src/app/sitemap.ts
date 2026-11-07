@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getPortalIndex } from "@/portal/lib/api";
+import { portalOrigin } from "@/portal/lib/urls";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const marketing: MetadataRoute.Sitemap = [
@@ -16,7 +17,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     ...marketing,
     ...portals.map((p) => ({
-      url: `https://armio.co/p/${p.slug}`,
+      url: portalOrigin(p.slug),
       lastModified: new Date(p.updated_at),
       changeFrequency: "daily" as const,
       priority: 0.7,

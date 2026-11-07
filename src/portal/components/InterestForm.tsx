@@ -198,7 +198,7 @@ export default function InterestForm({
             <label htmlFor="lead-consent" className="text-xs leading-relaxed text-stone-700">
               Autorizo a <strong>{responsibleName}</strong>, como Responsable, a tratar mis datos
               personales para contactarme sobre este inmueble, conforme a la Ley 1581 de 2012 y a su{" "}
-              <Link href={`/p/${tenant}/privacidad`} target="_blank" className="underline">
+              <Link href={"/privacidad"} target="_blank" className="underline">
                 aviso de privacidad
               </Link>
               . Armio actúa como Encargado del tratamiento.

@@ -2,11 +2,9 @@ import type { PortalPropertyCard } from "../types";
 import PropertyCard from "./PropertyCard";
 
 export default function PropertyGrid({
-  tenant,
   properties,
   priorityCount = 0,
 }: {
-  tenant: string;
   properties: PortalPropertyCard[];
   priorityCount?: number;
 }) {
@@ -15,7 +13,7 @@ export default function PropertyGrid({
       {properties.map((property, i) => (
         <li key={property.code} className="flex">
           <div className="flex w-full">
-            <PropertyCard tenant={tenant} property={property} priority={i < priorityCount} />
+            <PropertyCard property={property} priority={i < priorityCount} />
           </div>
         </li>
       ))}

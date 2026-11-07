@@ -7,7 +7,7 @@ import Pagination from "@/portal/components/Pagination";
 import PropertyGrid from "@/portal/components/PropertyGrid";
 import { getProfile, getProperties, loadProfile } from "@/portal/lib/api";
 import { hasAnyFilter, hasNonCanonicalFilters, parseFilters, toQuery } from "@/portal/lib/filters";
-import { portalPath } from "@/portal/lib/format";
+import { portalPath, portalUrl } from "@/portal/lib/urls";
 import { buildMetadata } from "@/portal/lib/seo";
 import type { PortalFilters } from "@/portal/types";
 
@@ -35,7 +35,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   return buildMetadata({
     title,
     description: `Explora las propiedades disponibles de ${profile.name}: apartamentos, casas y más en arriendo y venta.`,
-    path: `${portalPath(profile.slug, "/propiedades")}${canonicalQuery}`,
+    url: portalUrl(profile.slug, `/propiedades${canonicalQuery}`),
     image: profile.logo_url,
     siteName: profile.name,
     noindex: hasNonCanonicalFilters(filters),
@@ -45,19 +45,17 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
 export default async function ListingPage({ params, searchParams }: Props) {
   const { tenant } = await params;
   const filters = parseFilters(await searchParams);
-  const rebuild = (slug: string) => `${portalPath(slug, "/propiedades")}${toQuery(filters)}`;
+  const rebuild = (slug: string) => portalUrl(slug, `/propiedades${toQuery(filters)}`);
 
   const profile = await getProfile(tenant, rebuild);
   const slug = profile.slug;
   const { items, meta } = await getProperties(slug, filters, rebuild);
-  const base = portalPath(slug, "/propiedades");
+  const base = portalPath("/propiedades");
   const activeCount = Object.keys(filters).filter((k) => k !== "page").length;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
-      <Breadcrumbs
-        items={[{ label: "Inicio", href: portalPath(slug) }, { label: "Propiedades" }]}
-      />
+      <Breadcrumbs items={[{ label: "Inicio", href: portalPath() }, { label: "Propiedades" }]} />
       <div className="mt-4 flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 className="text-2xl font-bold text-stone-900 sm:text-3xl">{heading(filters)}</h1>
@@ -104,7 +102,7 @@ export default async function ListingPage({ params, searchParams }: Props) {
             </div>
           ) : (
             <>
-              <PropertyGrid tenant={slug} properties={items} priorityCount={2} />
+              <PropertyGrid properties={items} priorityCount={2} />
               <Pagination
                 page={meta.page}
                 totalPages={meta.totalPages}

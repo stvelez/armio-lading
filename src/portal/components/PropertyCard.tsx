@@ -2,17 +2,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { Bath, BedDouble, Car, Maximize2, MapPin, ImageOff } from "lucide-react";
 import type { PortalPropertyCard } from "../types";
-import { formatNumber, httpsUrl, imageProps, propertyPath } from "../lib/format";
+import { formatNumber, httpsUrl, imageProps } from "../lib/format";
+import { propertyPath } from "../lib/urls";
 import PriceTag from "./PriceTag";
 
 interface Props {
-  tenant: string;
   property: PortalPropertyCard;
   priority?: boolean;
 }
 
-export default function PropertyCard({ tenant, property, priority = false }: Props) {
-  const href = propertyPath(tenant, property.code, property.slug);
+export default function PropertyCard({ property, priority = false }: Props) {
+  const href = propertyPath(property.code, property.slug);
   const image = httpsUrl(property.primary_image?.url);
   const place = property.location.area || property.location.city;
 

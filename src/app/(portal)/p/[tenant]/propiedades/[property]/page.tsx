@@ -12,7 +12,8 @@ import PropertyGallery from "@/portal/components/PropertyGallery";
 import PropertyMap from "@/portal/components/PropertyMap";
 import ShareButtons from "@/portal/components/ShareButtons";
 import { getProfile, loadProfile, loadProperty, unwrap } from "@/portal/lib/api";
-import { absoluteUrl, httpsUrl, portalPath, propertyPath } from "@/portal/lib/format";
+import { httpsUrl } from "@/portal/lib/format";
+import { portalPath, portalUrl, propertyPath } from "@/portal/lib/urls";
 import {
   buildMetadata,
   placeLabel,
@@ -52,7 +53,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return buildMetadata({
     title: propertyTitle(property, profile),
     description: propertyDescription(property, profile),
-    path: propertyPath(profile.slug, property.code, property.slug),
+    url: portalUrl(profile.slug, propertyPath(property.code, property.slug)),
     image: property.images[0]?.url ?? property.primary_image?.url,
     siteName: profile.name,
   });
@@ -63,7 +64,7 @@ export default async function PropertyPage({ params }: Props) {
   const code = parseCode(raw);
   if (code === null) notFound();
 
-  const rebuild = (slug: string) => `/p/${slug}/propiedades/${raw}`;
+  const rebuild = (slug: string) => portalUrl(slug, `/propiedades/${raw}`);
   const profile = await getProfile(tenant, rebuild);
   const slug = profile.slug;
   const property = unwrap(await loadProperty(tenant, code), rebuild);
@@ -76,9 +77,9 @@ export default async function PropertyPage({ params }: Props) {
   } catch {
     /* se compara tal cual */
   }
-  if (current !== canonical) permanentRedirect(propertyPath(slug, property.code, property.slug));
+  if (current !== canonical) permanentRedirect(propertyPath(property.code, property.slug));
 
-  const url = absoluteUrl(propertyPath(slug, property.code, property.slug));
+  const url = portalUrl(slug, propertyPath(property.code, property.slug));
   const place = placeLabel(property.location);
   const images = property.images.filter((i) => httpsUrl(i.url));
   const { latitude, longitude } = property.location;
@@ -92,8 +93,8 @@ export default async function PropertyPage({ params }: Props) {
       <JsonLd data={propertyJsonLd({ property, profile, url })} />
       <Breadcrumbs
         items={[
-          { label: "Inicio", href: portalPath(slug) },
-          { label: "Propiedades", href: portalPath(slug, "/propiedades") },
+          { label: "Inicio", href: portalPath() },
+          { label: "Propiedades", href: portalPath("/propiedades") },
           { label: property.title },
         ]}
       />

@@ -1,9 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { absoluteUrl, safeJsonLd } from "@/portal/lib/format";
+import { safeJsonLd } from "@/portal/lib/format";
+import { portalUrl } from "@/portal/lib/urls";
 import { buildMetadata, propertyJsonLd } from "@/portal/lib/seo";
 import { makeProfile, makeProperty } from "./fixtures";
 
-const url = "https://armio.co/p/inmobiliaria-demo/propiedades/9-penthouse";
+const url = "https://inmobiliaria-demo.armio.co/propiedades/9-penthouse";
 
 function listing(property = makeProperty()) {
   const [l] = propertyJsonLd({ property, profile: makeProfile(), url });
@@ -86,13 +87,13 @@ describe("propertyJsonLd", () => {
 });
 
 describe("buildMetadata", () => {
-  const base = { title: "T", description: "D", path: "/p/x/propiedades", siteName: "X" };
+  const base = { title: "T", description: "D", url: portalUrl("x", "/propiedades"), siteName: "X" };
 
   it("canónica absoluta e indexable por defecto", () => {
     const m = buildMetadata(base);
-    expect(m.alternates?.canonical).toBe(absoluteUrl("/p/x/propiedades"));
+    expect(m.alternates?.canonical).toBe(portalUrl("x", "/propiedades"));
     expect(m.robots).toEqual({ index: true, follow: true });
-    expect(m.openGraph).toMatchObject({ url: absoluteUrl("/p/x/propiedades"), siteName: "X" });
+    expect(m.openGraph).toMatchObject({ url: portalUrl("x", "/propiedades"), siteName: "X" });
   });
 
   it("noindex conserva follow", () => {

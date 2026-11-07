@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Breadcrumbs from "@/portal/components/Breadcrumbs";
 import { getProfile, loadProfile } from "@/portal/lib/api";
-import { httpsUrl, portalPath } from "@/portal/lib/format";
+import { httpsUrl } from "@/portal/lib/format";
+import { portalPath, portalUrl } from "@/portal/lib/urls";
 import { buildMetadata } from "@/portal/lib/seo";
 
 type Props = { params: Promise<{ tenant: string }> };
@@ -13,7 +14,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return buildMetadata({
     title: `Aviso de privacidad | ${result.data.name}`,
     description: `Cómo ${result.data.name} trata tus datos personales conforme a la Ley 1581 de 2012.`,
-    path: portalPath(result.data.slug, "/privacidad"),
+    url: portalUrl(result.data.slug, "/privacidad"),
     siteName: result.data.name,
   });
 }
@@ -29,8 +30,7 @@ const RIGHTS = [
 
 export default async function PrivacyPage({ params }: Props) {
   const { tenant } = await params;
-  const profile = await getProfile(tenant, (slug) => portalPath(slug, "/privacidad"));
-  const slug = profile.slug;
+  const profile = await getProfile(tenant, (slug) => portalUrl(slug, "/privacidad"));
   const responsible = profile.privacy.responsible_name || profile.name;
   const email = profile.privacy.contact_email || profile.contact.email;
   const policyUrl = httpsUrl(profile.privacy.policy_url);
@@ -38,7 +38,7 @@ export default async function PrivacyPage({ params }: Props) {
   return (
     <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6">
       <Breadcrumbs
-        items={[{ label: "Inicio", href: portalPath(slug) }, { label: "Aviso de privacidad" }]}
+        items={[{ label: "Inicio", href: portalPath() }, { label: "Aviso de privacidad" }]}
       />
       <h1 className="mt-4 text-3xl font-bold text-stone-900">Aviso de privacidad</h1>
       <p className="mt-2 text-sm text-stone-600">

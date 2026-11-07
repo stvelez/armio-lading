@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getSitemapEntries } from "@/portal/lib/api";
-import { absoluteUrl, portalPath, propertyPath } from "@/portal/lib/format";
+import { portalUrl, propertyPath } from "@/portal/lib/urls";
 
 const xmlEscape = (s: string) =>
   s
@@ -29,7 +29,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ tenant:
   }
   if (result.kind === "notfound") return notFound();
   if (result.kind === "redirect") {
-    return NextResponse.redirect(absoluteUrl(`${portalPath(result.slug)}/sitemap.xml`), 308);
+    return NextResponse.redirect(portalUrl(result.slug, "/sitemap.xml"), 308);
   }
 
   const slug = tenant.toLowerCase();
@@ -38,11 +38,11 @@ export async function GET(_req: Request, { params }: { params: Promise<{ tenant:
     null
   );
   const urls: { loc: string; lastmod?: string }[] = [
-    { loc: absoluteUrl(portalPath(slug)), lastmod: latest ?? undefined },
-    { loc: absoluteUrl(portalPath(slug, "/propiedades")), lastmod: latest ?? undefined },
-    { loc: absoluteUrl(portalPath(slug, "/privacidad")) },
+    { loc: portalUrl(slug), lastmod: latest ?? undefined },
+    { loc: portalUrl(slug, "/propiedades"), lastmod: latest ?? undefined },
+    { loc: portalUrl(slug, "/privacidad") },
     ...result.data.map((e) => ({
-      loc: absoluteUrl(propertyPath(slug, e.code, e.slug)),
+      loc: portalUrl(slug, propertyPath(e.code, e.slug)),
       lastmod: e.updated_at,
     })),
   ];
