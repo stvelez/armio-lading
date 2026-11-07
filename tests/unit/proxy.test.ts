@@ -43,6 +43,17 @@ describe("proxy con raíz armio.co", () => {
     expect(res.headers.get("x-middleware-next")).toBe("1");
   });
 
+  it("/api/portal/revalidate pasa sin reescribirse, en subdominio y en la raíz", () => {
+    for (const [url, host] of [
+      ["https://torres.armio.co/api/portal/revalidate", "torres.armio.co"],
+      ["https://armio.co/api/portal/revalidate", "armio.co"],
+    ]) {
+      const res = proxy(req(url, host));
+      expect(res.headers.get("x-middleware-rewrite"), url).toBeNull();
+      expect(res.headers.get("x-middleware-next"), url).toBe("1");
+    }
+  });
+
   it("no reescribe dos veces: /p/... en un subdominio redirige 301 al subdominio indicado", () => {
     const res = proxy(req("https://torres.armio.co/p/torres/propiedades?x=1", "torres.armio.co"));
     expect(res.headers.get("x-middleware-rewrite")).toBeNull();

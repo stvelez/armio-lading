@@ -10,6 +10,7 @@ import type {
   PortalSitemapEntry,
 } from "../types";
 import { PAGE_SIZE, toQuery } from "./filters";
+import { PORTAL_INDEX_TAG, portalTag, propertyTag } from "./tags";
 
 /**
  * Cliente del API público del portal. SOLO SERVIDOR: no importar desde componentes de cliente
@@ -54,7 +55,7 @@ async function portalGet<T>(path: string, tags: string[]): Promise<ApiResult<T>>
   return { kind: "ok", data: data as T, meta: body.meta };
 }
 
-const tagsFor = (slug: string, extra: string[] = []) => [`portal:${slug}`, ...extra];
+const tagsFor = (slug: string, extra: string[] = []) => [portalTag(slug), ...extra];
 
 /** Perfil (deduplicado por render). No lanza 404/redirect: lo resuelve quien lo llama. */
 export const loadProfile = cache((slug: string) =>
@@ -102,7 +103,7 @@ export async function getProperties(
 export const loadProperty = cache((slug: string, code: number) =>
   portalGet<PortalPropertyDetail>(
     `/public/portal/${encodeURIComponent(slug)}/properties/${code}`,
-    tagsFor(slug, [`portal:${slug}:prop:${code}`])
+    tagsFor(slug, [propertyTag(slug, code)])
   )
 );
 
@@ -120,7 +121,7 @@ export async function getPortalIndex(): Promise<PortalIndexEntry[]> {
   try {
     const res = await fetch(`${PORTAL_API_URL}/public/portal/index`, {
       headers: { Accept: "application/json", "x-portal-key": key },
-      next: { revalidate: 3600, tags: ["portal:index"] },
+      next: { revalidate: 3600, tags: [PORTAL_INDEX_TAG] },
       signal: AbortSignal.timeout(5000),
     });
     if (!res.ok) return [];
