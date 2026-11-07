@@ -24,7 +24,7 @@ export interface PortalPropertyCard {
   parking_spaces: number | null;
   stratum: number | null;
   location: PortalCardLocation;
-  primary_image: { url: string } | null;
+  primary_image: { url: string; thumbnail_url?: string | null } | null;
   image_count: number;
   is_featured: boolean;
   badge: "reservada" | null;
@@ -40,7 +40,7 @@ export interface PortalPropertyDetail extends Omit<PortalPropertyCard, "location
     longitude?: number;
   };
   description: string | null;
-  images: { url: string; order: number }[];
+  images: { url: string; order: number; thumbnail_url?: string | null }[];
   characteristics: { slug: string; name: string }[];
   private_area_m2: number | null;
   total_area_m2: number | null;

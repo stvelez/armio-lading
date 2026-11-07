@@ -3,10 +3,10 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, ImageOff, Maximize2, X } from "lucide-react";
-import { imageProps } from "../lib/format";
+import { imageProps, thumbProps } from "../lib/format";
 
 interface Props {
-  images: { url: string }[];
+  images: { url: string; thumbnail_url?: string | null }[];
   title: string;
 }
 
@@ -115,7 +115,7 @@ export default function PropertyGallery({ images, title }: Props) {
                 }`}
               >
                 <Image
-                  {...imageProps(img.url)}
+                  {...(thumbProps(img) ?? imageProps(img.url))}
                   alt=""
                   fill
                   sizes="96px"

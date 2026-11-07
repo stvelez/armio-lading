@@ -83,6 +83,29 @@ export function imageProps(url: string): { src: string; unoptimized: boolean } {
   return { src: url, unoptimized };
 }
 
+/**
+ * Imagen para tarjetas y tiras de miniaturas. Si el API trae una miniatura WebP de nuestro propio
+ * almacenamiento se sirve tal cual (`unoptimized`: ya viene del CDN, sin gastar transformaciones
+ * de Vercel). Sin miniatura (API viejo, fotos antiguas, host desconocido) cae al original con la
+ * optimización de siempre. Devuelve null si no hay ninguna URL https válida.
+ */
+export function thumbProps(
+  img: { url: string; thumbnail_url?: string | null } | null | undefined
+): { src: string; unoptimized: boolean } | null {
+  if (!img) return null;
+  const thumb = httpsUrl(img.thumbnail_url);
+  if (thumb) {
+    try {
+      const host = new URL(thumb).hostname;
+      if (OPTIMIZABLE_HOSTS.some((re) => re.test(host))) return { src: thumb, unoptimized: true };
+    } catch {
+      /* se usa el original */
+    }
+  }
+  const original = httpsUrl(img.url);
+  return original ? imageProps(original) : null;
+}
+
 /** Número de WhatsApp para wa.me: solo dígitos; los celulares colombianos de 10 dígitos llevan 57. */
 export function whatsappNumber(raw: string | null | undefined): string | null {
   if (!raw) return null;

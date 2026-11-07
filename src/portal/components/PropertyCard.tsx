@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Bath, BedDouble, Car, Maximize2, MapPin, ImageOff } from "lucide-react";
 import type { PortalPropertyCard } from "../types";
-import { formatNumber, httpsUrl, imageProps } from "../lib/format";
+import { formatNumber, thumbProps } from "../lib/format";
 import { propertyPath } from "../lib/urls";
 import PriceTag from "./PriceTag";
 
@@ -13,7 +13,7 @@ interface Props {
 
 export default function PropertyCard({ property, priority = false }: Props) {
   const href = propertyPath(property.code, property.slug);
-  const image = httpsUrl(property.primary_image?.url);
+  const image = thumbProps(property.primary_image);
   const place = property.location.area || property.location.city;
 
   const stats = [
@@ -28,7 +28,7 @@ export default function PropertyCard({ property, priority = false }: Props) {
       <div className="relative aspect-[4/3] w-full bg-stone-100">
         {image ? (
           <Image
-            {...imageProps(image)}
+            {...image}
             alt={property.title}
             fill
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
