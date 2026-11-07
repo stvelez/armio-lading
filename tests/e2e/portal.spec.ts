@@ -253,6 +253,28 @@ test.describe("formulario de interés", () => {
     });
   });
 
+  test("sin site key no se contacta a Cloudflare ni se envía turnstile_token", async ({ page }) => {
+    const cloudflare: string[] = [];
+    page.on("request", (req) => {
+      if (/challenges\.cloudflare\.com/.test(req.url())) cloudflare.push(req.url());
+    });
+    const bodies: any[] = [];
+    await page.route("**/api/portal/leads", (route) => {
+      bodies.push(route.request().postDataJSON());
+      return route.fulfill({ status: 202, json: { received: true } });
+    });
+    await page.goto(PROPERTY_URL);
+    await page.waitForLoadState("networkidle");
+    await page.getByLabel("Nombre", { exact: true }).focus();
+    await fill(page);
+    await page.getByLabel(/Autorizo a/).check();
+    await page.getByRole("button", { name: "Enviar" }).click();
+    await expect(page.getByText("¡Gracias por tu interés!")).toBeVisible();
+    expect(cloudflare).toHaveLength(0);
+    expect(bodies).toHaveLength(1);
+    expect(bodies[0].turnstile_token).toBeUndefined();
+  });
+
   test("429 del servidor muestra el aviso de límite", async ({ page }) => {
     await page.route("**/api/portal/leads", (route) =>
       route.fulfill({ status: 429, json: { error: "rate_limited" } })

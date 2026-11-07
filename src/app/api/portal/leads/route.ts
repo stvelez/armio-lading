@@ -22,6 +22,8 @@ const bodySchema = z.object({
   website: z.string().max(200),
   elapsed_ms: z.number().int().min(0).max(86_400_000),
   page_url: z.string().max(500).optional(),
+  // Token de Cloudflare Turnstile: se reenvía tal cual al API (que lo verifica) y nunca se registra
+  turnstile_token: z.string().min(1).max(2048).optional(),
 });
 
 const IP = /^[0-9a-fA-F:.]{3,45}$/;

@@ -7,6 +7,8 @@ const ROOT_URL = `http://${ROOT}`;
 
 export default defineConfig({
   testDir: "./tests/e2e",
+  // Requiere sitekey de prueba y salida a internet: se corre aparte (npm run test:e2e:turnstile)
+  testIgnore: /turnstile\.spec\.ts/,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,

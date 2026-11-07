@@ -7,6 +7,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { CheckCircle2 } from "lucide-react";
 import { PRIVACY_CONSENT_VERSION } from "../lib/format";
+import { turnstileSiteKey } from "../lib/turnstile";
+import TurnstileField, { TurnstileFlowError, type TurnstileHandle } from "./TurnstileField";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Escribe tu nombre").max(150, "Máximo 150 caracteres"),
@@ -32,6 +34,33 @@ interface Props {
   propertyTitle?: string;
 }
 
+type Status =
+  | "idle"
+  | "sent"
+  | "limited"
+  | "error"
+  | "verify_load"
+  | "verify_browser"
+  | "verify_config"
+  | "verify_generic"
+  | "verify_timeout";
+
+const VERIFY_MESSAGES: Partial<Record<Status, string>> = {
+  verify_load:
+    "No pudimos cargar la verificación de seguridad. Revisa tu conexión o desactiva el bloqueador de contenido y vuelve a intentarlo. También puedes escribirnos por WhatsApp.",
+  verify_browser:
+    "No pudimos verificar tu navegador. Recarga la página o prueba con otro navegador.",
+  verify_config:
+    "La verificación de seguridad no está disponible en este momento. Escríbenos por WhatsApp.",
+  verify_generic: "Hubo un problema con la verificación. Recarga la página e intenta de nuevo.",
+  verify_timeout: "La verificación tardó demasiado. Vuelve a intentarlo.",
+};
+
+function verifyStatus(error: unknown): Status {
+  const kind = error instanceof TurnstileFlowError ? error.kind : "generic";
+  return `verify_${kind}` as Status;
+}
+
 const input =
   "w-full rounded-lg border border-stone-300 bg-white px-3 py-2.5 text-sm text-stone-900 placeholder:text-stone-400";
 
@@ -42,7 +71,11 @@ export default function InterestForm({
   propertyTitle,
 }: Props) {
   const mountedAt = useRef(0);
-  const [status, setStatus] = useState<"idle" | "sent" | "limited" | "error">("idle");
+  const [status, setStatus] = useState<Status>("idle");
+  const [phase, setPhase] = useState<"idle" | "verifying" | "sending">("idle");
+  // Sin site key el formulario no espera nunca por Turnstile
+  const siteKey = turnstileSiteKey();
+  const turnstile = useRef<TurnstileHandle>(null);
 
   useEffect(() => {
     mountedAt.current = Date.now();
@@ -67,6 +100,21 @@ export default function InterestForm({
 
   async function onSubmit(values: FormValues) {
     setStatus("idle");
+    let turnstileToken: string | undefined;
+    if (siteKey) {
+      setPhase("verifying");
+      try {
+        turnstileToken = await turnstile.current?.getToken();
+        if (!turnstileToken) throw new TurnstileFlowError("generic");
+      } catch (error) {
+        // Sin token el API descartaría el envío en silencio: mejor no enviar y avisar
+        setStatus(verifyStatus(error));
+        setPhase("idle");
+        return;
+      }
+    }
+    setPhase("sending");
+    let delivered = false;
     try {
       const res = await fetch("/api/portal/leads", {
         method: "POST",
@@ -84,13 +132,20 @@ export default function InterestForm({
           website: values.website,
           elapsed_ms: Math.max(0, Date.now() - mountedAt.current),
           page_url: `${window.location.origin}${window.location.pathname}`,
+          ...(turnstileToken ? { turnstile_token: turnstileToken } : {}),
         }),
       });
-      if (res.status === 202) setStatus("sent");
-      else if (res.status === 429) setStatus("limited");
+      if (res.status === 202) {
+        delivered = true;
+        setStatus("sent");
+      } else if (res.status === 429) setStatus("limited");
       else setStatus("error");
     } catch {
       setStatus("error");
+    } finally {
+      setPhase("idle");
+      // El token es de un solo uso: tras cualquier intento fallido se pide otro
+      if (siteKey && !delivered) turnstile.current?.reset();
     }
   }
 
@@ -116,6 +171,8 @@ export default function InterestForm({
   return (
     <form
       onSubmit={(e) => void handleSubmit(onSubmit)(e)}
+      onFocusCapture={siteKey ? () => turnstile.current?.start() : undefined}
+      onPointerDownCapture={siteKey ? () => turnstile.current?.start() : undefined}
       noValidate
       className="rounded-xl border border-stone-200 bg-white p-5 shadow-sm"
     >
@@ -219,6 +276,17 @@ export default function InterestForm({
         </div>
       </div>
 
+      {siteKey && (
+        <div className="mt-4">
+          <TurnstileField siteKey={siteKey} ref={turnstile} />
+        </div>
+      )}
+
+      {VERIFY_MESSAGES[status] && (
+        <p role="alert" className="mt-3 text-sm text-red-700">
+          {VERIFY_MESSAGES[status]}
+        </p>
+      )}
       {status === "limited" && (
         <p role="alert" className="mt-3 text-sm text-red-700">
           Has enviado varias solicitudes seguidas. Intenta de nuevo más tarde o escríbenos por
@@ -234,10 +302,21 @@ export default function InterestForm({
       <button
         type="submit"
         disabled={isSubmitting}
+        aria-busy={isSubmitting}
         className="bg-portal text-on-portal mt-4 inline-flex h-11 w-full items-center justify-center rounded-lg px-4 font-semibold disabled:opacity-60"
       >
-        {isSubmitting ? "Enviando…" : "Enviar"}
+        {phase === "verifying" ? "Verificando…" : isSubmitting ? "Enviando…" : "Enviar"}
       </button>
+      {siteKey && (
+        <p className="mt-3 text-xs leading-relaxed text-stone-600">
+          Este formulario está protegido por Cloudflare Turnstile para evitar envíos automatizados.
+          Consulta el{" "}
+          <Link href={"/privacidad"} target="_blank" className="underline">
+            aviso de privacidad
+          </Link>
+          .
+        </p>
+      )}
     </form>
   );
 }

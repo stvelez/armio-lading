@@ -178,4 +178,37 @@ describe("POST /api/portal/leads", () => {
     await POST(req({ ...validBody, admin: true }));
     expect(sentBody().admin).toBeUndefined();
   });
+
+  describe("turnstile_token", () => {
+    it("lo reenvía sin modificar y no lo expone en la respuesta", async () => {
+      const token = "XXXX.DUMMY.TOKEN.XXXX";
+      const res = await POST(req({ ...validBody, turnstile_token: token }));
+      expect(res.status).toBe(202);
+      expect(sentBody().turnstile_token).toBe(token);
+      expect(JSON.stringify(await res.json())).not.toContain(token);
+    });
+
+    it("acepta 2048 caracteres", async () => {
+      const token = "a".repeat(2048);
+      // el cuerpo supera 8 KB? no: 2048 + resto < 8192
+      const res = await POST(req({ ...validBody, turnstile_token: token }));
+      expect(res.status).toBe(202);
+      expect(sentBody().turnstile_token).toBe(token);
+    });
+
+    it.each([
+      ["2049 caracteres", "a".repeat(2049)],
+      ["cadena vacía", ""],
+      ["número", 123],
+    ])("%s -> 400 sin llamar al API", async (_n, value) => {
+      const res = await POST(req({ ...validBody, turnstile_token: value }));
+      expect(res.status).toBe(400);
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it("sin token se reenvía sin el campo", async () => {
+      await POST(req(validBody));
+      expect(sentBody()).not.toHaveProperty("turnstile_token");
+    });
+  });
 });

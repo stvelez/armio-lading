@@ -4,6 +4,7 @@ import { getProfile, loadProfile } from "@/portal/lib/api";
 import { httpsUrl } from "@/portal/lib/format";
 import { portalPath, portalUrl } from "@/portal/lib/urls";
 import { buildMetadata } from "@/portal/lib/seo";
+import { turnstileSiteKey } from "@/portal/lib/turnstile";
 
 type Props = { params: Promise<{ tenant: string }> };
 
@@ -78,6 +79,32 @@ export default async function PrivacyPage({ params }: Props) {
             que preguntas. Este sitio no usa herramientas de analítica ni cookies publicitarias.
           </p>
         </section>
+
+        {turnstileSiteKey() && (
+          <section>
+            <h2>Seguridad del formulario</h2>
+            <p>
+              Para proteger este formulario contra envíos automatizados usamos Cloudflare Turnstile,
+              un servicio de Cloudflare, Inc. Cuando interactúas con el formulario, Cloudflare
+              recibe datos técnicos de tu navegador y de tu conexión (como la dirección IP, el tipo
+              de navegador y otras señales del dispositivo) con el único fin de comprobar que el
+              envío lo hace una persona. Estos datos no se usan para publicidad ni para crear
+              perfiles, y no se comparten con la inmobiliaria. Cloudflare actúa como Encargado del
+              tratamiento para esta finalidad y puede procesar los datos fuera de Colombia, con las
+              garantías descritas en su{" "}
+              <a
+                href="https://www.cloudflare.com/turnstile-privacy-policy/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline"
+              >
+                aviso de privacidad de Turnstile
+              </a>
+              . Si la verificación no se puede completar, puedes contactar a la inmobiliaria por
+              WhatsApp o teléfono.
+            </p>
+          </section>
+        )}
 
         <section>
           <h2>Finalidades</h2>

@@ -2,6 +2,7 @@
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import InterestForm from "@/portal/components/InterestForm";
+import * as turnstileLib from "@/portal/lib/turnstile";
 
 let fetchMock: ReturnType<typeof vi.fn>;
 
@@ -25,6 +26,24 @@ function setup() {
   const submit = () => fireEvent.click(screen.getByRole("button", { name: "Enviar" }));
   return { type, submit };
 }
+
+describe("InterestForm sin site key", () => {
+  it("no pide Turnstile: sin línea legal ni turnstile_token en el cuerpo", async () => {
+    const loadSpy = vi.spyOn(turnstileLib, "loadTurnstile");
+    const { type, submit } = setup();
+    expect(screen.queryByText(/Cloudflare Turnstile/)).toBeNull();
+    fireEvent.focusIn(screen.getByLabelText("Nombre"));
+    expect(loadSpy).not.toHaveBeenCalled();
+    expect(document.querySelector('script[src*="challenges.cloudflare.com"]')).toBeNull();
+    type("Nombre", "Ana Pérez");
+    type(/Teléfono/, "3001234567");
+    fireEvent.click(screen.getByLabelText(/Autorizo a/));
+    submit();
+    expect(await screen.findByText("¡Gracias por tu interés!")).toBeTruthy();
+    const body = JSON.parse((fetchMock.mock.calls[0] as any)[1].body);
+    expect(body).not.toHaveProperty("turnstile_token");
+  });
+});
 
 describe("InterestForm (esquema zod)", () => {
   it("el consentimiento está sin marcar por defecto y es obligatorio", async () => {
