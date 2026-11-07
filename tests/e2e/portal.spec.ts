@@ -373,3 +373,135 @@ test.describe("dominio raíz y hosts reservados", () => {
     expect(await home.text()).not.toContain("Inmobiliaria Demo");
   });
 });
+
+test.describe("contador de visitas (beacon)", () => {
+  type Beacon = Record<string, unknown>;
+
+  // Playwright marca `navigator.webdriver = true` y el contador (a propósito) no cuenta a los navegadores automatizados:
+  // aquí se simula un navegador normal para poder observar los beacons.
+  test.beforeEach(async ({ page }) => {
+    await page.addInitScript(() => {
+      Object.defineProperty(Navigator.prototype, "webdriver", { get: () => false });
+    });
+  });
+
+  /** Intercepta la ruta del contador (el API no recibe nada) y devuelve la lista de cuerpos enviados. */
+  async function captureBeacons(
+    page: Page,
+    respond: (route: import("@playwright/test").Route) => Promise<void> = (route) =>
+      route.fulfill({ status: 204 })
+  ) {
+    const beacons: Beacon[] = [];
+    await page.route("**/api/portal/visits", (route) => {
+      beacons.push(JSON.parse(route.request().postData() ?? "{}") as Beacon);
+      return respond(route);
+    });
+    return beacons;
+  }
+
+  test("el inicio cuenta una vista 'home' directa y entrar a una ficha cuenta otra 'interno'", async ({
+    page,
+  }) => {
+    const beacons = await captureBeacons(page);
+    await page.goto("/");
+    await expect.poll(() => beacons.length).toBe(1);
+    expect(beacons[0]).toEqual({ page: "home", source: "directo" });
+
+    // Navegación del lado del cliente a la ficha del código 9
+    await page.goto(`${PORTAL}/propiedades`);
+    await expect.poll(() => beacons.length).toBe(2);
+    expect(beacons[1]).toEqual({ page: "listing", source: "directo" });
+    beacons.length = 0;
+    await page.locator("h3 a[href*='/propiedades/9-']").first().click();
+    await expect(page).toHaveURL(new RegExp(`${PROPERTY_URL}$`));
+    await expect.poll(() => beacons.length).toBe(1);
+    expect(beacons[0]).toEqual({ page: "property", code: 9, source: "interno" });
+    // Sin envíos de más (recargas del router, StrictMode…)
+    await page.waitForTimeout(500);
+    expect(beacons).toHaveLength(1);
+  });
+
+  test("pasar el ratón por las tarjetas (prefetch) sin hacer clic no cuenta fichas", async ({
+    page,
+  }) => {
+    const beacons = await captureBeacons(page);
+    await page.goto(`${PORTAL}/propiedades`);
+    await expect.poll(() => beacons.length).toBe(1);
+    const cards = page.locator("h3 a[href*='/propiedades/']");
+    const count = await cards.count();
+    for (let i = 0; i < count; i++) await cards.nth(i).hover();
+    await page.waitForTimeout(800);
+    expect(beacons.filter((b) => b.page === "property")).toHaveLength(0);
+    expect(beacons).toHaveLength(1);
+  });
+
+  test("cambiar los filtros del listado no cuenta vistas nuevas", async ({ page }) => {
+    const beacons = await captureBeacons(page);
+    await page.goto(`${PORTAL}/propiedades`);
+    await expect.poll(() => beacons.length).toBe(1);
+
+    const filters = await openFilters(page);
+    await filters.getByLabel("Operación").selectOption("venta");
+    await filters.getByRole("button", { name: "Buscar" }).click();
+    await expect(page).toHaveURL(/\/propiedades\?operacion=venta$/);
+    await expect(page.getByText("5 propiedades", { exact: true })).toBeVisible();
+    await page.waitForTimeout(500);
+    expect(beacons).toHaveLength(1);
+  });
+
+  test("#equipo-armio no cuenta y deja la URL sin hash", async ({ page }) => {
+    const beacons = await captureBeacons(page);
+    await page.goto(`${PROPERTY_URL}#equipo-armio`);
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await expect.poll(() => new URL(page.url()).hash).toBe("");
+    // Otra página de la misma pestaña tampoco cuenta
+    await page.goto(`${PORTAL}/propiedades`);
+    await page.waitForTimeout(800);
+    expect(beacons).toHaveLength(0);
+  });
+
+  test("la página nunca muestra error si la ruta del contador responde 500", async ({ page }) => {
+    const errors: string[] = [];
+    page.on("pageerror", (e) => errors.push(e.message));
+    const beacons = await captureBeacons(page, (route) =>
+      route.fulfill({ status: 500, body: "boom" })
+    );
+    await page.goto(PROPERTY_URL);
+    await expect.poll(() => beacons.length).toBe(1);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+      "Penthouse con terraza en Granada"
+    );
+    await expect(
+      page.getByText(/Application error|Algo salió mal|No encontramos esta página/i)
+    ).toHaveCount(0);
+    expect(errors).toEqual([]);
+  });
+
+  test("la página no se afecta si la ruta del contador tarda 10 s", async ({ page }) => {
+    const beacons = await captureBeacons(page, async (route) => {
+      await new Promise((resolve) => setTimeout(resolve, 10_000));
+      await route.fulfill({ status: 204 }).catch(() => {});
+    });
+    const started = Date.now();
+    await page.goto(PROPERTY_URL);
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await page.getByRole("button", { name: "Ampliar foto 1 de 2" }).click();
+    await expect(page.getByRole("dialog", { name: /Galería de/ })).toBeVisible();
+    expect(Date.now() - started).toBeLessThan(9_000);
+    await expect.poll(() => beacons.length).toBe(1);
+  });
+});
+
+test.describe("contador de visitas: navegador automatizado", () => {
+  test("con navigator.webdriver activo no envía nada", async ({ page }) => {
+    let calls = 0;
+    await page.route("**/api/portal/visits", (route) => {
+      calls++;
+      return route.fulfill({ status: 204 });
+    });
+    await page.goto("/");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await page.waitForTimeout(800);
+    expect(calls).toBe(0);
+  });
+});

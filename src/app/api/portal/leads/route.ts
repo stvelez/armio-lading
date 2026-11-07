@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
 import { PORTAL_API_URL } from "@/portal/lib/api";
+import { clientIp } from "@/portal/lib/client-ip";
 
 /**
  * Proxy del formulario de interés del portal. El navegador nunca habla con el API ni ve la clave
@@ -25,14 +26,6 @@ const bodySchema = z.object({
   // Token de Cloudflare Turnstile: se reenvía tal cual al API (que lo verifica) y nunca se registra
   turnstile_token: z.string().min(1).max(2048).optional(),
 });
-
-const IP = /^[0-9a-fA-F:.]{3,45}$/;
-
-function clientIp(req: NextRequest): string | null {
-  const forwarded = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
-  const candidate = forwarded || req.headers.get("x-real-ip")?.trim();
-  return candidate && IP.test(candidate) ? candidate : null;
-}
 
 const json = (body: Record<string, unknown>, status: number) =>
   NextResponse.json(body, { status, headers: { "Cache-Control": "no-store" } });

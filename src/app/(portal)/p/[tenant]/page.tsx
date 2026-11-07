@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Search } from "lucide-react";
 import JsonLd from "@/portal/components/JsonLd";
 import PropertyGrid from "@/portal/components/PropertyGrid";
+import VisitBeacon from "@/portal/components/VisitBeacon";
 import { getProfile, getProperties, loadProfile } from "@/portal/lib/api";
 import { truncate } from "@/portal/lib/format";
 import { portalPath, portalUrl } from "@/portal/lib/urls";
@@ -47,6 +48,7 @@ export default async function PortalHomePage({ params }: Props) {
 
   return (
     <>
+      <VisitBeacon page="home" />
       <JsonLd data={agentJsonLd(profile, portalUrl(slug))} />
 
       <section className="bg-portal text-on-portal">

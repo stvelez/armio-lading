@@ -32,4 +32,29 @@ describe("aviso de privacidad del portal y Turnstile", () => {
     expect(html).not.toContain("Seguridad del formulario");
     expect(html).not.toContain("cloudflare");
   });
+
+  it("explica el contador de visitas y ya no dice que no hay analítica", async () => {
+    const html = await render();
+    expect(html).toContain("Estadísticas de visitas");
+    expect(html).toContain("se conservan hasta por 13 meses");
+    expect(html).toContain("Armio realiza este conteo como Encargado del tratamiento");
+    expect(html).toContain("dirección IP (o su prefijo de red)");
+    expect(html).toContain(
+      "solo en la memoria del servidor durante el día en curso (como máximo hasta la medianoche, hora de Colombia)"
+    );
+    expect(html).toContain("clave aleatoria que se descarta cada día");
+    expect(html).toContain("no se guarda en ninguna base de datos");
+    expect(html).not.toContain("unos minutos");
+    expect(html).not.toContain("no usa herramientas de analítica");
+    expect(html).toContain("ni herramientas de analítica de");
+  });
+
+  it("la sección de visitas va después de 'Datos que recolectamos' y antes de 'Finalidades'", async () => {
+    const html = await render();
+    const order = ["Datos que recolectamos", "Estadísticas de visitas", "Finalidades"].map((t) =>
+      html.indexOf(`<h2>${t}</h2>`)
+    );
+    expect(order.every((i) => i >= 0)).toBe(true);
+    expect(order).toEqual([...order].sort((a, b) => a - b));
+  });
 });

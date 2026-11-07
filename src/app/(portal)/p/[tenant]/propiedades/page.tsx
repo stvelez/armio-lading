@@ -5,6 +5,7 @@ import FiltersBar from "@/portal/components/FiltersBar";
 import MobileFiltersSheet from "@/portal/components/MobileFiltersSheet";
 import Pagination from "@/portal/components/Pagination";
 import PropertyGrid from "@/portal/components/PropertyGrid";
+import VisitBeacon from "@/portal/components/VisitBeacon";
 import { getProfile, getProperties, loadProfile } from "@/portal/lib/api";
 import { hasAnyFilter, hasNonCanonicalFilters, parseFilters, toQuery } from "@/portal/lib/filters";
 import { portalPath, portalUrl } from "@/portal/lib/urls";
@@ -55,6 +56,7 @@ export default async function ListingPage({ params, searchParams }: Props) {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+      <VisitBeacon page="listing" />
       <Breadcrumbs items={[{ label: "Inicio", href: portalPath() }, { label: "Propiedades" }]} />
       <div className="mt-4 flex flex-wrap items-end justify-between gap-3">
         <div>

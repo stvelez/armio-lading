@@ -43,6 +43,25 @@ describe("proxy con raíz armio.co", () => {
     expect(res.headers.get("x-middleware-next")).toBe("1");
   });
 
+  it("POST /api/portal/visits en el subdominio pasa sin reescribir (incluido {slug}.localhost:3000)", () => {
+    const visits = new NextRequest("https://torres.armio.co/api/portal/visits", {
+      method: "POST",
+      headers: { host: "torres.armio.co" },
+    });
+    const res = proxy(visits);
+    expect(res.headers.get("x-middleware-rewrite")).toBeNull();
+    expect(res.headers.get("x-middleware-next")).toBe("1");
+
+    vi.stubEnv("NEXT_PUBLIC_PORTAL_ROOT_DOMAIN", "localhost:3000");
+    const local = new NextRequest("http://torres.localhost:3000/api/portal/visits", {
+      method: "POST",
+      headers: { host: "torres.localhost:3000" },
+    });
+    const localRes = proxy(local);
+    expect(localRes.headers.get("x-middleware-rewrite")).toBeNull();
+    expect(localRes.headers.get("x-middleware-next")).toBe("1");
+  });
+
   it("/api/portal/revalidate pasa sin reescribirse, en subdominio y en la raíz", () => {
     for (const [url, host] of [
       ["https://torres.armio.co/api/portal/revalidate", "torres.armio.co"],
@@ -159,6 +178,7 @@ describe("matcher", () => {
       "/sitemap.xml",
       "/robots.txt",
       "/api/portal/leads",
+      "/api/portal/visits",
       "/p/torres",
     ]) {
       expect(re.test(p), p).toBe(true);

@@ -27,8 +27,9 @@ export async function generateMetadata({
 }
 
 /**
- * Layout raíz del portal público. Es independiente del sitio de marketing: sin analítica ni
- * proveedores de Armio, para no rastrear a los visitantes de las inmobiliarias.
+ * Layout raíz del portal público. Es independiente del sitio de marketing: sin analítica de terceros ni
+ * proveedores de Armio: el único conteo es el contador propio, agregado y anónimo (`VisitBeacon`,
+ * ver armio-api/docs/PORTAL_ANALYTICS_PLAN.md).
  * Nunca lanza 404 por sí mismo: eso lo hace cada página (así `not-found.tsx` se muestra dentro del layout).
  */
 export default async function PortalLayout({

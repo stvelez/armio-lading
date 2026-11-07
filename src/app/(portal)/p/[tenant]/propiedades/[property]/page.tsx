@@ -11,6 +11,7 @@ import PropertyFeatures from "@/portal/components/PropertyFeatures";
 import PropertyGallery from "@/portal/components/PropertyGallery";
 import PropertyMap from "@/portal/components/PropertyMap";
 import ShareButtons from "@/portal/components/ShareButtons";
+import VisitBeacon from "@/portal/components/VisitBeacon";
 import { getProfile, loadProfile, loadProperty, unwrap } from "@/portal/lib/api";
 import { httpsUrl } from "@/portal/lib/format";
 import { portalPath, portalUrl, propertyPath } from "@/portal/lib/urls";
@@ -90,6 +91,7 @@ export default async function PropertyPage({ params }: Props) {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-6 pb-28 sm:px-6 lg:pb-10">
+      <VisitBeacon page="property" code={property.code} />
       <JsonLd data={propertyJsonLd({ property, profile, url })} />
       <Breadcrumbs
         items={[

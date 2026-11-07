@@ -76,7 +76,32 @@ export default async function PrivacyPage({ params }: Props) {
           <p>
             Cuando completas el formulario de interés recolectamos tu nombre, teléfono, correo
             electrónico (opcional) y el mensaje que decidas escribir, junto con la propiedad por la
-            que preguntas. Este sitio no usa herramientas de analítica ni cookies publicitarias.
+            que preguntas. Este sitio no usa cookies publicitarias ni herramientas de analítica de
+            terceros. Solo cuenta visitas de forma anónima, como se explica en «Estadísticas de
+            visitas».
+          </p>
+        </section>
+
+        <section>
+          <h2>Estadísticas de visitas</h2>
+          <p>
+            Para que la inmobiliaria sepa cuántas personas consultan su sitio y sus inmuebles,
+            contamos las visitas de forma agregada: cuántas veces se vio cada página y cada inmueble
+            por día, y desde qué tipo de sitio se llegó (un buscador, WhatsApp, Facebook, Instagram,
+            otro sitio web, un enlace directo o la navegación dentro de este sitio), además de la
+            etiqueta de campaña que pueda traer el enlace (parámetros «utm»). Esas cifras no
+            identifican a nadie y se conservan hasta por 13 meses.
+          </p>
+          <p>
+            No usamos cookies ni almacenamiento en tu navegador para seguirte, no creamos perfiles y
+            no guardamos tu dirección IP, el tipo de navegador ni la dirección de la página de la
+            que vienes. Para no contar varias veces la misma recarga y para frenar abusos, usamos tu
+            dirección IP (o su prefijo de red): se procesa solo en la memoria del servidor durante
+            el día en curso (como máximo hasta la medianoche, hora de Colombia), transformada con
+            una clave aleatoria que se descarta cada día, y no se guarda en ninguna base de datos ni
+            se asocia a tu nombre ni a tus datos de contacto. El tipo de navegador solo se mira en
+            el momento para descartar robots y no se conserva. Armio realiza este conteo como
+            Encargado del tratamiento por cuenta de la inmobiliaria.
           </p>
         </section>
 
