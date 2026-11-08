@@ -19,6 +19,26 @@ describe("propertyJsonLd", () => {
     expect((b as any).itemListElement).toHaveLength(3);
   });
 
+  it("both con rent_price emite dos ofertas; sin rent_price, una", () => {
+    const both = { slug: "both" as const, name: "Arriendo y venta" };
+    const two = listing(makeProperty({ purpose: both, rent_price: 2_500_000 }));
+    expect(two.offers).toHaveLength(2);
+    expect(two.offers.map((o: any) => o.price)).toEqual([makeProperty().price, 2_500_000]);
+    expect(two.offers.map((o: any) => o.businessFunction)).toEqual([
+      "http://purl.org/goodrelations/v1#Sell",
+      "http://purl.org/goodrelations/v1#LeaseOut",
+    ]);
+    const one = listing(makeProperty({ purpose: both, rent_price: null }));
+    expect(Array.isArray(one.offers)).toBe(false);
+  });
+
+  it("una sola oferta: Sell en venta, LeaseOut en arriendo", () => {
+    const sale = listing(makeProperty({ purpose: { slug: "sale" as const, name: "Venta" } }));
+    expect(sale.offers.businessFunction).toBe("http://purl.org/goodrelations/v1#Sell");
+    const rent = listing(makeProperty({ purpose: { slug: "rent" as const, name: "Arriendo" } }));
+    expect(rent.offers.businessFunction).toBe("http://purl.org/goodrelations/v1#LeaseOut");
+  });
+
   it("no incluye calle ni geo cuando la ubicación no es exacta", () => {
     const l = listing();
     expect(l.about.address.streetAddress).toBeUndefined();

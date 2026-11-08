@@ -82,6 +82,40 @@ export function propertyJsonLd(opts: {
         }
       : {};
 
+  const currency = property.currency || "COP";
+  const availability =
+    property.badge === "reservada"
+      ? "https://schema.org/LimitedAvailability"
+      : "https://schema.org/InStock";
+  const SELL = "http://purl.org/goodrelations/v1#Sell";
+  const LEASE_OUT = "http://purl.org/goodrelations/v1#LeaseOut";
+  const saleOffer = {
+    "@type": "Offer",
+    // Con propósito solo arriendo, `price` es el canon mensual
+    businessFunction: property.purpose.slug === "rent" ? LEASE_OUT : SELL,
+    price: property.price,
+    priceCurrency: currency,
+    availability,
+  };
+  const rentOffer = {
+    "@type": "Offer",
+    businessFunction: LEASE_OUT,
+    price: property.rent_price,
+    priceCurrency: currency,
+    availability,
+    priceSpecification: {
+      "@type": "UnitPriceSpecification",
+      price: property.rent_price,
+      priceCurrency: currency,
+      unitCode: "MON",
+    },
+  };
+  // `both` con canon: dos ofertas (venta y arriendo); sin canon, la única oferta es la de `price`.
+  const offers =
+    property.purpose.slug === "both" && property.rent_price && property.rent_price > 0
+      ? [saleOffer, rentOffer]
+      : saleOffer;
+
   const listing = {
     "@context": "https://schema.org",
     "@type": "RealEstateListing",
@@ -90,15 +124,7 @@ export function propertyJsonLd(opts: {
     ...(property.published_at ? { datePosted: property.published_at } : {}),
     ...(images.length ? { image: images } : {}),
     ...(property.description ? { description: truncate(property.description, 300) } : {}),
-    offers: {
-      "@type": "Offer",
-      price: property.price,
-      priceCurrency: property.currency || "COP",
-      availability:
-        property.badge === "reservada"
-          ? "https://schema.org/LimitedAvailability"
-          : "https://schema.org/InStock",
-    },
+    offers: offers,
     about: {
       "@type": ACCOMMODATION_TYPES[property.type.slug] ?? "Accommodation",
       name: property.type.name,

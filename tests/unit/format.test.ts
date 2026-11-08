@@ -38,6 +38,30 @@ const price = (purpose: string, extra: Record<string, unknown> = {}) =>
   );
 
 describe("PriceTag", () => {
+  it("both con rent_price: dos líneas, venta primero y sin nota", () => {
+    const html = price("both", { rentPrice: 2_000_000 });
+    expect(html).toContain("Venta");
+    expect(html).toContain("Arriendo");
+    expect(html).toContain("$ 2.000.000");
+    expect(html).toContain("$ 3.500.000");
+    expect(html).toContain("/mes");
+    expect(html).not.toContain(BOTH_NOTE);
+    expect(html.indexOf("Venta")).toBeLessThan(html.indexOf("Arriendo"));
+  });
+
+  it("both con rent_price y operación arriendo: el canon va primero", () => {
+    const html = price("both", { rentPrice: 2_000_000, operacion: "arriendo" });
+    expect(html.indexOf("Arriendo")).toBeLessThan(html.indexOf("Venta"));
+  });
+
+  it("both sin rent_price: precio sin rotular con la nota de consulta", () => {
+    for (const html of [price("both"), price("both", { rentPrice: null })]) {
+      expect(html).toContain(BOTH_NOTE);
+      expect(html).not.toContain("/mes");
+      expect(html).not.toContain("Venta");
+    }
+  });
+
   it("arriendo: /mes y sin nota", () => {
     const html = price("rent");
     expect(html).toContain("$ 3.500.000");
@@ -60,6 +84,14 @@ describe("PriceTag", () => {
     );
     expect(html).toContain("Consultar precio");
     expect(html).not.toContain("/mes");
+  });
+  it("precio 0 con both: Consultar precio, nota de consulta y sin /mes", () => {
+    for (const extra of [{}, { rentPrice: null }]) {
+      const html = price("both", { price: 0, ...extra });
+      expect(html).toContain("Consultar precio");
+      expect(html).toContain(BOTH_NOTE);
+      expect(html).not.toContain("/mes");
+    }
   });
   it("administración", () => {
     expect(price("rent", { adminIncluded: true })).toContain("Administración incluida");

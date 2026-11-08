@@ -135,6 +135,7 @@ export default async function PropertyPage({ params }: Props) {
               <PriceTag
                 purpose={property.purpose.slug}
                 price={property.price}
+                rentPrice={property.rent_price}
                 currency={property.currency}
                 adminFee={property.admin_fee}
                 adminIncluded={property.admin_included}

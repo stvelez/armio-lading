@@ -15,6 +15,8 @@ export interface PortalPropertyCard {
   purpose: { slug: PortalPurposeSlug; name: string };
   type: { slug: string; name: string };
   price: number;
+  /** Canon mensual. En `both`, `price` es el precio de venta. null si no hay arriendo/dato. */
+  rent_price?: number | null;
   currency: string;
   admin_fee: number | null;
   admin_included: boolean;
@@ -81,6 +83,8 @@ export interface PortalProfile {
     cities: { code: string; name: string; count: number }[];
     neighborhoods: { name: string; count: number }[];
     price_range: { min: number | null; max: number | null };
+    /** Rango del canon (solo propiedades con arriendo); `price_range` mezcla venta y arriendo. */
+    rent_price_range?: { min: number | null; max: number | null } | null;
   };
   featured: PortalPropertyCard[];
 }

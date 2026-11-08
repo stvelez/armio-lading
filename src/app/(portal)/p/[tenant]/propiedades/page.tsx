@@ -104,7 +104,7 @@ export default async function ListingPage({ params, searchParams }: Props) {
             </div>
           ) : (
             <>
-              <PropertyGrid properties={items} priorityCount={2} />
+              <PropertyGrid properties={items} priorityCount={2} operacion={filters.operacion} />
               <Pagination
                 page={meta.page}
                 totalPages={meta.totalPages}

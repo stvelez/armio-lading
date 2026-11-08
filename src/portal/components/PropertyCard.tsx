@@ -9,9 +9,10 @@ import PriceTag from "./PriceTag";
 interface Props {
   property: PortalPropertyCard;
   priority?: boolean;
+  operacion?: "arriendo" | "venta";
 }
 
-export default function PropertyCard({ property, priority = false }: Props) {
+export default function PropertyCard({ property, priority = false, operacion }: Props) {
   const href = propertyPath(property.code, property.slug);
   const image = thumbProps(property.primary_image);
   const place = property.location.area || property.location.city;
@@ -75,6 +76,8 @@ export default function PropertyCard({ property, priority = false }: Props) {
         <PriceTag
           purpose={property.purpose.slug}
           price={property.price}
+          rentPrice={property.rent_price}
+          operacion={operacion}
           currency={property.currency}
           adminFee={property.admin_fee}
           adminIncluded={property.admin_included}
