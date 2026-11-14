@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { safeJsonLd } from "@/portal/lib/format";
 import { portalUrl } from "@/portal/lib/urls";
-import { buildMetadata, propertyJsonLd } from "@/portal/lib/seo";
+import { agentJsonLd, buildMetadata, propertyJsonLd } from "@/portal/lib/seo";
 import { makeProfile, makeProperty } from "./fixtures";
 
 const url = "https://inmobiliaria-demo.armio.co/propiedades/9-penthouse";
@@ -46,9 +46,10 @@ describe("propertyJsonLd", () => {
     expect(JSON.stringify(l)).not.toMatch(/streetAddress|GeoCoordinates/);
   });
 
-  it("nunca emite streetAddress, ni siquiera con ubicación exacta; sí emite geo", () => {
+  it("incluye edificio y calle con ubicación exacta; también emite geo", () => {
     const l = listing(
       makeProperty({
+        building: "Edificio Granada",
         location: {
           area: "Granada",
           city: "Cali",
@@ -59,8 +60,13 @@ describe("propertyJsonLd", () => {
         },
       })
     );
-    expect(l.about.address.streetAddress).toBeUndefined();
-    expect(JSON.stringify(l)).not.toContain("Calle 1");
+    expect(l.about.address).toEqual({
+      "@type": "PostalAddress",
+      streetAddress: "Edificio Granada, Calle 1 # 2-3",
+      addressLocality: "Cali",
+      addressRegion: "Valle del Cauca",
+      addressCountry: "CO",
+    });
     expect(l.about.geo).toEqual({
       "@type": "GeoCoordinates",
       latitude: 3.45,
@@ -103,6 +109,25 @@ describe("propertyJsonLd", () => {
     expect(out).not.toContain("<");
     expect(out).toContain("\\u003c/script>");
     expect(JSON.parse(out)[0].name).toBe("</script><script>alert(1)</script>");
+  });
+});
+
+describe("agentJsonLd", () => {
+  it("incluye redes válidas y la URL del portal en sameAs", () => {
+    const profile = makeProfile({
+      social: {
+        instagram: "https://instagram.com/agent",
+        facebook: "http://facebook.com/agent",
+        linkedin: "https://linkedin.com/company/agent",
+        youtube: "https://youtube.com/@agent",
+      },
+    });
+    expect(agentJsonLd(profile, "https://agent.armio.co").sameAs).toEqual([
+      "https://instagram.com/agent",
+      "https://linkedin.com/company/agent",
+      "https://youtube.com/@agent",
+      "https://agent.armio.co/",
+    ]);
   });
 });
 

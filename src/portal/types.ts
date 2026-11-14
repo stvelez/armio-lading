@@ -71,7 +71,12 @@ export interface PortalProfile {
   contact: { whatsapp: string | null; phone: string | null; email: string | null };
   office_address: string | null;
   city: string | null;
-  social: { instagram: string | null; facebook: string | null };
+  social: {
+    instagram: string | null;
+    facebook: string | null;
+    linkedin?: string | null;
+    youtube?: string | null;
+  };
   privacy: {
     policy_url: string | null;
     contact_email: string | null;

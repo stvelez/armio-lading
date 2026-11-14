@@ -6,6 +6,7 @@ import NewsletterForm from "@/components/forms/NewsletterForm";
 import { trackCTAClick } from "@/lib/analytics";
 import { getConsent, setConsent, subscribeConsent } from "@/lib/consent";
 import { privacyUrl, termsUrl } from "@/lib/legal";
+const cookiesUrl = "https://armio.co/cookies";
 
 export default function Footer() {
   // Hasta decidir, no se carga la analítica. SSR devuelve "accepted" para no mostrar el aviso en el servidor.
@@ -82,29 +83,45 @@ export default function Footer() {
             <nav aria-label="Legal">
               <h4 className="mb-4 text-sm font-semibold text-white">Legal</h4>
               <ul className="space-y-3">
-                {privacyUrl && termsUrl ? (
-                  <>
-                    <li>
-                      <a
-                        href={termsUrl}
-                        className="text-sm text-[#8B949E] transition-colors hover:text-white"
-                      >
-                        Términos y condiciones
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href={privacyUrl}
-                        className="text-sm text-[#8B949E] transition-colors hover:text-white"
-                      >
-                        Política de privacidad
-                      </a>
-                    </li>
-                  </>
-                ) : (
+                {/*
+                 * El enlace de Política de cookies es una ruta estática y se
+                 * muestra siempre; los demás (términos/privacidad) solo se
+                 * renderizan si su URL de configuración está disponible, para
+                 * no dejar la sección legal vacía. El aviso de cookies sigue
+                 * siendo el control real de consentimiento en cualquier caso.
+                 */}
+                <li>
+                  <a
+                    href={cookiesUrl}
+                    className="text-sm text-[#8B949E] transition-colors hover:text-white"
+                  >
+                    Política de cookies
+                  </a>
+                </li>
+                {termsUrl && (
+                  <li>
+                    <a
+                      href={termsUrl}
+                      className="text-sm text-[#8B949E] transition-colors hover:text-white"
+                    >
+                      Términos y condiciones
+                    </a>
+                  </li>
+                )}
+                {privacyUrl && (
+                  <li>
+                    <a
+                      href={privacyUrl}
+                      className="text-sm text-[#8B949E] transition-colors hover:text-white"
+                    >
+                      Política de privacidad
+                    </a>
+                  </li>
+                )}
+                {!termsUrl && !privacyUrl && (
                   <li>
                     <span className="text-sm text-[#8B949E]">
-                      Política de privacidad y términos disponibles antes del lanzamiento público.
+                      Todas las políticas se publicarán antes del lanzamiento público.
                     </span>
                   </li>
                 )}

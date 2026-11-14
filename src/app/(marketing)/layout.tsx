@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
+
 import { Toaster } from "react-hot-toast";
 import MotionProvider from "@/components/providers/MotionProvider";
 import AnalyticsGate from "@/components/providers/AnalyticsGate";
@@ -70,26 +69,7 @@ export const metadata: Metadata = {
   },
 };
 
-const softwareApplicationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  name: "Armio",
-  applicationCategory: "BusinessApplication",
-  operatingSystem: "Web",
-  url: "https://armio.co",
-  offers: {
-    "@type": "Offer",
-    price: "49",
-    priceCurrency: "USD",
-    priceValidUntil: "2026-12-31",
-    availability: "https://schema.org/InStock",
-  },
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "4.8",
-    ratingCount: "100",
-  },
-};
+// Las métricas comerciales del JSON-LD deben provenir de datos reales.
 
 const organizationJsonLd = {
   "@context": "https://schema.org",
@@ -117,12 +97,6 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(softwareApplicationJsonLd),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
             __html: JSON.stringify(organizationJsonLd),
           }}
         />
@@ -139,8 +113,7 @@ export default function RootLayout({
             },
           }}
         />
-        <Analytics />
-        <SpeedInsights />
+
         <AnalyticsGate gaId={process.env.NEXT_PUBLIC_GA_ID || ""} />
       </body>
     </html>

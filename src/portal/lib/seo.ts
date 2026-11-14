@@ -70,6 +70,7 @@ export function propertyJsonLd(opts: {
   const { property, profile, url } = opts;
   const images = property.images.map((i) => httpsUrl(i.url)).filter((u): u is string => !!u);
   const area = property.private_area_m2 ?? property.area_m2 ?? property.total_area_m2;
+  const streetAddress = [property.building, property.location.address].filter(Boolean).join(", ");
   const geo =
     typeof property.location.latitude === "number" &&
     typeof property.location.longitude === "number"
@@ -135,6 +136,7 @@ export function propertyJsonLd(opts: {
         : {}),
       address: {
         "@type": "PostalAddress",
+        ...(streetAddress ? { streetAddress } : {}),
         ...(property.location.city ? { addressLocality: property.location.city } : {}),
         ...(property.location.department ? { addressRegion: property.location.department } : {}),
         addressCountry: "CO",
@@ -169,7 +171,13 @@ export function propertyJsonLd(opts: {
 
 export function agentJsonLd(profile: PortalProfile, url: string) {
   const logo = httpsUrl(profile.logo_url);
-  const sameAs = [profile.social.instagram, profile.social.facebook]
+  const sameAs = [
+    profile.social.instagram,
+    profile.social.facebook,
+    profile.social.linkedin,
+    profile.social.youtube,
+    url,
+  ]
     .map((s) => httpsUrl(s))
     .filter((s): s is string => !!s);
   return {
