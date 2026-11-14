@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { newsletterRequestSchema } from "@/lib/validations";
 import { sendWelcomeEmail } from "@/lib/resend";
+import { checkNewsletterRateLimit } from "@/lib/rate-limit";
+import { clientIp } from "@/portal/lib/client-ip";
 import {
   createWaitlistSignup,
   markWelcomeEmailSent,
@@ -22,6 +24,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: result.error.issues[0]?.message || "Email inválido" },
         { status: 400 }
+      );
+    }
+
+    // Cada alta nueva envía un correo a una dirección ajena: limitar antes de tocar la base o Resend
+    const limit = await checkNewsletterRateLimit(clientIp(request));
+    if (!limit.allowed) {
+      return NextResponse.json(
+        { error: "Demasiados intentos. Inténtalo de nuevo más tarde." },
+        { status: 429, headers: { "Retry-After": String(limit.retryAfter) } }
       );
     }
 
