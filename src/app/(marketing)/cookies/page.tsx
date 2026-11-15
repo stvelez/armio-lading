@@ -73,10 +73,10 @@ export default function CookiesPage() {
       </p>
 
       <section className="mt-10">
-        <h2 className="text-xl font-semibold text-stone-900">
+        <h2 className="text-xl font-semibold text-white">
           ¿Qué son las cookies y por qué las usamos?
         </h2>
-        <p className="mt-2 text-stone-700">
+        <p className="mt-2 text-stone-300">
           Las cookies son pequeños archivos de texto que el servidor envía a tu navegador y que se
           guardan en tu dispositivo. Nos sirven para que el sitio funcione, para entender cómo lo
           vas usando y para recordar tus preferencias. Según la <strong>Ley 1581 de 2012</strong> y
