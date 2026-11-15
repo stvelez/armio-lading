@@ -33,7 +33,7 @@ describe("aviso de privacidad del portal y Turnstile", () => {
     expect(html).not.toContain("cloudflare");
   });
 
-  it("explica el contador de visitas y ya no dice que no hay analítica", async () => {
+  it("explica el contador de visitas, la marca técnica de sesión y el GA4 de armio.co", async () => {
     const html = await render();
     expect(html).toContain("Estadísticas de visitas");
     expect(html).toContain("se conservan hasta por 13 meses");
@@ -45,8 +45,15 @@ describe("aviso de privacidad del portal y Turnstile", () => {
     expect(html).toContain("clave aleatoria que se descarta cada día");
     expect(html).toContain("no se guarda en ninguna base de datos");
     expect(html).not.toContain("unos minutos");
-    expect(html).not.toContain("no usa herramientas de analítica");
+    // El portal no tiene analítica de terceros; eso se sigue afirmando…
     expect(html).toContain("ni herramientas de analítica de");
+    expect(html).toContain("no hay Google Analytics");
+    // …pero ya no se niega TODO almacenamiento: VisitBeacon escribe sessionStorage["armio:equipo"].
+    expect(html).toContain("armio:equipo");
+    expect(html).not.toContain("ni almacenamiento en tu navegador");
+    // Y se declara el GA4 del sitio de marketing, con enlace a la política de cookies.
+    expect(html).toContain("Google Analytics 4");
+    expect(html).toContain('href="https://armio.co/cookies"');
   });
 
   it("la sección de visitas va después de 'Datos que recolectamos' y antes de 'Finalidades'", async () => {

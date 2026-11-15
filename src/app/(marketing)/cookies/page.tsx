@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { cookiesUrl } from "@/lib/legal";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://armio.co"),
@@ -6,12 +7,12 @@ export const metadata: Metadata = {
   description:
     "¿Qué trazamos con cookies y otros identificadores al navegar por armio.co? Consulta cómo gestionamos tu consentimiento según la Ley 1581 de 2012.",
   keywords: ["cookies", "privacidad", "Ley 1581", "consentimiento", "GA4"],
-  alternates: { canonical: "https://armio.co/cookies" },
+  alternates: { canonical: cookiesUrl },
   robots: { index: true, follow: true },
   openGraph: {
     type: "website",
     locale: "es_CO",
-    url: "https://armio.co/cookies",
+    url: cookiesUrl,
     siteName: "Armio",
     title: "Política de cookies",
     description:
@@ -112,10 +113,15 @@ export default function CookiesPage() {
             navegador, perfil ni identificador.
           </li>
           <li>
-            La cuenta se hace internamente y sin cookies ni almacenamiento de seguimiento en tu
-            navegador.
+            La cuenta se hace internamente y sin cookies; la única marca que puede quedar en tu
+            navegador es técnica, de sesión y sirve para excluir las visitas del propio equipo de la
+            inmobiliaria.
           </li>
         </ul>
+        <p className="mt-3 text-stone-700">
+          Cada portal publica su propio aviso de privacidad en{" "}
+          <code>{"{inmobiliaria}"}.armio.co/privacidad</code>.
+        </p>
       </section>
 
       <section className="mt-10">

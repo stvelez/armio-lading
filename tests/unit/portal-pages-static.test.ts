@@ -58,4 +58,26 @@ describe("páginas del portal", () => {
     const code = source.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/.*$/gm, "");
     expect(code).not.toMatch(/usePathname|useSearchParams|next\/navigation|next\/headers/);
   });
+
+  /**
+   * D-1: Google Analytics vive EXCLUSIVAMENTE en `(marketing)`. El portal es otro origen, con su
+   * propio `<html>`, y su único conteo es `VisitBeacon` (propio, agregado y anónimo). Esta guardia
+   * falla si alguien importa GA/gtag en el árbol del portal, lo que además dejaría en falso el
+   * aviso de `/privacidad` («no hay Google Analytics ni píxeles de redes sociales»).
+   */
+  it("el portal no monta analítica de terceros", () => {
+    const sources = walk(path.resolve(__dirname, "../../src/portal"))
+      .concat(files)
+      .map((f) => `/* ${f} */\n${readFileSync(f, "utf8")}`)
+      .join("\n");
+    expect(sources).not.toMatch(/GoogleAnalytics|AnalyticsGate|gtag|googletagmanager/);
+  });
+
+  it("el layout de marketing es el único que monta AnalyticsGate", () => {
+    const marketing = readFileSync(
+      path.resolve(__dirname, "../../src/app/(marketing)/layout.tsx"),
+      "utf8"
+    );
+    expect(marketing).toContain("AnalyticsGate");
+  });
 });

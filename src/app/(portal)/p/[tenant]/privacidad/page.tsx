@@ -5,6 +5,7 @@ import { httpsUrl } from "@/portal/lib/format";
 import { portalPath, portalUrl } from "@/portal/lib/urls";
 import { buildMetadata } from "@/portal/lib/seo";
 import { turnstileSiteKey } from "@/portal/lib/turnstile";
+import { cookiesUrl } from "@/lib/legal";
 
 type Props = { params: Promise<{ tenant: string }> };
 
@@ -76,9 +77,15 @@ export default async function PrivacyPage({ params }: Props) {
           <p>
             Cuando completas el formulario de interés recolectamos tu nombre, teléfono, correo
             electrónico (opcional) y el mensaje que decidas escribir, junto con la propiedad por la
-            que preguntas. Este sitio no usa cookies publicitarias ni herramientas de analítica de
-            terceros. Solo cuenta visitas de forma anónima, como se explica en «Estadísticas de
-            visitas».
+            que preguntas. Este portal no usa cookies publicitarias ni herramientas de analítica de
+            terceros: no hay Google Analytics ni píxeles de redes sociales en estas páginas. Solo
+            cuenta visitas de forma anónima, como se explica en «Estadísticas de visitas». El sitio
+            corporativo de Armio (armio.co) sí usa Google Analytics 4, que únicamente se activa si
+            lo aceptas allí; el detalle está en la{" "}
+            <a href={cookiesUrl} target="_blank" rel="noopener noreferrer" className="underline">
+              Política de cookies de Armio
+            </a>
+            .
           </p>
         </section>
 
@@ -93,15 +100,18 @@ export default async function PrivacyPage({ params }: Props) {
             identifican a nadie y se conservan hasta por 13 meses.
           </p>
           <p>
-            No usamos cookies ni almacenamiento en tu navegador para seguirte, no creamos perfiles y
-            no guardamos tu dirección IP, el tipo de navegador ni la dirección de la página de la
-            que vienes. Para no contar varias veces la misma recarga y para frenar abusos, usamos tu
-            dirección IP (o su prefijo de red): se procesa solo en la memoria del servidor durante
-            el día en curso (como máximo hasta la medianoche, hora de Colombia), transformada con
-            una clave aleatoria que se descarta cada día, y no se guarda en ninguna base de datos ni
-            se asocia a tu nombre ni a tus datos de contacto. El tipo de navegador solo se mira en
-            el momento para descartar robots y no se conserva. Armio realiza este conteo como
-            Encargado del tratamiento por cuenta de la inmobiliaria.
+            No usamos cookies para seguirte, no creamos perfiles y no guardamos tu dirección IP, el
+            tipo de navegador ni la dirección de la página de la que vienes. El único dato que puede
+            quedar en tu navegador es una marca técnica de sesión (<code>armio:equipo</code>) que se
+            crea solo si alguien del equipo de la inmobiliaria abre el sitio con un enlace interno,
+            para que sus propias visitas no se cuenten; se borra al cerrar la pestaña y no
+            identifica a nadie. Para no contar varias veces la misma recarga y para frenar abusos,
+            usamos tu dirección IP (o su prefijo de red): se procesa solo en la memoria del servidor
+            durante el día en curso (como máximo hasta la medianoche, hora de Colombia),
+            transformada con una clave aleatoria que se descarta cada día, y no se guarda en ninguna
+            base de datos ni se asocia a tu nombre ni a tus datos de contacto. El tipo de navegador
+            solo se mira en el momento para descartar robots y no se conserva. Armio realiza este
+            conteo como Encargado del tratamiento por cuenta de la inmobiliaria.
           </p>
         </section>
 

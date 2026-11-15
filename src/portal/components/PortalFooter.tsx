@@ -3,6 +3,7 @@ import { Facebook, Instagram, Mail, MapPin, MessageCircle, Phone } from "lucide-
 import type { PortalProfile } from "../types";
 import { httpsUrl, telHref, whatsappHref } from "../lib/format";
 import { portalPath } from "../lib/urls";
+import { cookiesUrl } from "@/lib/legal";
 
 export default function PortalFooter({ profile }: { profile: PortalProfile | null }) {
   const instagram = httpsUrl(profile?.social.instagram);
@@ -104,20 +105,42 @@ export default function PortalFooter({ profile }: { profile: PortalProfile | nul
                     Aviso de privacidad
                   </Link>
                 </li>
+                <li>
+                  {/* Vive en armio.co (otro origen): enlace externo, no next/link. */}
+                  <a
+                    href={cookiesUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:underline"
+                  >
+                    Política de cookies
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
         )}
         <div className="mt-8 flex flex-wrap items-center justify-between gap-2 border-t border-stone-100 pt-6 text-sm text-stone-600">
           <p>{profile ? `© ${new Date().getFullYear()} ${profile.name}` : "Portal inmobiliario"}</p>
-          <a
-            href="https://armio.co"
-            target="_blank"
-            rel="noopener"
-            className="font-medium text-stone-700 hover:underline"
-          >
-            Hecho con Armio
-          </a>
+          {/* La lista «Enlaces» solo existe con perfil; aquí el enlace está siempre disponible. */}
+          <div className="flex flex-wrap items-center gap-4">
+            <a
+              href={cookiesUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:underline"
+            >
+              Política de cookies
+            </a>
+            <a
+              href="https://armio.co"
+              target="_blank"
+              rel="noopener"
+              className="font-medium text-stone-700 hover:underline"
+            >
+              Hecho con Armio
+            </a>
+          </div>
         </div>
       </div>
     </footer>

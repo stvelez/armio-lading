@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "@/portal/portal.css";
 import PortalFooter from "@/portal/components/PortalFooter";
 import PortalHeader from "@/portal/components/PortalHeader";
+import CookieConsentBanner from "@/components/ui/CookieConsentBanner";
 import { loadProfile } from "@/portal/lib/api";
 import { onColor, safeColor } from "@/portal/lib/format";
 import { portalOrigin } from "@/portal/lib/urls";
@@ -62,10 +63,16 @@ export default async function PortalLayout({
           Saltar al contenido
         </a>
         <PortalHeader profile={profile} />
-        <main id="contenido" className="flex-1">
+        <main id="contenido" className="flex-1 pb-20 md:pb-0">
           {children}
         </main>
         <PortalFooter profile={profile} />
+        {/*
+         * Variante informativa: en el portal no hay analítica de terceros ni cookies que consentir,
+         * así que el aviso declara la marca técnica de sesión y enlaza la política, sin pedir un
+         * permiso que no activaría nada. Es un componente de cliente: no afecta la estaticidad.
+         */}
+        <CookieConsentBanner variant="notice" />
       </body>
     </html>
   );

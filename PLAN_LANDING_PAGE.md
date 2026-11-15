@@ -30,15 +30,15 @@
 
 ### 1.1 Información del Producto
 
-| Atributo | Detalle |
-|----------|---------|
-| **Nombre** | Armio |
-| **Dominio** | armio.co |
-| **Propuesta de valor** | El sistema operativo de tu agencia inmobiliaria |
-| **Mercado** | Colombia |
-| **Segmento** | Agencias inmobiliarias pequeñas/medianas (5-50 agentes) |
-| **Email de contacto** | hola@armio.co |
-| **Twitter** | @armioapp |
+| Atributo               | Detalle                                                 |
+| ---------------------- | ------------------------------------------------------- |
+| **Nombre**             | Armio                                                   |
+| **Dominio**            | armio.co                                                |
+| **Propuesta de valor** | El sistema operativo de tu agencia inmobiliaria         |
+| **Mercado**            | Colombia                                                |
+| **Segmento**           | Agencias inmobiliarias pequeñas/medianas (5-50 agentes) |
+| **Email de contacto**  | hola@armio.co                                           |
+| **Twitter**            | @armioapp                                               |
 
 ### 1.2 Estado Actual
 
@@ -78,15 +78,15 @@ Glass Border: rgba(255,255,255,0.1)
 
 ### 1.5 Archivos Clave del Proyecto Actual
 
-| Ruta | Descripción | Contenido relevante |
-|------|-------------|---------------------|
-| [package.json](package.json) | Dependencias del proyecto | Next.js 16, React 19, Tailwind 4, Lucide React |
-| [src/app/page.tsx](src/app/page.tsx) | Página principal | JSON-LD de SEO, referencia al componente ComingSoon |
-| [src/app/layout.tsx](src/app/layout.tsx) | Layout principal | Metadatos SEO, OpenGraph, Twitter cards, configuración de fuente |
-| [src/app/globals.css](src/app/globals.css) | Estilos globales | Colores de marca Armio definidos en Tailwind |
-| [src/components/ComingSoon.tsx](src/components/ComingSoon.tsx) | Componente actual | Landing page "Coming Soon" con CTA a email |
-| [tsconfig.json](tsconfig.json) | Config TypeScript | Alias `@/*` → `./src/*` |
-| [next.config.ts](next.config.ts) | Config Next.js | Configuración vacía (por ahora) |
+| Ruta                                                           | Descripción               | Contenido relevante                                              |
+| -------------------------------------------------------------- | ------------------------- | ---------------------------------------------------------------- |
+| [package.json](package.json)                                   | Dependencias del proyecto | Next.js 16, React 19, Tailwind 4, Lucide React                   |
+| [src/app/page.tsx](src/app/page.tsx)                           | Página principal          | JSON-LD de SEO, referencia al componente ComingSoon              |
+| [src/app/layout.tsx](src/app/layout.tsx)                       | Layout principal          | Metadatos SEO, OpenGraph, Twitter cards, configuración de fuente |
+| [src/app/globals.css](src/app/globals.css)                     | Estilos globales          | Colores de marca Armio definidos en Tailwind                     |
+| [src/components/ComingSoon.tsx](src/components/ComingSoon.tsx) | Componente actual         | Landing page "Coming Soon" con CTA a email                       |
+| [tsconfig.json](tsconfig.json)                                 | Config TypeScript         | Alias `@/*` → `./src/*`                                          |
+| [next.config.ts](next.config.ts)                               | Config Next.js            | Configuración vacía (por ahora)                                  |
 
 ### 1.6 Estructura de Directorios Actual
 
@@ -164,11 +164,11 @@ v2.0 - Insight adicional:
 
 ```yaml
 Framework: Next.js 16
-Runtime:  React 19
+Runtime: React 19
 Language: TypeScript
-Styling:  Tailwind CSS 4
-Icons:    Lucide React
-Font:     Plus Jakarta Sans
+Styling: Tailwind CSS 4
+Icons: Lucide React
+Font: Plus Jakarta Sans
 ```
 
 ### 3.2 Dependencias a Instalar
@@ -298,21 +298,21 @@ npm install canvas-confetti
 
 ### 4.2 Descripción Detallada de Secciones
 
-| # | Sección | Prioridad | Descripción | v2.0 Mejoras |
-|---|---------|-----------|-------------|-------------|
-| 1 | **Header** | Alta | Logo Armio + CTA "Únete a la espera" (sticky) | Badge visible de 50% OFF |
-| 2 | **Hero** | Alta | Headline, subheadline, form signup, visual element | ✨ Mockup animado de interface |
-| 3 | **Trust Bar** | Alta | Métricas sociales + testimonial corto | 🔄 Cambiado de logos a métricas |
-| 4 | **Problem/Solution** | Alta | Comparativa "Antes vs Después" con visual | ✨ Toggle interactivo con screenshots |
-| 5 | **Features** | Alta | Grid de 4 features con iconos y descripciones | ✨ Mini previews visuales de cada feature |
-| 6 | **Benefits** | Alta | 3 métricas de valor (tiempo ahorrado, leads, etc.) | Métricas más específicas y impactantes |
-| 7 | **How It Works** | Media | 3 pasos simples para empezar | Visual más claro del proceso |
-| 8 | **Product Preview** | Alta | 🆕 Screenshot grande con hotspots interactivos | 🔥 NUEVA SECCIÓN antes de Pricing |
-| 9 | **Testimonials** | Media | Quotes de usuarios con fotos | Fotos reales de usuarios |
-| 10 | **Pricing** | Alta | Cards de planes con Early Access message | 🔄 "Próximamente" → "Early Access 50% OFF" |
-| 11 | **FAQ** | Media | 5-7 preguntas frecuentes con accordion | Schema markup para rich snippets |
-| 12 | **CTA Final** | Alta | Segundo CTA con incentivo y urgency | ✨ Scarcity: "Solo XX/100 cupos" |
-| 13 | **Footer** | Alta | Links legales, redes sociales, contacto | Agregar cookie consent banner |
+| #   | Sección              | Prioridad | Descripción                                        | v2.0 Mejoras                               |
+| --- | -------------------- | --------- | -------------------------------------------------- | ------------------------------------------ |
+| 1   | **Header**           | Alta      | Logo Armio + CTA "Únete a la espera" (sticky)      | Badge visible de 50% OFF                   |
+| 2   | **Hero**             | Alta      | Headline, subheadline, form signup, visual element | ✨ Mockup animado de interface             |
+| 3   | **Trust Bar**        | Alta      | Métricas sociales + testimonial corto              | 🔄 Cambiado de logos a métricas            |
+| 4   | **Problem/Solution** | Alta      | Comparativa "Antes vs Después" con visual          | ✨ Toggle interactivo con screenshots      |
+| 5   | **Features**         | Alta      | Grid de 4 features con iconos y descripciones      | ✨ Mini previews visuales de cada feature  |
+| 6   | **Benefits**         | Alta      | 3 métricas de valor (tiempo ahorrado, leads, etc.) | Métricas más específicas y impactantes     |
+| 7   | **How It Works**     | Media     | 3 pasos simples para empezar                       | Visual más claro del proceso               |
+| 8   | **Product Preview**  | Alta      | 🆕 Screenshot grande con hotspots interactivos     | 🔥 NUEVA SECCIÓN antes de Pricing          |
+| 9   | **Testimonials**     | Media     | Quotes de usuarios con fotos                       | Fotos reales de usuarios                   |
+| 10  | **Pricing**          | Alta      | Cards de planes con Early Access message           | 🔄 "Próximamente" → "Early Access 50% OFF" |
+| 11  | **FAQ**              | Media     | 5-7 preguntas frecuentes con accordion             | Schema markup para rich snippets           |
+| 12  | **CTA Final**        | Alta      | Segundo CTA con incentivo y urgency                | ✨ Scarcity: "Solo XX/100 cupos"           |
+| 13  | **Footer**           | Alta      | Links legales, redes sociales, contacto            | Agregar cookie consent banner              |
 
 ---
 
@@ -398,39 +398,39 @@ mobile-optimizations:
 
 ```yaml
 # v2.0 - Animaciones más estratégicas
-hero: {
-  headline: "fade-in 0.6s, delay 0.2s",
-  mockup: "slide-up 0.8s, delay 0.4s, y: 40 → 0",
-  form: "fade-in 0.5s, delay 0.8s",
-  badge: "scale-in 0.4s, delay 1s",
-}
+hero:
+  {
+    headline: "fade-in 0.6s, delay 0.2s",
+    mockup: "slide-up 0.8s, delay 0.4s, y: 40 → 0",
+    form: "fade-in 0.5s, delay 0.8s",
+    badge: "scale-in 0.4s, delay 1s",
+  }
 
-scroll: {
-  sections: "fade-in-up 0.6s, trigger: 80% viewport",
-  features: "stagger: 0.15s between items",
-  pricing: "scale-up 0.5s, trigger: 70% viewport",
-}
+scroll:
+  {
+    sections: "fade-in-up 0.6s, trigger: 80% viewport",
+    features: "stagger: 0.15s between items",
+    pricing: "scale-up 0.5s, trigger: 70% viewport",
+  }
 
 # v2.0 - NO animar todo - solo lo importante
 dont_animate: [
-  "Footer",
-  "Logo bar",
-  "Text paragraphs", # solo animar headings
-  "FAQ items", # solo accordion expansion
-]
+    "Footer",
+    "Logo bar",
+    "Text paragraphs", # solo animar headings
+    "FAQ items", # solo accordion expansion
+  ]
 
 # Hover effects
-hover: {
-  button: "scale 1.03, box-shadow 0 8px 24px rgba(29,158,117,0.3), transition 0.15s",
-  card: "y: -8px, box-shadow 0 12px 40px rgba(0,0,0,0.15), transition 0.2s",
-  feature: "scale 1.02, transition 0.2s",
-}
+hover:
+  {
+    button: "scale 1.03, box-shadow 0 8px 24px rgba(29,158,117,0.3), transition 0.15s",
+    card: "y: -8px, box-shadow 0 12px 40px rgba(0,0,0,0.15), transition 0.2s",
+    feature: "scale 1.02, transition 0.2s",
+  }
 
 # v2.0 - Mobile: desactivar scroll animations
-mobile: {
-  scroll_animations: "disabled",
-  hover_effects: "simplified",
-}
+mobile: { scroll_animations: "disabled", hover_effects: "simplified" }
 ```
 
 ### 5.4 Interacciones (Mejorado v2.0)
@@ -467,96 +467,111 @@ mobile: {
 
 ```yaml
 # WCAG 2.1 AA Compliance
-accessibility: {
-  color_contrast: {
-    requirement: "WCAG AA (4.5:1 for normal text)",
-    tools: ["axe DevTools", "WebAIM Contrast Checker"],
-    verification: "Automated + manual testing",
-  },
+accessibility:
+  {
+    color_contrast:
+      {
+        requirement: "WCAG AA (4.5:1 for normal text)",
+        tools: ["axe DevTools", "WebAIM Contrast Checker"],
+        verification: "Automated + manual testing",
+      },
 
-  keyboard_nav: {
-    requirement: "All interactions accessible via keyboard",
-    focus_indicator: "2px ring visible, z-index high",
-    skip_links: "Skip to content link at top",
-    tab_order: "Logical flow through page",
-  },
+    keyboard_nav:
+      {
+        requirement: "All interactions accessible via keyboard",
+        focus_indicator: "2px ring visible, z-index high",
+        skip_links: "Skip to content link at top",
+        tab_order: "Logical flow through page",
+      },
 
-  screen_readers: {
-    alt_text: "Descriptive for all images",
-    aria_labels: "Buttons without visible text",
-    landmarks: "Proper semantic HTML (header, nav, main, footer)",
-    live_regions: "ARIA for dynamic content (form success, etc.)",
-  },
+    screen_readers:
+      {
+        alt_text: "Descriptive for all images",
+        aria_labels: "Buttons without visible text",
+        landmarks: "Proper semantic HTML (header, nav, main, footer)",
+        live_regions: "ARIA for dynamic content (form success, etc.)",
+      },
 
-  fonts: {
-    resizable: "Use relative units (rem, em)",
-    line_height: "Minimum 1.5 for body text",
-    character_spacing: "0.01em - 0.05em for readability",
-  },
+    fonts:
+      {
+        resizable: "Use relative units (rem, em)",
+        line_height: "Minimum 1.5 for body text",
+        character_spacing: "0.01em - 0.05em for readability",
+      },
 
-  forms: {
-    labels: "Explicit labels for all inputs",
-    error_messages: "Associated with inputs via aria-describedby",
-    success_feedback: "Visible + announced to screen readers",
-  },
+    forms:
+      {
+        labels: "Explicit labels for all inputs",
+        error_messages: "Associated with inputs via aria-describedby",
+        success_feedback: "Visible + announced to screen readers",
+      },
 
-  animations: {
-    respect_prefers: "respect 'prefers-reduced-motion'",
-    toggle_option: "Allow users to disable animations",
-    no_flicker: "FOUC prevention (Flash of Unstyled Content)",
+    animations:
+      {
+        respect_prefers: "respect 'prefers-reduced-motion'",
+        toggle_option: "Allow users to disable animations",
+        no_flicker: "FOUC prevention (Flash of Unstyled Content)",
+      },
   }
-}
 ```
 
 ### 5.6 Mobile UX Priority (v2.0 - NUEVA SECCIÓN)
 
 ```yaml
 # Mobile-specific optimizations
-mobile: {
-  hero: {
-    headline: "font-size: 28px (vs 40px desktop)",
-    spacing: "reduce padding from 80px to 40px",
-    mockup: "stack vertical en lugar de horizontal",
-    form: "full width, stacked layout",
-  },
+mobile:
+  {
+    hero:
+      {
+        headline: "font-size: 28px (vs 40px desktop)",
+        spacing: "reduce padding from 80px to 40px",
+        mockup: "stack vertical en lugar de horizontal",
+        form: "full width, stacked layout",
+      },
 
-  features: {
-    grid: "1 column en mobile (vs 4 columns desktop)",
-    cards: "full width con más spacing vertical",
-    previews: "hide mini previews en mobile (performance)",
-  },
+    features:
+      {
+        grid: "1 column en mobile (vs 4 columns desktop)",
+        cards: "full width con más spacing vertical",
+        previews: "hide mini previews en mobile (performance)",
+      },
 
-  pricing: {
-    cards: "stack vertical con 24px spacing",
-    cta: "fixed al bottom en mobile (como PWA)",
-    toggle: "horizontal scroll si muchos planes",
-  },
+    pricing:
+      {
+        cards: "stack vertical con 24px spacing",
+        cta: "fixed al bottom en mobile (como PWA)",
+        toggle: "horizontal scroll si muchos planes",
+      },
 
-  forms: {
-    input: "full width, font-size 16px (evitar zoom en iOS)",
-    button: "full width, min-height 48px (touch-friendly)",
-    validation: "inline messages (no modal errors)",
-  },
+    forms:
+      {
+        input: "full width, font-size 16px (evitar zoom en iOS)",
+        button: "full width, min-height 48px (touch-friendly)",
+        validation: "inline messages (no modal errors)",
+      },
 
-  performance: {
-    images: "aggressive lazy loading",
-    fonts: "critical inline, rest lazy",
-    animations: "desactivar scroll animations en mobile",
-    components: "lazy load sections below the fold",
-  },
+    performance:
+      {
+        images: "aggressive lazy loading",
+        fonts: "critical inline, rest lazy",
+        animations: "desactivar scroll animations en mobile",
+        components: "lazy load sections below the fold",
+      },
 
-  gestures: {
-    touch_targets: "min 48x48px",
-    spacing: "min 8px between touchable elements",
-    swipe: "support swipe navigation para carousels",
-  },
+    gestures:
+      {
+        touch_targets: "min 48x48px",
+        spacing: "min 8px between touchable elements",
+        swipe: "support swipe navigation para carousels",
+      },
 
-  testing: {
-    devices: ["iPhone SE", "iPhone 14", "Pixel 7", "Samsung Galaxy"],
-    viewports: ["375x667", "390x844", "414x896"],
-    real_devices: "Test en physical devices Colombian market",
+    testing:
+      {
+        devices: ["iPhone SE", "iPhone 14", "Pixel 7", "Samsung Galaxy"],
+        viewports: ["375x667", "390x844", "414x896"],
+        real_devices: "Test en physical devices Colombian market",
+      },
   }
-}
 ```
 
 ---
@@ -566,11 +581,13 @@ mobile: {
 ### 6.1 Google Analytics 4 (GRATUITO)
 
 **Plan Free:**
+
 - Hasta 10M eventos mensuales
 - Sin límite de usuarios
 - 50 propiedades
 
 **Implementación:**
+
 ```typescript
 // 1. Crear archivo: lib/analytics.ts
 export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || '';
@@ -591,6 +608,7 @@ import { GoogleAnalytics } from '@next/third-parties/google'
 ```
 
 **Eventos a trackear (v2.0 - mejorados):**
+
 ```typescript
 // v2.0 - Eventos de conversión mejorados
 gaEvent: {
@@ -621,6 +639,7 @@ mobile_events: {
 ### 6.2 Email Marketing (v2.0 - Mejorado: Resend)
 
 **Opción Mejorada: Resend (Free tier)**
+
 ```
 - Free: hasta 3,000 emails/mes
 - Paid: desde $20/mes (100,000 emails)
@@ -629,6 +648,7 @@ mobile_events: {
 ```
 
 **Implementación Resend:**
+
 ```typescript
 // 1. Instalar
 npm install resend
@@ -682,6 +702,7 @@ export async function POST(req: NextRequest) {
 ```
 
 **Workflow de Email Drip Campaign (v2.0):**
+
 ```typescript
 // Email strategy para maximizar engagement
 email_campaign: {
@@ -716,6 +737,7 @@ email_campaign: {
 ### 6.3 Exit Intent Popup (v2.0 - NUEVA SECCIÓN)
 
 **Implementación:**
+
 ```typescript
 // 1. Instalar
 npm install react-exit-intent
@@ -784,13 +806,13 @@ export function ExitIntentPopup() {
 
 ### 6.4 Otras Integraciones Opcionales
 
-| Herramienta | Descripción | Prioridad |
-|-------------|-------------|-----------|
-| Calendly | Agendar demos | Baja |
-| Hotjar | User recordings | Media |
-| Crisp/Intercom | Live chat | Baja |
-| Vercel Analytics | Web vitals | Media |
-| Clarity | Heatmaps | Media |
+| Herramienta      | Descripción     | Prioridad |
+| ---------------- | --------------- | --------- |
+| Calendly         | Agendar demos   | Baja      |
+| Hotjar           | User recordings | Media     |
+| Crisp/Intercom   | Live chat       | Baja      |
+| Vercel Analytics | Web vitals      | Media     |
+| Clarity          | Heatmaps        | Media     |
 
 ---
 
@@ -1174,14 +1196,14 @@ v2.0 - Cookie consent banner:
 
 **Objetivo:** Crear base técnica e implementar sección Hero con mockup visual
 
-| Tarea | Descripción | Estimado | v2.0 Cambios |
-|-------|-------------|----------|-------------|
-| Configurar sistema de diseño mejorado | Colores, gradients, glassmorphism, shadows | 3h | ✨ Agregar gradients y glass effects |
-| Crear estructura de componentes | Base components (Button, Input, Card, GlassCard) | 3h | ✨ Agregar GlassCard component |
-| Implementar Header | Sticky header con logo, badge 50% OFF, CTA | 2h | ✨ Badge visible de Early Access |
-| Implementar Hero Section mejorado | Headline, mockup animado, badge, form | 6h | ✨ Mockup visual de interface |
-| Crear NewsletterForm component | Form con validación, success animation | 3h | Confetti animation |
-| Implementar API route newsletter | Endpoint para capturar emails + Resend integration | 3h | ✨ Resend welcome email |
+| Tarea                                 | Descripción                                        | Estimado | v2.0 Cambios                         |
+| ------------------------------------- | -------------------------------------------------- | -------- | ------------------------------------ |
+| Configurar sistema de diseño mejorado | Colores, gradients, glassmorphism, shadows         | 3h       | ✨ Agregar gradients y glass effects |
+| Crear estructura de componentes       | Base components (Button, Input, Card, GlassCard)   | 3h       | ✨ Agregar GlassCard component       |
+| Implementar Header                    | Sticky header con logo, badge 50% OFF, CTA         | 2h       | ✨ Badge visible de Early Access     |
+| Implementar Hero Section mejorado     | Headline, mockup animado, badge, form              | 6h       | ✨ Mockup visual de interface        |
+| Crear NewsletterForm component        | Form con validación, success animation             | 3h       | Confetti animation                   |
+| Implementar API route newsletter      | Endpoint para capturar emails + Resend integration | 3h       | ✨ Resend welcome email              |
 
 **Total:** ~20 horas (2.5 días)
 
@@ -1191,14 +1213,14 @@ v2.0 - Cookie consent banner:
 
 **Objetivo:** Implementar secciones de confianza y valor del producto
 
-| Tarea | Descripción | Estimado | v2.0 Cambios |
-|-------|-------------|----------|-------------|
-| Crear FeatureCard component | Reusable card con icono, mini preview, hover effects | 3h | ✨ Mini preview visual |
-| Implementar Features grid | 4 features con stagger animation, mini previews | 4h | ✨ Hotspots interactivos |
-| Crear Benefits section | Métricas de valor con icons y animaciones | 2h | Métricas más específicas |
-| Implementar Trust Bar mejorada | Métricas sociales + micro testimonial rotatorio | 3h | 🔄 Cambiado de logos a métricas |
-| Crear Hotspot component | Tooltip interactivo para product preview | 2h | ✨ Nuevo component |
-| Crease HeroMockup component | Mockup animado del dashboard | 4h | ✨ Nuevo component |
+| Tarea                          | Descripción                                          | Estimado | v2.0 Cambios                    |
+| ------------------------------ | ---------------------------------------------------- | -------- | ------------------------------- |
+| Crear FeatureCard component    | Reusable card con icono, mini preview, hover effects | 3h       | ✨ Mini preview visual          |
+| Implementar Features grid      | 4 features con stagger animation, mini previews      | 4h       | ✨ Hotspots interactivos        |
+| Crear Benefits section         | Métricas de valor con icons y animaciones            | 2h       | Métricas más específicas        |
+| Implementar Trust Bar mejorada | Métricas sociales + micro testimonial rotatorio      | 3h       | 🔄 Cambiado de logos a métricas |
+| Crear Hotspot component        | Tooltip interactivo para product preview             | 2h       | ✨ Nuevo component              |
+| Crease HeroMockup component    | Mockup animado del dashboard                         | 4h       | ✨ Nuevo component              |
 
 **Total:** ~18 horas (2.25 días)
 
@@ -1208,14 +1230,14 @@ v2.0 - Cookie consent banner:
 
 **Objetivo:** Implementar comparativa visual y preview del producto
 
-| Tarea | Descripción | Estimado | v2.0 Cambios |
-|-------|-------------|----------|-------------|
-| Crear ProblemSolution toggle | Antes vs Después con toggle interactivo | 4h | ✨ Screenshots reales + toggle |
-| Implementar Product Preview Section | Screenshot grande con hotspots | 5h | 🔥 NUEVA sección |
-| Crear DemoVideo component | Modal con video 15-30s del producto | 3h | 🔥 Nuevo component |
-| Crear HowItWorks component | 3 pasos con visual conectado | 2h | Visual mejorado |
-| Implementar Schema markup | FAQ Schema para rich snippets | 2h | ✨ SEO mejorado |
-| Crear Testimonials section | Quotes con fotos de usuarios reales | 3h | Fotos reales + stats |
+| Tarea                               | Descripción                             | Estimado | v2.0 Cambios                   |
+| ----------------------------------- | --------------------------------------- | -------- | ------------------------------ |
+| Crear ProblemSolution toggle        | Antes vs Después con toggle interactivo | 4h       | ✨ Screenshots reales + toggle |
+| Implementar Product Preview Section | Screenshot grande con hotspots          | 5h       | 🔥 NUEVA sección               |
+| Crear DemoVideo component           | Modal con video 15-30s del producto     | 3h       | 🔥 Nuevo component             |
+| Crear HowItWorks component          | 3 pasos con visual conectado            | 2h       | Visual mejorado                |
+| Implementar Schema markup           | FAQ Schema para rich snippets           | 2h       | ✨ SEO mejorado                |
+| Crear Testimonials section          | Quotes con fotos de usuarios reales     | 3h       | Fotos reales + stats           |
 
 **Total:** ~19 horas (2.375 días)
 
@@ -1225,15 +1247,15 @@ v2.0 - Cookie consent banner:
 
 **Objetivo:** Integrar analytics, email marketing y sección de precios
 
-| Tarea | Descripción | Estimado | v2.0 Cambios |
-|-------|-------------|----------|-------------|
-| Integrar Google Analytics 4 | Setup GA4, tracking events mejorados | 2h | Eventos adicionales |
-| Setup Resend email marketing | Welcome email + drip campaign | 3h | ✨ Resend integration |
-| Crear Pricing component (Early Access) | Cards con mensaje Early Access + countdown | 4h | 🔄 "Próximamente" → "Early Access" |
-| Implementar FAQ component | Accordion con preguntas + Schema | 2h | Schema markup |
-| Crear Countdown component | Timer para scarcity | 2h | ✨ Nuevo component |
-| Configurar form validation | Zod schemas + error handling | 2h | Mejor UX |
-| Email signup success state | Feedback visual + confetti | 1h | Confetti animation |
+| Tarea                                  | Descripción                                | Estimado | v2.0 Cambios                       |
+| -------------------------------------- | ------------------------------------------ | -------- | ---------------------------------- |
+| Integrar Google Analytics 4            | Setup GA4, tracking events mejorados       | 2h       | Eventos adicionales                |
+| Setup Resend email marketing           | Welcome email + drip campaign              | 3h       | ✨ Resend integration              |
+| Crear Pricing component (Early Access) | Cards con mensaje Early Access + countdown | 4h       | 🔄 "Próximamente" → "Early Access" |
+| Implementar FAQ component              | Accordion con preguntas + Schema           | 2h       | Schema markup                      |
+| Crear Countdown component              | Timer para scarcity                        | 2h       | ✨ Nuevo component                 |
+| Configurar form validation             | Zod schemas + error handling               | 2h       | Mejor UX                           |
+| Email signup success state             | Feedback visual + confetti                 | 1h       | Confetti animation                 |
 
 **Total:** ~16 horas (2 días)
 
@@ -1243,14 +1265,14 @@ v2.0 - Cookie consent banner:
 
 **Objetivo:** Completar secciones finales con mejoras de conversión
 
-| Tarea | Descripción | Estimado | v2.0 Cambios |
-|-------|-------------|----------|-------------|
-| Crear CTA Final section | Segundo CTA con incentivo + scarcity | 2h | ✨ Scarcity: "XX/100 cupos" |
-| Implementar Footer completo | Links, social, legal, cookie consent | 3h | Cookie banner |
-| Crear ExitIntentPopup component | Popup al abandonar la página | 3h | 🔥 Nuevo component |
-| Add smooth scroll navigation | Navegación fluida entre secciones | 1h | |
-| Mobile UX optimizations | Touch targets, spacing, form adjustments | 4h | ✨ Prioridad crítica |
-| Add lazy loading strategy | Lazy load de componentes e imágenes | 2h | Performance |
+| Tarea                           | Descripción                              | Estimado | v2.0 Cambios                |
+| ------------------------------- | ---------------------------------------- | -------- | --------------------------- |
+| Crear CTA Final section         | Segundo CTA con incentivo + scarcity     | 2h       | ✨ Scarcity: "XX/100 cupos" |
+| Implementar Footer completo     | Links, social, legal, cookie consent     | 3h       | Cookie banner               |
+| Crear ExitIntentPopup component | Popup al abandonar la página             | 3h       | 🔥 Nuevo component          |
+| Add smooth scroll navigation    | Navegación fluida entre secciones        | 1h       |                             |
+| Mobile UX optimizations         | Touch targets, spacing, form adjustments | 4h       | ✨ Prioridad crítica        |
+| Add lazy loading strategy       | Lazy load de componentes e imágenes      | 2h       | Performance                 |
 
 **Total:** ~15 horas (1.875 días)
 
@@ -1260,14 +1282,14 @@ v2.0 - Cookie consent banner:
 
 **Objetivo:** Optimizar performance, SEO y accesibilidad
 
-| Tarea | Descripción | Estimado | v2.0 Cambios |
-|-------|-------------|----------|-------------|
-| Accessibility audit | WCAG 2.1 AA compliance, keyboard nav | 4h | 🔥 NUEVA prioridad |
-| SEO Optimization avanzada | Schema markup, OpenGraph, Twitter cards mejorados | 3h | ✨ Schema SaaS B2B |
-| Performance tuning | Bundle size, lazy loading, code splitting | 3h | |
-| Lighthouse audit | Lograr score >90 en todos los criterios | 2h | |
-| Responsive testing completo | Test en mobile, tablet, desktop con real devices | 3h | ✨ Real devices Colombia |
-| Mobile-specific optimizations | Disable animations, optimize touch targets | 2h | ✨ Mobile priority |
+| Tarea                         | Descripción                                       | Estimado | v2.0 Cambios             |
+| ----------------------------- | ------------------------------------------------- | -------- | ------------------------ |
+| Accessibility audit           | WCAG 2.1 AA compliance, keyboard nav              | 4h       | 🔥 NUEVA prioridad       |
+| SEO Optimization avanzada     | Schema markup, OpenGraph, Twitter cards mejorados | 3h       | ✨ Schema SaaS B2B       |
+| Performance tuning            | Bundle size, lazy loading, code splitting         | 3h       |                          |
+| Lighthouse audit              | Lograr score >90 en todos los criterios           | 2h       |                          |
+| Responsive testing completo   | Test en mobile, tablet, desktop con real devices  | 3h       | ✨ Real devices Colombia |
+| Mobile-specific optimizations | Disable animations, optimize touch targets        | 2h       | ✨ Mobile priority       |
 
 **Total:** ~17 horas (2.125 días)
 
@@ -1277,16 +1299,16 @@ v2.0 - Cookie consent banner:
 
 **Objetivo:** Desplegar y validar con testing completo
 
-| Tarea | Descripción | Estimado | v2.0 Cambios |
-|-------|-------------|----------|-------------|
-| Setup Vercel | Configurar deploy, dominio, environment vars | 2h | |
-| E2E Testing | Testing completo de funcionalidades | 4h | |
-| Accessibility testing | Screen readers, keyboard navigation | 3h | 🔥 NUEVO testing |
-| Mobile testing | Test en múltiples dispositivos Colombianos | 3h | ✨ Real devices |
-| Cross-browser testing | Chrome, Safari, Firefox, Edge | 2h | |
-| UAT con beta testers | Feedback de usuarios reales | 4h | |
-| Bug fixes | Correcciones basadas en testing | 4h | |
-| Final deploy | Deploy a producción | 1h | |
+| Tarea                 | Descripción                                  | Estimado | v2.0 Cambios     |
+| --------------------- | -------------------------------------------- | -------- | ---------------- |
+| Setup Vercel          | Configurar deploy, dominio, environment vars | 2h       |                  |
+| E2E Testing           | Testing completo de funcionalidades          | 4h       |                  |
+| Accessibility testing | Screen readers, keyboard navigation          | 3h       | 🔥 NUEVO testing |
+| Mobile testing        | Test en múltiples dispositivos Colombianos   | 3h       | ✨ Real devices  |
+| Cross-browser testing | Chrome, Safari, Firefox, Edge                | 2h       |                  |
+| UAT con beta testers  | Feedback de usuarios reales                  | 4h       |                  |
+| Bug fixes             | Correcciones basadas en testing              | 4h       |                  |
+| Final deploy          | Deploy a producción                          | 1h       |                  |
 
 **Total:** ~23 horas (2.875 días)
 
@@ -1312,84 +1334,84 @@ v2.0 - Cookie consent banner:
 
 #### Sprint 1: Fundación y Hero Mejorado
 
-| ID | Título | Descripción | Labels | Prioridad |
-|----|--------|-------------|--------|-----------|
-| ARM-001 | Setup: Sistema de diseño mejorado v2 | Colores, gradients, glassmorphism, shadows | `frontend`, `design`, `v2` | Alta |
-| ARM-002 | Component: Crear base components v2 | Button, Input, Card, GlassCard | `frontend`, `quick-win`, `design` | Alta |
-| ARM-003 | Header: Implementar con badge Early Access | Logo + Badge 50% OFF + CTA + sticky | `frontend`, `Feature`, `design` | Alta |
-| ARM-004 | Hero: Implementar con mockup visual | Headline, mockup animado, badge, form | `frontend`, `Feature`, `design`, `v2` | Alta |
-| ARM-005 | API: Crear endpoint newsletter + Resend | POST /api/newsletter con Resend | `frontend`, `Feature`, `v2` | Alta |
-| ARM-006 | Form: NewsletterForm con confetti | Form con validación Zod y confetti animation | `frontend`, `Feature`, `ux` | Alta |
-| ARM-007 | Component: HeroMockup animado | Mockup visual de dashboard con animation | `frontend`, `Feature`, `design`, `v2` | Alta |
+| ID      | Título                                     | Descripción                                  | Labels                                | Prioridad |
+| ------- | ------------------------------------------ | -------------------------------------------- | ------------------------------------- | --------- |
+| ARM-001 | Setup: Sistema de diseño mejorado v2       | Colores, gradients, glassmorphism, shadows   | `frontend`, `design`, `v2`            | Alta      |
+| ARM-002 | Component: Crear base components v2        | Button, Input, Card, GlassCard               | `frontend`, `quick-win`, `design`     | Alta      |
+| ARM-003 | Header: Implementar con badge Early Access | Logo + Badge 50% OFF + CTA + sticky          | `frontend`, `Feature`, `design`       | Alta      |
+| ARM-004 | Hero: Implementar con mockup visual        | Headline, mockup animado, badge, form        | `frontend`, `Feature`, `design`, `v2` | Alta      |
+| ARM-005 | API: Crear endpoint newsletter + Resend    | POST /api/newsletter con Resend              | `frontend`, `Feature`, `v2`           | Alta      |
+| ARM-006 | Form: NewsletterForm con confetti          | Form con validación Zod y confetti animation | `frontend`, `Feature`, `ux`           | Alta      |
+| ARM-007 | Component: HeroMockup animado              | Mockup visual de dashboard con animation     | `frontend`, `Feature`, `design`, `v2` | Alta      |
 
 #### Sprint 2: Trust Bar, Features y Benefits
 
-| ID | Título | Descripción | Labels | Prioridad |
-|----|--------|-------------|--------|-----------|
-| ARM-008 | Component: FeatureCard con preview | Reusable card con icono, mini preview, hover | `frontend`, `design`, `v2` | Alta |
-| ARM-009 | Features: Implementar grid con previews | 4 features con mini previews + stagger animation | `frontend`, `Feature`, `design`, `v2` | Alta |
-| ARM-010 | Benefits: Crear sección mejorada | Métricas específicas con icons y stats | `frontend`, `Feature`, `ux` | Alta |
-| ARM-011 | TrustBar: Métricas sociales + testimonial | Reemplazar logos por métricas + testimonial rotatorio | `frontend`, `Feature`, `ux`, `v2` | Alta |
-| ARM-012 | Component: Hotspot tooltip | Tooltip interactivo para product preview | `frontend`, `Feature`, `design` | Media |
+| ID      | Título                                    | Descripción                                           | Labels                                | Prioridad |
+| ------- | ----------------------------------------- | ----------------------------------------------------- | ------------------------------------- | --------- |
+| ARM-008 | Component: FeatureCard con preview        | Reusable card con icono, mini preview, hover          | `frontend`, `design`, `v2`            | Alta      |
+| ARM-009 | Features: Implementar grid con previews   | 4 features con mini previews + stagger animation      | `frontend`, `Feature`, `design`, `v2` | Alta      |
+| ARM-010 | Benefits: Crear sección mejorada          | Métricas específicas con icons y stats                | `frontend`, `Feature`, `ux`           | Alta      |
+| ARM-011 | TrustBar: Métricas sociales + testimonial | Reemplazar logos por métricas + testimonial rotatorio | `frontend`, `Feature`, `ux`, `v2`     | Alta      |
+| ARM-012 | Component: Hotspot tooltip                | Tooltip interactivo para product preview              | `frontend`, `Feature`, `design`       | Media     |
 
 #### Sprint 3: Problem/Solution y Product Preview
 
-| ID | Título | Descripción | Labels | Prioridad |
-|----|--------|-------------|--------|-----------|
-| ARM-013 | ProblemSolution: Toggle interactivo | Antes vs Después con screenshots + toggle | `frontend`, `Feature`, `design`, `v2` | Alta |
-| ARM-014 | ProductPreview: Sección nueva | Screenshot grande con hotspots interactivos | `frontend`, `Feature`, `design`, `v2` | Alta |
-| ARM-015 | Component: DemoVideo modal | Modal con video 15-30s del producto | `frontend`, `Feature`, `design`, `v2` | Media |
-| ARM-016 | HowItWorks: 3 pasos conectados | Visual con steps y descripciones | `frontend`, `Feature`, `design` | Media |
-| ARM-017 | SEO: Schema markup FAQ | Implementar FAQ Schema para rich snippets | `frontend`, `Improvement`, `v2` | Alta |
-| ARM-018 | Testimonials: Con fotos reales | Quotes con fotos, nombres, empresas + stats | `frontend`, `Feature`, `design` | Media |
+| ID      | Título                              | Descripción                                 | Labels                                | Prioridad |
+| ------- | ----------------------------------- | ------------------------------------------- | ------------------------------------- | --------- |
+| ARM-013 | ProblemSolution: Toggle interactivo | Antes vs Después con screenshots + toggle   | `frontend`, `Feature`, `design`, `v2` | Alta      |
+| ARM-014 | ProductPreview: Sección nueva       | Screenshot grande con hotspots interactivos | `frontend`, `Feature`, `design`, `v2` | Alta      |
+| ARM-015 | Component: DemoVideo modal          | Modal con video 15-30s del producto         | `frontend`, `Feature`, `design`, `v2` | Media     |
+| ARM-016 | HowItWorks: 3 pasos conectados      | Visual con steps y descripciones            | `frontend`, `Feature`, `design`       | Media     |
+| ARM-017 | SEO: Schema markup FAQ              | Implementar FAQ Schema para rich snippets   | `frontend`, `Improvement`, `v2`       | Alta      |
+| ARM-018 | Testimonials: Con fotos reales      | Quotes con fotos, nombres, empresas + stats | `frontend`, `Feature`, `design`       | Media     |
 
 #### Sprint 4: Integraciones y Pricing
 
-| ID | Título | Descripción | Labels | Prioridad |
-|----|--------|-------------|--------|-----------|
-| ARM-019 | GA4: Integrar con eventos mejorados | Setup @next/third-parties, tracking events v2 | `frontend`, `Feature`, `v2` | Alta |
-| ARM-020 | Resend: Email marketing setup | Welcome email + drip campaign configuration | `frontend`, `Feature`, `v2` | Alta |
-| ARM-021 | Pricing: Early Access component | Cards con mensaje Early Access + countdown | `frontend`, `Feature`, `design`, `v2` | Alta |
-| ARM-022 | FAQ: Implementar accordion + Schema | Preguntas frecuentes con expand/collapse + Schema | `frontend`, `Feature`, `v2` | Media |
-| ARM-023 | Component: Countdown timer | Timer para scarcity (XX/100 cupos) | `frontend`, `Feature`, `design`, `v2` | Media |
-| ARM-024 | Validation: Setup Zod schemas | Email validation, form schemas mejorados | `frontend`, `quick-win`, `ux` | Alta |
-| ARM-025 | Form States: Success + confetti | Feedback visual con confetti animation | `frontend`, `Improvement`, `ux` | Media |
+| ID      | Título                              | Descripción                                       | Labels                                | Prioridad |
+| ------- | ----------------------------------- | ------------------------------------------------- | ------------------------------------- | --------- |
+| ARM-019 | GA4: Integrar con eventos mejorados | Setup @next/third-parties, tracking events v2     | `frontend`, `Feature`, `v2`           | Alta      |
+| ARM-020 | Resend: Email marketing setup       | Welcome email + drip campaign configuration       | `frontend`, `Feature`, `v2`           | Alta      |
+| ARM-021 | Pricing: Early Access component     | Cards con mensaje Early Access + countdown        | `frontend`, `Feature`, `design`, `v2` | Alta      |
+| ARM-022 | FAQ: Implementar accordion + Schema | Preguntas frecuentes con expand/collapse + Schema | `frontend`, `Feature`, `v2`           | Media     |
+| ARM-023 | Component: Countdown timer          | Timer para scarcity (XX/100 cupos)                | `frontend`, `Feature`, `design`, `v2` | Media     |
+| ARM-024 | Validation: Setup Zod schemas       | Email validation, form schemas mejorados          | `frontend`, `quick-win`, `ux`         | Alta      |
+| ARM-025 | Form States: Success + confetti     | Feedback visual con confetti animation            | `frontend`, `Improvement`, `ux`       | Media     |
 
 #### Sprint 5: CTA Final, Footer y Exit Intent
 
-| ID | Título | Descripción | Labels | Prioridad |
-|----|--------|-------------|--------|-----------|
-| ARM-026 | CTA: Final section con scarcity | Segundo CTA con incentivo + "XX/100 cupos" | `frontend`, `Feature`, `ux`, `v2` | Alta |
-| ARM-027 | Footer: Implementar completo | Links, social, legal, cookie consent banner | `frontend`, `Feature`, `legal` | Alta |
-| ARM-028 | ExitIntent: Popup al abandonar | Popup con incentivo 50% OFF | `frontend`, `Feature`, `ux`, `v2` | Media |
-| ARM-029 | Scroll: Smooth navigation | Navegación fluida entre secciones | `frontend`, `Improvement`, `ux` | Baja |
-| ARM-030 | Mobile: UX optimizations | Touch targets, spacing, form adjustments | `frontend`, `Feature`, `mobile`, `v2` | Alta |
-| ARM-031 | Performance: Lazy loading strategy | Lazy load de componentes e imágenes | `frontend`, `Improvement`, `performance` | Alta |
+| ID      | Título                             | Descripción                                 | Labels                                   | Prioridad |
+| ------- | ---------------------------------- | ------------------------------------------- | ---------------------------------------- | --------- |
+| ARM-026 | CTA: Final section con scarcity    | Segundo CTA con incentivo + "XX/100 cupos"  | `frontend`, `Feature`, `ux`, `v2`        | Alta      |
+| ARM-027 | Footer: Implementar completo       | Links, social, legal, cookie consent banner | `frontend`, `Feature`, `legal`           | Alta      |
+| ARM-028 | ExitIntent: Popup al abandonar     | Popup con incentivo 50% OFF                 | `frontend`, `Feature`, `ux`, `v2`        | Media     |
+| ARM-029 | Scroll: Smooth navigation          | Navegación fluida entre secciones           | `frontend`, `Improvement`, `ux`          | Baja      |
+| ARM-030 | Mobile: UX optimizations           | Touch targets, spacing, form adjustments    | `frontend`, `Feature`, `mobile`, `v2`    | Alta      |
+| ARM-031 | Performance: Lazy loading strategy | Lazy load de componentes e imágenes         | `frontend`, `Improvement`, `performance` | Alta      |
 
 #### Sprint 6: Optimización y Accessibility
 
-| ID | Título | Descripción | Labels | Prioridad |
-|----|--------|-------------|--------|-----------|
-| ARM-032 | Accessibility: WCAG 2.1 AA audit | Color contrast, keyboard nav, screen readers | `frontend`, `Feature`, `accessibility`, `v2` | Alta |
-| ARM-033 | SEO: Schema markup SaaS B2B | SoftwareApplication, aggregateRating | `frontend`, `Improvement`, `v2` | Alta |
-| ARM-034 | Performance: Bundle size optimization | Tree-shake, code splitting, reduce bundle | `frontend`, `Improvement`, `performance` | Media |
-| ARM-035 | Performance: Lazy loading agresivo | Lazy load sections below the fold | `frontend`, `Improvement`, `performance` | Media |
-| ARM-036 | Lighthouse: Score >90 | Lograr green en todos los criterios | `frontend`, `Feature`, `performance` | Alta |
-| ARM-037 | Responsive: Mobile testing real devices | Test en iPhone, Samsung, Pixel Colombian market | `frontend`, `Feature`, `mobile` | Alta |
-| ARM-038 | Mobile: Desactivar scroll animations | Disable scroll animations en mobile | `frontend`, `Improvement`, `mobile`, `performance` | Media |
+| ID      | Título                                  | Descripción                                     | Labels                                             | Prioridad |
+| ------- | --------------------------------------- | ----------------------------------------------- | -------------------------------------------------- | --------- |
+| ARM-032 | Accessibility: WCAG 2.1 AA audit        | Color contrast, keyboard nav, screen readers    | `frontend`, `Feature`, `accessibility`, `v2`       | Alta      |
+| ARM-033 | SEO: Schema markup SaaS B2B             | SoftwareApplication, aggregateRating            | `frontend`, `Improvement`, `v2`                    | Alta      |
+| ARM-034 | Performance: Bundle size optimization   | Tree-shake, code splitting, reduce bundle       | `frontend`, `Improvement`, `performance`           | Media     |
+| ARM-035 | Performance: Lazy loading agresivo      | Lazy load sections below the fold               | `frontend`, `Improvement`, `performance`           | Media     |
+| ARM-036 | Lighthouse: Score >90                   | Lograr green en todos los criterios             | `frontend`, `Feature`, `performance`               | Alta      |
+| ARM-037 | Responsive: Mobile testing real devices | Test en iPhone, Samsung, Pixel Colombian market | `frontend`, `Feature`, `mobile`                    | Alta      |
+| ARM-038 | Mobile: Desactivar scroll animations    | Disable scroll animations en mobile             | `frontend`, `Improvement`, `mobile`, `performance` | Media     |
 
 #### Sprint 7: Deploy y Testing
 
-| ID | Título | Descripción | Labels | Prioridad |
-|----|--------|-------------|--------|-----------|
-| ARM-039 | Vercel: Configurar deploy | Project setup, dominio, env vars | `frontend`, `Feature` | Alta |
-| ARM-040 | QA: Testing funcional completo | E2E testing de todas las features | `frontend`, `Feature` | Alta |
-| ARM-041 | Accessibility: Testing completo | Screen readers, keyboard navigation | `frontend`, `Feature`, `accessibility`, `v2` | Alta |
-| ARM-042 | Mobile: Testing real devices | Test en múltiples dispositivos Colombianos | `frontend`, `Feature`, `mobile`, `v2` | Alta |
-| ARM-043 | Cross-browser: Testing completo | Chrome, Safari, Firefox, Edge | `frontend`, `Feature` | Media |
-| ARM-044 | UAT: Testing con usuarios | Feedback de beta testers reales | `frontend`, `Feature`, `ux` | Alta |
-| ARM-045 | Bugs: Fix issues from testing | Correcciones basadas en QA/UAT | `frontend`, `Bug` | Alta |
-| ARM-046 | Deploy: Production launch | Deploy final a armio.co | `frontend`, `Feature` | Alta |
+| ID      | Título                          | Descripción                                | Labels                                       | Prioridad |
+| ------- | ------------------------------- | ------------------------------------------ | -------------------------------------------- | --------- |
+| ARM-039 | Vercel: Configurar deploy       | Project setup, dominio, env vars           | `frontend`, `Feature`                        | Alta      |
+| ARM-040 | QA: Testing funcional completo  | E2E testing de todas las features          | `frontend`, `Feature`                        | Alta      |
+| ARM-041 | Accessibility: Testing completo | Screen readers, keyboard navigation        | `frontend`, `Feature`, `accessibility`, `v2` | Alta      |
+| ARM-042 | Mobile: Testing real devices    | Test en múltiples dispositivos Colombianos | `frontend`, `Feature`, `mobile`, `v2`        | Alta      |
+| ARM-043 | Cross-browser: Testing completo | Chrome, Safari, Firefox, Edge              | `frontend`, `Feature`                        | Media     |
+| ARM-044 | UAT: Testing con usuarios       | Feedback de beta testers reales            | `frontend`, `Feature`, `ux`                  | Alta      |
+| ARM-045 | Bugs: Fix issues from testing   | Correcciones basadas en QA/UAT             | `frontend`, `Bug`                            | Alta      |
+| ARM-046 | Deploy: Production launch       | Deploy final a armio.co                    | `frontend`, `Feature`                        | Alta      |
 
 ---
 
@@ -1468,42 +1490,44 @@ armio-landing/
 ### Archivos Específicos a Crear
 
 #### `src/lib/analytics.ts` (v2.0 - Mejorado)
+
 ```typescript
-export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || '';
+export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || "";
 
 export const trackEvent = (eventName: string, params?: Record<string, any>) => {
-  if (typeof window !== 'undefined' && (window as any).gtag) {
-    (window as any).gtag('event', eventName, params);
+  if (typeof window !== "undefined" && (window as any).gtag) {
+    (window as any).gtag("event", eventName, params);
   }
 };
 
 // v2.0 - Event helpers
-export const trackNewsletterSignup = (location: 'hero' | 'footer') => {
-  trackEvent('newsletter_signup', {
+export const trackNewsletterSignup = (location: "hero" | "footer") => {
+  trackEvent("newsletter_signup", {
     location,
     timestamp: new Date().toISOString(),
   });
 };
 
-export const trackCTAClick = (location: 'hero' | 'footer' | 'pricing') => {
-  trackEvent('cta_click', { location });
+export const trackCTAClick = (location: "hero" | "footer" | "pricing") => {
+  trackEvent("cta_click", { location });
 };
 
-export const trackVideoEvent = (action: 'start' | 'complete', label: string) => {
+export const trackVideoEvent = (action: "start" | "complete", label: string) => {
   trackEvent(`video_${action}`, { label });
 };
 
 export const trackScrollDepth = (depth: 25 | 50 | 75 | 90) => {
-  trackEvent('scroll_depth', { depth });
+  trackEvent("scroll_depth", { depth });
 };
 ```
 
 #### `src/lib/validations.ts`
+
 ```typescript
-import { z } from 'zod';
+import { z } from "zod";
 
 export const newsletterSchema = z.object({
-  email: z.string().email('Email inválido'),
+  email: z.string().email("Email inválido"),
   name: z.string().optional(),
 });
 
@@ -1511,17 +1535,18 @@ export type NewsletterFormData = z.infer<typeof newsletterSchema>;
 ```
 
 #### `src/lib/resend.ts` (v2.0 - NUEVO)
+
 ```typescript
-import { Resend } from 'resend';
+import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendWelcomeEmail(email: string) {
   try {
     const data = await resend.emails.send({
-      from: 'Armio <hola@armio.co>',
+      from: "Armio <hola@armio.co>",
       to: email,
-      subject: '¡Bienvenido a Armio! 🚀',
+      subject: "¡Bienvenido a Armio! 🚀",
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
           <h1 style="color: #1D9E75;">¡Bienvenido a Armio! 🚀</h1>
@@ -1541,7 +1566,7 @@ export async function sendWelcomeEmail(email: string) {
     });
     return { success: true, data };
   } catch (error) {
-    console.error('Error sending welcome email:', error);
+    console.error("Error sending welcome email:", error);
     return { success: false, error };
   }
 }
@@ -1549,9 +1574,9 @@ export async function sendWelcomeEmail(email: string) {
 export async function sendLaunchEmail(email: string, discountCode: string) {
   try {
     const data = await resend.emails.send({
-      from: 'Armio <hola@armio.co>',
+      from: "Armio <hola@armio.co>",
       to: email,
-      subject: '¡Armio ya está disponible! 🎉',
+      subject: "¡Armio ya está disponible! 🎉",
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
           <h1 style="color: #1D9E75;">¡Armio ya está disponible! 🎉</h1>
@@ -1566,17 +1591,18 @@ export async function sendLaunchEmail(email: string, discountCode: string) {
     });
     return { success: true, data };
   } catch (error) {
-    console.error('Error sending launch email:', error);
+    console.error("Error sending launch email:", error);
     return { success: false, error };
   }
 }
 ```
 
 #### `src/lib/exit-intent.ts` (v2.0 - NUEVO)
-```typescript
-'use client';
 
-import { useState, useEffect } from 'react';
+```typescript
+"use client";
+
+import { useState, useEffect } from "react";
 
 export function useExitIntent(enabled: boolean = true) {
   const [showExitIntent, setShowExitIntent] = useState(false);
@@ -1592,8 +1618,8 @@ export function useExitIntent(enabled: boolean = true) {
       }
     };
 
-    document.addEventListener('mouseleave', handleMouseLeave);
-    return () => document.removeEventListener('mouseleave', handleMouseLeave);
+    document.addEventListener("mouseleave", handleMouseLeave);
+    return () => document.removeEventListener("mouseleave", handleMouseLeave);
   }, [enabled, hasShown]);
 
   return { showExitIntent, setShowExitIntent, hasShown };
@@ -1601,6 +1627,7 @@ export function useExitIntent(enabled: boolean = true) {
 ```
 
 #### `src/types/index.ts`
+
 ```typescript
 export interface Feature {
   icon: string;
@@ -1644,6 +1671,7 @@ export interface Hotspot {
 ```
 
 #### `src/components/ui/GlassCard.tsx` (v2.0 - NUEVO)
+
 ```typescript
 import { ReactNode } from 'react';
 
@@ -1670,6 +1698,7 @@ export function GlassCard({ children, className = '' }: GlassCardProps) {
 ```
 
 #### `src/components/ui/Hotspot.tsx` (v2.0 - NUEVO)
+
 ```typescript
 'use client';
 
@@ -1718,6 +1747,7 @@ export function Hotspot({ x, y, title, description }: HotspotProps) {
 ```
 
 #### `.env.local` (v2.0 - Mejorado)
+
 ```env
 NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 NEXT_PUBLIC_SITE_URL=https://armio.co
@@ -1770,13 +1800,13 @@ Semana 5: Deploy + Testing
 
 ### Hitos (Milestones) (v2.0 - Mejorados)
 
-| Hito | Fecha | Deliverable | v2.0 Mejoras |
-|------|-------|-------------|-------------|
-| MVP funcional | Semana 1 | Hero v2 + Trust Bar v2 + Features v2 + Newsletter | Mockup visual, métricas sociales |
-| Landing completa | Semana 2 | Todas las secciones v2 | Product Preview, Problem/Solution toggle |
-| Optimizada | Semana 3 | Integraciones + Pricing v2 + Exit Intent | Resend, Early Access, popup |
-| Accessibility ready | Semana 4 | WCAG 2.1 AA + Mobile UX | 🔥 NUEVO hito crítico |
-| En producción | Semana 5 | Deploy a armio.co | Testing completo |
+| Hito                | Fecha    | Deliverable                                       | v2.0 Mejoras                             |
+| ------------------- | -------- | ------------------------------------------------- | ---------------------------------------- |
+| MVP funcional       | Semana 1 | Hero v2 + Trust Bar v2 + Features v2 + Newsletter | Mockup visual, métricas sociales         |
+| Landing completa    | Semana 2 | Todas las secciones v2                            | Product Preview, Problem/Solution toggle |
+| Optimizada          | Semana 3 | Integraciones + Pricing v2 + Exit Intent          | Resend, Early Access, popup              |
+| Accessibility ready | Semana 4 | WCAG 2.1 AA + Mobile UX                           | 🔥 NUEVO hito crítico                    |
+| En producción       | Semana 5 | Deploy a armio.co                                 | Testing completo                         |
 
 ---
 
@@ -1784,26 +1814,25 @@ Semana 5: Deploy + Testing
 
 ### KPIs a medir desde el día 1
 
-| KPI | Objetivo | Medición | v2.0 Mejoras |
-|-----|----------|----------|-------------|
-| **Email capture rate** | >5% de visitantes | GA4 event: newsletter_signup | Meta: 8-10% con mejoras v2 |
-| **Traffic source** | Identificar canales | GA4 acquisition report | |
-| **Bounce rate** | <60% | GA4 engagement report | Meta: <50% con visuales |
-| **Scroll depth** | >75% llegan al final | GA4 scroll events | Meta: >85% con Product Preview |
-| **CTA clicks** | >3% de visitantes | GA4 event: cta_click | Meta: >5% con múltiples CTAs |
-| **Time on page** | >45 segundos | GA4 engagement time | Meta: >60s con video |
-| **v2.0 Hero CTA rate** | >2% de visitantes | GA4 event: hero_cta_click | 🔥 NUEVO KPI |
-| **v2.0 Video completion** | >50% terminan video | GA4 event: video_complete | 🔥 NUEVO KPI |
-| **v2.0 Exit intent conversion** | >3% de popup | GA4 event: exit_intent_signup | 🔥 NUEVO KPI |
-| **v2.0 Mobile conversion** | >3% mobile visitors | GA4 event: mobile_form_submit | 🔥 NUEVO KPI |
-| **v2.0 Email open rate** | >40% | Resend analytics | 🔥 NUEVO KPI |
-| **v2.0 Email CTR** | >15% | Resend analytics | 🔥 NUEVO KPI |
+| KPI                             | Objetivo             | Medición                      | v2.0 Mejoras                   |
+| ------------------------------- | -------------------- | ----------------------------- | ------------------------------ |
+| **Email capture rate**          | >5% de visitantes    | GA4 event: newsletter_signup  | Meta: 8-10% con mejoras v2     |
+| **Traffic source**              | Identificar canales  | GA4 acquisition report        |                                |
+| **Bounce rate**                 | <60%                 | GA4 engagement report         | Meta: <50% con visuales        |
+| **Scroll depth**                | >75% llegan al final | GA4 scroll events             | Meta: >85% con Product Preview |
+| **CTA clicks**                  | >3% de visitantes    | GA4 event: cta_click          | Meta: >5% con múltiples CTAs   |
+| **Time on page**                | >45 segundos         | GA4 engagement time           | Meta: >60s con video           |
+| **v2.0 Hero CTA rate**          | >2% de visitantes    | GA4 event: hero_cta_click     | 🔥 NUEVO KPI                   |
+| **v2.0 Video completion**       | >50% terminan video  | GA4 event: video_complete     | 🔥 NUEVO KPI                   |
+| **v2.0 Exit intent conversion** | >3% de popup         | GA4 event: exit_intent_signup | 🔥 NUEVO KPI                   |
+| **v2.0 Mobile conversion**      | >3% mobile visitors  | GA4 event: mobile_form_submit | 🔥 NUEVO KPI                   |
+| **v2.0 Email open rate**        | >40%                 | Resend analytics              | 🔥 NUEVO KPI                   |
+| **v2.0 Email CTR**              | >15%                 | Resend analytics              | 🔥 NUEVO KPI                   |
 
 ### Dashboard de GA4 a configurar (v2.0 - Mejorado)
 
 ```yaml
-Conversion Funnel:
-  1. Page view
+Conversion Funnel: 1. Page view
   2. Scroll 25%
   3. Scroll 75%
   4. Hero CTA view

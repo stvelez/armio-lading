@@ -55,6 +55,18 @@ section[id] {
   scroll-margin-top: 80px;
 }
 
+/* ── Cookie consent banner (fixed) ── */
+/* Asegura que el contenido no quede debajo del aviso de cookies en móvil. */
+.cookie-banner + * {
+  scroll-margin-top: 120px;
+}
+
+@media (min-width: 768px) {
+  section[id] {
+    scroll-margin-top: 40px;
+  }
+}
+
 :focus-visible {
   outline: 2px solid #00c47a;
   outline-offset: 2px;

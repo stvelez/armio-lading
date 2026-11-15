@@ -4,6 +4,7 @@ import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import MotionProvider from "@/components/providers/MotionProvider";
 import AnalyticsGate from "@/components/providers/AnalyticsGate";
+import CookieConsentBanner from "@/components/ui/CookieConsentBanner";
 import "../globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -114,6 +115,8 @@ export default function RootLayout({
           }}
         />
 
+        {/* El aviso vive en el layout (no en una página) para cubrir / y /cookies por igual. */}
+        <CookieConsentBanner />
         <AnalyticsGate gaId={process.env.NEXT_PUBLIC_GA_ID || ""} />
       </body>
     </html>

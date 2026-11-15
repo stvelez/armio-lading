@@ -125,6 +125,15 @@ describe.each([
     expect(html).toContain('href="/privacidad"');
     expect(html).toContain('href="/propiedades/9-penthouse"');
   });
+
+  it("el pie del portal enlaza la política de cookies de Armio, con y sin perfil", () => {
+    for (const profile of [makeProfile(), null]) {
+      const html = renderToStaticMarkup(createElement(PortalFooter, { profile }));
+      expect(html).toContain('href="https://armio.co/cookies"');
+      expect(html).toContain("Política de cookies");
+      expect(html).not.toMatch(NO_P);
+    }
+  });
 });
 
 describe("robots del dominio raíz", () => {

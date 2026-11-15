@@ -1,6 +1,6 @@
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import PropertyCard from "@/portal/components/PropertyCard";
 import PropertyGallery from "@/portal/components/PropertyGallery";
 import { thumbProps } from "@/portal/lib/format";
@@ -8,6 +8,16 @@ import { makeProperty } from "./fixtures";
 
 const ORIGINAL = "https://media.armio.co/properties/images/t1/abc.jpg";
 const THUMB = "https://media.armio.co/properties/images/t1/abc_w800.webp";
+
+/**
+ * `next/image` solo valida `images.remotePatterns` fuera de producción, y vitest no carga
+ * `next.config.ts` (donde media.armio.co sí está permitido). La config de test fija
+ * NODE_ENV=development para que React exponga `act`, así que aquí se restaura "production"
+ * y el render es el del build real.
+ */
+beforeEach(() => {
+  vi.stubEnv("NODE_ENV", "production");
+});
 
 describe("thumbProps", () => {
   it("miniatura de nuestro almacenamiento: se sirve tal cual, sin optimizar", () => {
