@@ -7,6 +7,8 @@ import {
   PORTAL_NOTICE_KEY,
   getConsentFor,
   setConsentFor,
+  getPortalNoticeFor,
+  setPortalNoticeFor,
   subscribeConsent,
 } from "@/lib/consent";
 import { cookiesUrl, privacyUrl } from "@/lib/legal";
@@ -68,7 +70,7 @@ export default function CookieConsentBanner({
           </div>
           <div className="flex items-center gap-2 self-end md:self-auto">
             <button
-              onClick={() => setConsentFor(PORTAL_NOTICE_KEY, "accepted")}
+              onClick={() => setPortalNoticeFor("accepted")}
               className="rounded-lg bg-[var(--portal-primary)] px-4 py-2 text-sm font-medium text-[var(--portal-on-primary)] hover:opacity-90"
             >
               Entendido

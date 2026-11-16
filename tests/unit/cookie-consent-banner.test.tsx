@@ -7,11 +7,13 @@ import { CONSENT_KEY, PORTAL_NOTICE_KEY } from "@/lib/consent";
 
 beforeEach(() => {
   localStorage.clear();
+  sessionStorage.clear();
 });
 
 afterEach(() => {
   cleanup();
   localStorage.clear();
+  sessionStorage.clear();
 });
 
 describe("CookieConsentBanner — variante de consentimiento (marketing)", () => {
@@ -67,7 +69,7 @@ describe("CookieConsentBanner — variante informativa (portal)", () => {
   it("«Entendido» guarda la clave del portal y oculta el aviso", () => {
     const { container } = render(<CookieConsentBanner variant="notice" />);
     fireEvent.click(screen.getByRole("button", { name: "Entendido" }));
-    expect(localStorage.getItem(PORTAL_NOTICE_KEY)).toBe("accepted");
+    expect(sessionStorage.getItem(PORTAL_NOTICE_KEY)).toBe("accepted");
     expect(localStorage.getItem(CONSENT_KEY)).toBeNull();
     expect(container.innerHTML).toBe("");
   });

@@ -12,8 +12,21 @@ export const PORTAL_NOTICE_KEY = "armio_portal_storage_notice_v1";
 const CONSENT_EVENT = "armio:consent";
 
 export function getConsentFor(key: string): ConsentValue | null {
+  if (key === PORTAL_NOTICE_KEY) {
+    return getPortalNoticeFor();
+  }
   try {
     const value = localStorage.getItem(key);
+    return value === "accepted" || value === "rejected" ? value : null;
+  } catch {
+    return null;
+  }
+}
+
+/** Portal: almacenamiento de sesión (sessionStorage) para mantener coherencia con el texto de privacidad. */
+export function getPortalNoticeFor(): ConsentValue | null {
+  try {
+    const value = sessionStorage.getItem(PORTAL_NOTICE_KEY);
     return value === "accepted" || value === "rejected" ? value : null;
   } catch {
     return null;
@@ -26,6 +39,18 @@ export function setConsentFor(key: string, value: ConsentValue): void {
   } catch {
     // Navegación privada: la decisión vale solo para esta visita
   }
+  window.dispatchEvent(new CustomEvent<ConsentValue>(CONSENT_EVENT, { detail: value }));
+}
+
+/** Portal: guarda la decisión en sessionStorage (al mate de la sesión). */
+export function setPortalNoticeFor(value: ConsentValue): void {
+  try {
+    sessionStorage.setItem(PORTAL_NOTICE_KEY, value);
+  } catch {
+    // Navegación privada: la decisión vale solo para esta visita
+  }
+  // Notifica a los suscriptores en la misma pestaña (sessionStorage no emite `storage`),
+  // igual que setConsentFor: sin esto el aviso del portal no se oculta al aceptar.
   window.dispatchEvent(new CustomEvent<ConsentValue>(CONSENT_EVENT, { detail: value }));
 }
 
