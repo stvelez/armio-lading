@@ -1,0 +1,36 @@
+# Configuración LOCAL de gitleaks para armio-landing (escaneo del árbol de trabajo).
+#
+# Existe porque `gitleaks dir` no respeta .gitignore y leería del disco los
+# `.env*` locales que nunca se versionan. CI y el hook de pre-commit siguen
+# usando la config estricta `.gitleaks.toml`.
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = 'Rutas sin secretos reales más los .env locales no versionados.'
+paths = [
+  # Plantillas de variables de entorno (sin valores reales)
+  '''\.env\.example$''',
+  '''\.env\..*\.example$''',
+  # Variables de entorno locales: en .gitignore, nunca versionadas
+  '''^\.env$''',
+  '''\.env\.local$''',
+  '''\.env\..*\.local$''',
+  # Dependencias y artefactos generados
+  '''(^|/)node_modules/''',
+  '''(^|/)\.next/''',
+  '''(^|/)dist/''',
+  '''(^|/)coverage/''',
+  # Documentación
+  '''\.md$''',
+  # Tests, fixtures y e2e
+  '''\.spec\.ts$''',
+  '''\.test\.ts$''',
+  '''\.test\.tsx$''',
+  '''(^|/)test/''',
+  '''(^|/)tests/''',
+  '''(^|/)e2e/''',
+  # Lockfiles (hashes e integridad, no credenciales)
+  '''(^|/)package-lock\.json$''',
+]

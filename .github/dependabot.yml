@@ -1,0 +1,27 @@
+version: 2
+
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: "America/Bogota"
+    # Solo limita los PRs de version updates. Dependabot NO aplica este límite a
+    # los security updates: esos llegan como PRs individuales (uno por advisory)
+    # y hay que revisarlos aparte.
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: chore
+      include: scope
+    groups:
+      # Un solo PR para todos los parches de version updates. Los security
+      # updates quedan fuera del grupo a propósito, para poder mergear cada
+      # corrección de forma independiente.
+      parches:
+        applies-to: version-updates
+        patterns:
+          - "*"
+        update-types:
+          - "patch"

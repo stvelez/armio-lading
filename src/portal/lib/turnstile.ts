@@ -5,9 +5,9 @@
  * - Sin site key no se renderiza el widget ni se pide nada a challenges.cloudflare.com.
  * - El script se carga solo desde la URL oficial (no se proxia, cachea ni autoaloja).
  *
- * CSP: hoy el proyecto no emite Content-Security-Policy. Si se añade una, hay que abrir
- * `script-src https://challenges.cloudflare.com` y `frame-src https://challenges.cloudflare.com`;
- * sin eso el script no carga y el formulario no envía (a propósito: ver InterestForm).
+ * CSP: la política vive en `src/lib/security-headers.ts` (emitida por `next.config.ts`) y ya abre
+ * `script-src`, `connect-src` y `frame-src` a `https://challenges.cloudflare.com`; sin esas
+ * entradas el script no carga y el formulario no envía (a propósito: ver InterestForm).
  */
 
 export const TURNSTILE_SCRIPT_URL =

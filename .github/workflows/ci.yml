@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-test-build:
+    name: Lint, tests y build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Instalar dependencias
+        # Sin hooks de Git en CI (el script `prepare` ejecuta husky).
+        env:
+          HUSKY: "0"
+          NEXT_TELEMETRY_DISABLED: "1"
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Tests
+        run: npm test
+
+      - name: Build
+        # `next build` evalúa el módulo de /api/newsletter y `new Resend(...)`
+        # lanza si no hay clave. En CI basta un marcador de posición: el build
+        # no envía correos ni abre conexiones. No es un secreto real.
+        env:
+          RESEND_API_KEY: re_ci_placeholder
+        run: npm run build

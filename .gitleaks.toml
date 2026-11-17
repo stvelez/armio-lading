@@ -1,0 +1,31 @@
+# Configuración ESTRICTA de gitleaks para armio-landing (CI y pre-commit).
+# Extiende las reglas por defecto y solo exceptúa rutas sin secretos reales
+# (plantillas de entorno, dependencias, artefactos de build, tests y docs).
+# Los .env locales no se exceptúan aquí: para eso está .gitleaks.local.toml.
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = 'Rutas sin secretos reales: ejemplos de entorno, dependencias, artefactos de build, tests y documentación.'
+paths = [
+  # Plantillas de variables de entorno (sin valores reales)
+  '''\.env\.example$''',
+  '''\.env\..*\.example$''',
+  # Dependencias y artefactos generados
+  '''(^|/)node_modules/''',
+  '''(^|/)\.next/''',
+  '''(^|/)dist/''',
+  '''(^|/)coverage/''',
+  # Documentación
+  '''\.md$''',
+  # Tests, fixtures y e2e
+  '''\.spec\.ts$''',
+  '''\.test\.ts$''',
+  '''\.test\.tsx$''',
+  '''(^|/)test/''',
+  '''(^|/)tests/''',
+  '''(^|/)e2e/''',
+  # Lockfiles (hashes e integridad, no credenciales)
+  '''(^|/)package-lock\.json$''',
+]

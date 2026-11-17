@@ -1,0 +1,16 @@
+#!/bin/sh
+# Hook de pre-commit: bloquea el commit si detecta secretos en el staging area.
+#
+# Actívalo una sola vez con:
+#   git config core.hooksPath .githooks
+#
+# Nota: husky también configura core.hooksPath; si usas husky en este repo
+# considera mover esta llamada a .husky/pre-commit en lugar de activar este hook.
+
+if ! command -v gitleaks >/dev/null 2>&1; then
+  echo "gitleaks no está instalado; se omite el escaneo de secretos." >&2
+  echo "Instálalo desde https://github.com/gitleaks/gitleaks/releases" >&2
+  exit 0
+fi
+
+gitleaks git . --staged --config .gitleaks.toml --redact --no-banner

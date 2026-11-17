@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 import bundleAnalyzer from "@next/bundle-analyzer";
+import { securityHeaders } from "./src/lib/security-headers";
 
 const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
@@ -22,6 +23,17 @@ const nextConfig: NextConfig = {
   },
   turbopack: {
     root: __dirname,
+  },
+  // Fuente única de cabeceras: aquí viven las de seguridad. `vercel.json` ya no declara ninguna
+  // para que no se dupliquen ni se pisen. El caché de `/_next/static` lo pone Next por defecto
+  // (`public, max-age=31536000, immutable` sobre assets con hash).
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: securityHeaders(),
+      },
+    ];
   },
 };
 
