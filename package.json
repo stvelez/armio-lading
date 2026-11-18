@@ -32,6 +32,7 @@
     "react-hook-form": "^7.71.2",
     "react-hot-toast": "^2.6.0",
     "resend": "^6.9.4",
+    "undici": "^7.30.2",
     "zod": "^4.6.7"
   },
   "lint-staged": {

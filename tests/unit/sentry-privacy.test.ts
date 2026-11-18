@@ -9,8 +9,12 @@ import {
   scrubText,
   sentryOptions,
 } from "@/lib/sentry-privacy";
+import { sentryRelease } from "@/lib/sentry-release";
+import { makeEventOnlyTransport } from "@/lib/sentry-transport";
 
 const DSN = "https://k@o0.ingest.sentry.io/1";
+// Canarios: si alguno aparece en el payload final, hay fuga.
+const TOKEN = "sk_live_canario_51Htoken";
 const PII = [
   "ana@example.com",
   "ana%40example.com",
@@ -20,6 +24,7 @@ const PII = [
   "Ana",
   "Perez",
   "1.2.3.4",
+  TOKEN,
 ];
 
 /** Inicia el SDK real con las opciones de la app y un transporte en memoria; devuelve lo enviado. */
@@ -77,6 +82,26 @@ describe("sentry-privacy: configuración efectiva", () => {
     expect(o.tracesSampleRate).toBe(0);
     expect(o).not.toHaveProperty("replaysSessionSampleRate");
     expect(o).not.toHaveProperty("replaysOnErrorSampleRate");
+  });
+
+  it("release: SENTRY_RELEASE manda y VERCEL_GIT_COMMIT_SHA es el fallback", () => {
+    vi.stubEnv("SENTRY_RELEASE", "release-2026.11");
+    vi.stubEnv("VERCEL_GIT_COMMIT_SHA", "abc123");
+    expect(sentryOptions(DSN)!.release).toBe("release-2026.11");
+
+    vi.stubEnv("SENTRY_RELEASE", "");
+    expect(sentryOptions(DSN)!.release).toBe("abc123");
+
+    vi.stubEnv("VERCEL_GIT_COMMIT_SHA", "");
+    expect(sentryOptions(DSN)).not.toHaveProperty("release");
+  });
+
+  it("sin sesiones: excluye BrowserSession y usa el transporte solo-eventos", () => {
+    const o = sentryOptions(DSN)!;
+    expect(o.integrations([{ name: "BrowserSession" }, { name: "Dedupe" }])).toEqual([
+      { name: "Dedupe" },
+    ]);
+    expect(o.transport).toBe(makeEventOnlyTransport);
   });
 
   it("el cliente real resuelve la config sin datos personales", () => {
@@ -188,8 +213,10 @@ describe("sentry-privacy: evento FINAL con transporte en memoria (SDK real)", ()
           name: "Ana Perez",
           email: "ana@example.com",
           phone: "3001234567",
+          token: TOKEN,
         });
         scope.setTag("email", "ana@example.com");
+        scope.setTag("token", TOKEN);
         scope.setContext("lead", { name: "Ana Perez" });
         scope.setContext("nextjs", {
           request_path: "/api/newsletter?email=ana@example.com&phone=3001234567&name=Ana%20Perez",
@@ -203,13 +230,15 @@ describe("sentry-privacy: evento FINAL con transporte en memoria (SDK real)", ()
           data: {
             url: "/api/newsletter/ana%40example.com?email=ana@example.com",
             email: "ana@example.com",
-            headers: { "x-portal-client-ip": "1.2.3.4" },
+            headers: { "x-portal-client-ip": "1.2.3.4", authorization: `Bearer ${TOKEN}` },
             status_code: 500,
           },
         });
         Sentry.addBreadcrumb({ category: "console", message: "Ana Perez +57 300/123/4567" });
-        Sentry.captureException(new Error("falló Ana Perez +57 300–123–4567 ana%40example.com"));
-        Sentry.captureMessage("lead Ana Perez 300/123/4567");
+        Sentry.captureException(
+          new Error(`falló Ana Perez +57 300–123–4567 ana%40example.com ${TOKEN}`)
+        );
+        Sentry.captureMessage(`lead Ana Perez 300/123/4567 ${TOKEN}`);
       });
     });
     expect(payload).toContain('"type":"Error"'); // sí se envió el evento
@@ -219,6 +248,24 @@ describe("sentry-privacy: evento FINAL con transporte en memoria (SDK real)", ()
     expect(payload).toContain("/[unknown]");
   });
 
+  it("conserva environment del vocabulario en el evento final", async () => {
+    vi.stubEnv("VERCEL_ENV", "");
+    vi.stubEnv("NODE_ENV", "production");
+    const payload = await captureWith(() => Sentry.captureException(new Error("boom")));
+    expect(payload).toContain('"environment":"production"');
+  });
+
+  it("conserva el release confiable en el evento final y descarta uno ajeno", async () => {
+    vi.stubEnv("SENTRY_RELEASE", "abc123");
+    const payload = await captureWith(() => {
+      Sentry.captureException(new Error("boom"));
+      // Release de otra fuente (scope/evento manipulado): no sobrevive al saneado.
+      Sentry.captureEvent({ release: "release-ajeno", exception: { values: [{ type: "Error" }] } });
+    });
+    expect(payload).toContain('"release":"abc123"');
+    expect(payload).not.toContain("release-ajeno");
+  });
+
   it("captureRequestError (Next) no deja query ni headers en el evento final", async () => {
     const payload = await captureWith(() => {
       Sentry.captureRequestError(
@@ -226,7 +273,7 @@ describe("sentry-privacy: evento FINAL con transporte en memoria (SDK real)", ()
         {
           path: "/api/newsletter?email=ana@example.com&phone=3001234567&name=Ana%20Perez",
           method: "POST",
-          headers: { "x-portal-client-ip": "1.2.3.4", cookie: "s=1" },
+          headers: { "x-portal-client-ip": "1.2.3.4", cookie: "s=1", authorization: TOKEN },
         },
         { routerKind: "App Router", routePath: "/api/newsletter", routeType: "route" } as never
       );
@@ -240,19 +287,19 @@ describe("sentry-privacy: evento FINAL con transporte en memoria (SDK real)", ()
 describe("sentry-privacy: beforeSend directo (segunda barrera)", () => {
   const dirty = () =>
     ({
-      message: "Ana Perez 3001234567",
-      logentry: { message: "x %s", params: ["ana@example.com"] },
+      message: `Ana Perez 3001234567 ${TOKEN}`,
+      logentry: { message: "x %s", params: ["ana@example.com", TOKEN] },
       user: { ip_address: "1.2.3.4" },
       server_name: "host",
-      extra: { lead: { email: "ana@example.com" } },
-      tags: { email: "ana@example.com" },
+      extra: { lead: { email: "ana@example.com", token: TOKEN } },
+      tags: { email: "ana@example.com", token: TOKEN },
       request: {
         url: "https://acme.armio.co/p/acme/propiedades/ana%40example.com?email=a@b.co#x",
         method: "POST",
         query_string: "email=a@b.co",
-        data: { name: "Ana" },
+        data: { name: "Ana", token: TOKEN },
         cookies: { s: "1" },
-        headers: { "x-portal-client-ip": "1.2.3.4" },
+        headers: { "x-portal-client-ip": "1.2.3.4", authorization: `Bearer ${TOKEN}` },
       },
       contexts: {
         lead: { name: "Ana Perez" },
@@ -278,7 +325,8 @@ describe("sentry-privacy: beforeSend directo (segunda barrera)", () => {
           data: {
             url: "/newsletter/ana%40example.com",
             email: "a@b.co",
-            headers: { "x-portal-client-ip": "1.2.3.4" },
+            token: TOKEN,
+            headers: { "x-portal-client-ip": "1.2.3.4", authorization: `Bearer ${TOKEN}` },
             status_code: 200,
           },
         },
@@ -313,6 +361,178 @@ describe("sentry-privacy: beforeSend directo (segunda barrera)", () => {
       request: { url: "https://x.armio.co/p/acme/propiedades/casa-1?email=a@b.co" },
     } as unknown as ErrorEvent;
     expect(beforeSend(e)!.request!.url).toBe("/p/:tenant/propiedades/:property");
+  });
+
+  it("conserva release solo si es exactamente el valor confiable y el formato es válido", () => {
+    const event = (release: string) => ({ release }) as unknown as ErrorEvent;
+    vi.stubEnv("SENTRY_RELEASE", "armio-landing@1.2.3");
+    vi.stubEnv("VERCEL_GIT_COMMIT_SHA", "");
+    expect(beforeSend(event("armio-landing@1.2.3"))!.release).toBe("armio-landing@1.2.3");
+
+    // Otro release, aunque tenga formato válido, no es confiable.
+    expect(beforeSend(event("armio-app@9.9.9"))).not.toHaveProperty("release");
+
+    // El valor confiable también pasa por la regex: con espacios/PII se descarta.
+    vi.stubEnv("SENTRY_RELEASE", "ana@example.com release");
+    expect(beforeSend(event("ana@example.com release"))).not.toHaveProperty("release");
+
+    // Sin valor confiable no se acepta ninguno.
+    vi.stubEnv("SENTRY_RELEASE", "");
+    expect(beforeSend(event("armio-landing@1.2.3"))).not.toHaveProperty("release");
+  });
+
+  it("acepta semver con metadatos (+) en build y runtime", () => {
+    vi.stubEnv("SENTRY_RELEASE", "1.2.3+abc123");
+    vi.stubEnv("VERCEL_GIT_COMMIT_SHA", "");
+    expect(sentryRelease()).toBe("1.2.3+abc123");
+    expect(beforeSend({ release: "1.2.3+abc123" } as unknown as ErrorEvent)!.release).toBe(
+      "1.2.3+abc123"
+    );
+
+    // Mismos caracteres y longitud que el build: un espacio invalida el release en ambos lados.
+    vi.stubEnv("SENTRY_RELEASE", "1.2.3+abc 123");
+    expect(sentryRelease()).toBeUndefined();
+    expect(beforeSend({ release: "1.2.3+abc 123" } as unknown as ErrorEvent)).not.toHaveProperty(
+      "release"
+    );
+  });
+
+  it("conserva environment solo del vocabulario cerrado", () => {
+    for (const environment of ["production", "staging", "development", "test", "preview"]) {
+      expect(beforeSend({ environment } as unknown as ErrorEvent)!.environment, environment).toBe(
+        environment
+      );
+    }
+    for (const environment of ["qa", "ana@example.com", "Ana Perez", "PRODUCTION"]) {
+      expect(beforeSend({ environment } as unknown as ErrorEvent), environment).not.toHaveProperty(
+        "environment"
+      );
+    }
+  });
+
+  it("acepta el release inyectado en el bundle del cliente (mismo valor que usa el SDK)", () => {
+    vi.stubEnv("SENTRY_RELEASE", "");
+    vi.stubEnv("VERCEL_GIT_COMMIT_SHA", "");
+    // `withSentryConfig` inyecta `globalThis.SENTRY_RELEASE = { id }` en el bundle al compilar:
+    // no hay process.env en el navegador. Otro valor inyectado/alterado se sigue descartando.
+    vi.stubGlobal("SENTRY_RELEASE", { id: "sha-inyectado" });
+    expect(sentryRelease()).toBe("sha-inyectado");
+    expect(beforeSend({ release: "sha-inyectado" } as unknown as ErrorEvent)!.release).toBe(
+      "sha-inyectado"
+    );
+    expect(beforeSend({ release: "otro-release" } as unknown as ErrorEvent)).not.toHaveProperty(
+      "release"
+    );
+
+    // El formato se valida también sobre el valor inyectado.
+    vi.stubGlobal("SENTRY_RELEASE", { id: "ana@example.com release" });
+    expect(
+      beforeSend({ release: "ana@example.com release" } as unknown as ErrorEvent)
+    ).not.toHaveProperty("release");
+  });
+
+  it("conserva debug_meta mínimo (type, code_file, debug_id) y descarta el resto", () => {
+    const event = {
+      debug_meta: {
+        images: [
+          {
+            type: "sourcemap",
+            code_file: "app:///_next/static/chunks/abc123.js",
+            debug_id: "12345678-1234-1234-1234-1234567890AB",
+            image_addr: "0x1234",
+            debug_file: "ana@example.com",
+          },
+          {
+            type: "sourcemap",
+            code_file:
+              "https://acme.armio.co/_next/static/chunks/def456.js?email=ana%40example.com",
+            debug_id: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+          },
+          {
+            type: "wasm",
+            code_file: "/var/task/.next/server/chunks/ghi789.wasm",
+            debug_id: "11111111-2222-3333-4444-555555555555",
+          },
+          {
+            // Artefacto real del servidor: route groups y segmentos dinámicos.
+            type: "sourcemap",
+            code_file: "/var/task/.next/server/app/(portal)/p/[tenant]/page.js",
+            debug_id: "22222222-3333-4444-5555-666666666666",
+          },
+          {
+            // Un chunk con `@` en el nombre se descarta: no se acepta `@` en `code_file`.
+            type: "sourcemap",
+            code_file:
+              "/var/task/.next/server/chunks/ssr/[externals]_next_dist_compiled_@vercel_og_index_node.js",
+            debug_id: "33333333-4444-5555-6666-777777777777",
+          },
+          { type: "elf", code_file: "/_next/static/chunks/no.js", debug_id: "abc" },
+          {
+            type: "sourcemap",
+            code_file: "/Users/ana/ana@example.com.js",
+            debug_id: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+          },
+          {
+            // Con forma de email bajo /_next: se descarta para que `@` no transporte PII.
+            type: "sourcemap",
+            code_file: "/_next/static/chunks/ana@example.com.js",
+            debug_id: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+          },
+          {
+            type: "sourcemap",
+            code_file: "/_next/static/chunks/no.js",
+            debug_id: "ana@example.com",
+          },
+        ],
+      },
+      extra: { email: "ana@example.com" },
+    } as unknown as ErrorEvent;
+
+    const out = beforeSend(event)!;
+    expect(out.debug_meta).toEqual({
+      images: [
+        {
+          type: "sourcemap",
+          code_file: "/_next/static/chunks/abc123.js",
+          debug_id: "12345678-1234-1234-1234-1234567890ab",
+        },
+        {
+          type: "sourcemap",
+          code_file: "/_next/static/chunks/def456.js",
+          debug_id: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+        },
+        {
+          type: "wasm",
+          code_file: "/_next/server/chunks/ghi789.wasm",
+          debug_id: "11111111-2222-3333-4444-555555555555",
+        },
+        {
+          type: "sourcemap",
+          code_file: "/_next/server/app/(portal)/p/[tenant]/page.js",
+          debug_id: "22222222-3333-4444-5555-666666666666",
+        },
+      ],
+    });
+    const json = JSON.stringify(out);
+    for (const bad of ["ana@example.com", "Users", "0x1234", "image_addr", "debug_file", "email="])
+      expect(json, bad).not.toContain(bad);
+  });
+
+  it("descarta debug_meta sin imágenes válidas", () => {
+    const out = beforeSend({
+      debug_meta: {
+        images: [
+          {
+            type: "sourcemap",
+            code_file: "/etc/passwd",
+            debug_id: "12345678-1234-1234-1234-123456789012",
+          },
+          { type: "macho", code_file: "/_next/static/a.js", debug_id: "no-es-uuid" },
+        ],
+        extra: { email: "ana@example.com" },
+      },
+    } as unknown as ErrorEvent)!;
+    expect(out).not.toHaveProperty("debug_meta");
   });
 
   it("si el saneado falla descarta el evento en vez de filtrar", () => {

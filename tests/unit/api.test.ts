@@ -76,6 +76,26 @@ describe("cliente del API del portal", () => {
     const init = (fetchMock.mock.calls[0] as unknown as [string, { next: any }])[1];
     expect(init.next.tags).toEqual(["portal:t-tags", "portal:t-tags:prop:7"]);
   });
+
+  it("limita la espera con AbortSignal.timeout sin perder revalidate/tags", async () => {
+    const timeoutSpy = vi.spyOn(AbortSignal, "timeout");
+    const fetchMock = mockFetch(respond(200, { data: { slug: "x" } }));
+    await loadProfile("t-timeout");
+    expect(timeoutSpy).toHaveBeenCalledWith(10_000);
+    const init = (fetchMock.mock.calls[0] as unknown as [string, RequestInit & { next: any }])[1];
+    expect(init.signal).toBeInstanceOf(AbortSignal);
+    expect(init.next).toEqual({ revalidate: 300, tags: ["portal:t-timeout"] });
+  });
+
+  it("reporta el timeout con la ruta consultada", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => {
+        throw new DOMException("The operation timed out.", "TimeoutError");
+      })
+    );
+    await expect(loadProfile("t-lento")).rejects.toThrow(/10000 ms.*t-lento/);
+  });
 });
 
 describe("getPortalIndex", () => {

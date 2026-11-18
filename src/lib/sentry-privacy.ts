@@ -1,4 +1,7 @@
+import type { DebugImage } from "@sentry/core";
 import type { Breadcrumb, BrowserOptions, ErrorEvent } from "@sentry/nextjs";
+import { RELEASE_RE, sentryRelease } from "./sentry-release";
+import { makeEventOnlyTransport } from "./sentry-transport";
 
 /**
  * Política de privacidad de Sentry en la landing (Ley 1581 de Colombia: Sentry es un tercero
@@ -81,6 +84,80 @@ export function stripUrl(url: string): string {
 
 const REDACTED = "[redacted]";
 
+// Release: solo se acepta exactamente el valor que calcula la app (Vercel/SENTRY_RELEASE/inject)
+// y con el formato único de `sentry-release.ts` (mismos caracteres y longitud que el build).
+// Cualquier otro valor que llegue en el evento (scope manipulado, integración de terceros) se
+// descarta: un release arbitrario es texto libre y podría arrastrar PII.
+
+// Entorno: vocabulario cerrado. `VERCEL_ENV`/`NODE_ENV` solo producen estos valores; cualquier
+// otro texto (scope manipulado, integración de terceros) se descarta por si trae PII.
+const SENTRY_ENVIRONMENTS = new Set(["production", "staging", "development", "test", "preview"]);
+
+/**
+ * `debug_meta` es necesario para que Sentry asocie el stack con los source maps por debug ID.
+ * Se conserva SOLO la imagen mínima: tipo, ruta del artefacto del build y debug ID. Nunca rutas
+ * absolutas del sistema, `image_addr`, `debug_file` ni campos libres.
+ */
+const DEBUG_IMAGE_TYPES = new Set(["sourcemap", "wasm", "macho"]);
+const DEBUG_ID_RE = /^[0-9a-f]{8}-?[0-9a-f]{4}-?[0-9a-f]{4}-?[0-9a-f]{4}-?[0-9a-f]{12}$/i;
+// `()[]` aparecen en los artefactos reales de Next (`app/(portal)/p/[tenant]/page.js`). Se deja
+// fuera `@` a propósito: además de ser raro en el build, es la forma de un email y `code_file` no
+// debe poder transportar PII. Los pocos chunks con `@` en el nombre pierden el debug ID.
+const BUILD_ARTIFACT_RE = /^\/_next\/(?:static|server)\/[A-Za-z0-9._~()[\]/-]+$/;
+
+/**
+ * Ruta relativa de un artefacto del build (`/_next/...`), sin origen ni prefijo absoluto.
+ * Acepta `https://host/_next/...`, `app:///_next/...` y `/var/task/.next/...`, y en este último
+ * caso recorta desde `.next/` para no filtrar rutas del sistema.
+ */
+export function buildArtifactPath(value: string): string | null {
+  if (value.length > 500) return null;
+  let pathname: string;
+  try {
+    pathname = new URL(value, "https://placeholder.invalid").pathname;
+  } catch {
+    return null;
+  }
+  const at = Math.max(pathname.lastIndexOf("/_next/"), pathname.lastIndexOf("/.next/"));
+  if (at < 0) return null;
+  const tail = pathname.slice(at);
+  const artifact = tail.startsWith("/.next/") ? `/_next/${tail.slice("/.next/".length)}` : tail;
+  if (!BUILD_ARTIFACT_RE.test(artifact) || artifact.includes("..") || artifact.includes("//")) {
+    return null;
+  }
+  return artifact;
+}
+
+function sanitizeDebugImage(image: unknown): DebugImage | null {
+  if (!image || typeof image !== "object") return null;
+  const raw = image as Record<string, unknown>;
+  if (typeof raw.type !== "string" || !DEBUG_IMAGE_TYPES.has(raw.type)) return null;
+  if (typeof raw.debug_id !== "string" || !DEBUG_ID_RE.test(raw.debug_id)) return null;
+  if (typeof raw.code_file !== "string") return null;
+  const codeFile = buildArtifactPath(raw.code_file);
+  if (!codeFile) return null;
+  // Se descartan a propósito campos como `image_addr`, `image_size` o `debug_file`: solo queda
+  // lo mínimo para enlazar con el source map por debug ID.
+  return {
+    type: raw.type as DebugImage["type"],
+    code_file: codeFile,
+    debug_id: raw.debug_id.toLowerCase(),
+  } as DebugImage;
+}
+
+function sanitizeDebugMeta(event: ErrorEvent): void {
+  const images = event.debug_meta?.images;
+  if (!Array.isArray(images)) {
+    delete event.debug_meta;
+    return;
+  }
+  const clean = images
+    .map((image) => sanitizeDebugImage(image))
+    .filter((image): image is DebugImage => image !== null);
+  if (clean.length > 0) event.debug_meta = { images: clean };
+  else delete event.debug_meta;
+}
+
 const TOP_LEVEL_ALLOWLIST = new Set([
   "event_id",
   "timestamp",
@@ -91,6 +168,9 @@ const TOP_LEVEL_ALLOWLIST = new Set([
   "contexts",
   "request",
   "transaction",
+  "release",
+  "environment",
+  "debug_meta",
 ]);
 
 /** Solo valores técnicos de vocabulario cerrado o formatos estrictos. */
@@ -243,6 +323,20 @@ export function beforeSend(event: ErrorEvent): ErrorEvent | null {
     if (!["debug", "info", "warning", "error", "fatal", "log"].includes(event.level ?? ""))
       delete event.level;
     if (!["javascript", "node"].includes(event.platform ?? "")) delete event.platform;
+    // Entorno: solo el vocabulario cerrado; el resto es texto libre potencialmente con PII.
+    if (typeof event.environment !== "string" || !SENTRY_ENVIRONMENTS.has(event.environment))
+      delete event.environment;
+
+    // Release: solo el valor confiable de la app. Un release de otra fuente se descarta.
+    const trustedRelease = sentryRelease();
+    if (
+      typeof event.release !== "string" ||
+      !trustedRelease ||
+      event.release !== trustedRelease ||
+      !RELEASE_RE.test(event.release)
+    ) {
+      delete event.release;
+    }
 
     // Request: solo método y URL saneada (sin query, headers, cookies ni body).
     const req = event.request;
@@ -259,6 +353,7 @@ export function beforeSend(event: ErrorEvent): ErrorEvent | null {
 
     event.contexts = sanitizeContexts(event.contexts) as ErrorEvent["contexts"];
     sanitizeException(event);
+    sanitizeDebugMeta(event);
 
     if (typeof event.transaction === "string") {
       const m = /^([A-Z]+) (\/.*)$/.exec(event.transaction); // `${METHOD} ${routePath}`
@@ -320,17 +415,35 @@ export function beforeBreadcrumb(b: Breadcrumb): Breadcrumb | null {
 }
 
 /**
+ * Quita la integración de sesiones del navegador. `BrowserSession` manda envelopes `session` /
+ * `sessions` (estado y "release health") que no son errores y pueden llevar contexto del usuario.
+ * El transporte además los bloquearía, pero se evita generarlos desde el origen.
+ */
+export function withoutSessionIntegration<T extends { name: string }>(integrations: T[]): T[] {
+  return integrations.filter((integration) => integration.name !== "BrowserSession");
+}
+
+/**
  * Opciones comunes. Sin DSN devuelve null y Sentry NO se inicializa.
- * Sin replays, sin tracing (`tracesSampleRate: 0`), sin PII.
+ * Sin replays, sin tracing (`tracesSampleRate: 0`), sin PII y sin sesiones.
+ *
+ * `release` sale del mismo helper que usa `next.config.ts`, para que el evento apunte a la
+ * versión cuyos source maps se subieron. Si no hay SHA disponible se omite y Sentry conserva
+ * el release inyectado en el build; `beforeSend` lo valida contra ese mismo helper (que también
+ * lee el valor inyectado en el bundle, no el que traiga el evento).
  */
 export function sentryOptions(dsn: string | undefined) {
   if (!dsn) return null;
+  const release = sentryRelease();
   return {
     dsn,
     environment: process.env.VERCEL_ENV ?? process.env.NODE_ENV,
+    ...(release ? { release } : {}),
     sendDefaultPii: false,
     dataCollection: SENTRY_DATA_COLLECTION_OPTIONS,
     tracesSampleRate: 0,
+    integrations: withoutSessionIntegration,
+    transport: makeEventOnlyTransport,
     beforeSend,
     beforeBreadcrumb,
   };

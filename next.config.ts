@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 import bundleAnalyzer from "@next/bundle-analyzer";
+import { withSentryConfig } from "@sentry/nextjs/config";
 import { securityHeaders } from "./src/lib/security-headers";
+import { sentryRelease } from "./src/lib/sentry-release";
 
 const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
@@ -37,4 +39,31 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withBundleAnalyzer(nextConfig);
+/** Subida de source maps: exige token, org y proyecto. Si falta algo, se compila sin Sentry. */
+const sentryUploadEnabled = Boolean(
+  process.env.SENTRY_AUTH_TOKEN && process.env.SENTRY_ORG && process.env.SENTRY_PROJECT
+);
+
+const release = sentryRelease();
+
+export default withSentryConfig(withBundleAnalyzer(nextConfig), {
+  // Source maps + release. Sin credenciales no se sube nada y el build sigue igual:
+  // Sentry solo intenta crear el release/upload si hay auth token (y avisa, no falla).
+  // `silent` calla los logs del plugin en local; en CI se dejan visibles para diagnosticar.
+  org: process.env.SENTRY_ORG,
+  project: process.env.SENTRY_PROJECT,
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+  ...(release ? { release: { name: release } } : {}),
+  // Stack traces legibles también dentro de Next/React: solo afecta a la subida, no al bundle.
+  widenClientFileUpload: true,
+  // Nada de telemetría del propio plugin a Sentry desde este proyecto.
+  telemetry: false,
+  silent: !process.env.CI,
+  // Sin credenciales ni se generan source maps ni se inyectan debug IDs (no-op real).
+  // Con credenciales, el plugin los genera ocultos y los borra tras subirlos.
+  sourcemaps: { disable: !sentryUploadEnabled },
+  // Un fallo de Sentry (red, token vencido) no debe tumbar el deploy.
+  errorHandler: (error) => {
+    console.warn(`[sentry] no se pudieron subir los source maps: ${error.message}`);
+  },
+});

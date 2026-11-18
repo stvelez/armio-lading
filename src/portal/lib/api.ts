@@ -25,6 +25,25 @@ export const PORTAL_API_URL = (
 
 const REVALIDATE_SECONDS = 300;
 
+/**
+ * Tope duro para los `fetch` BLOQUEANTES del portal: si el API no responde, el render/ISR falla
+ * rápido en vez de quedarse colgado hasta el límite de la plataforma.
+ *
+ * `AbortSignal.timeout` NO desactiva el caché de Next 16: `patch-fetch` reenvía la señal al fetch
+ * real y decide el caché por `next.revalidate`/tags (la clave de caché no incluye el signal), así
+ * que el resultado se guarda y revalida igual. Verificado en
+ * `node_modules/next/dist/server/lib/patch-fetch.js`. Por eso NO se usa `Promise.race`: la
+ * petición perdedora seguiría viva ocupando una conexión hasta que el backend corte solo.
+ *
+ * OJO: Next descarta esta señal al revalidar en segundo plano una entrada stale
+ * (`doOriginalFetch(true)`), para no abortar esa revalidación. Esas peticiones no las cubre este
+ * timeout, sino el Agent global de undici de `src/instrumentation.ts` (límite de socket).
+ */
+const PORTAL_FETCH_TIMEOUT_MS = 10_000;
+
+/** El índice alimenta `/sitemap.xml`: si el API está caído, es mejor rendirse antes. */
+const PORTAL_INDEX_TIMEOUT_MS = 5_000;
+
 export type ApiResult<T> =
   | { kind: "ok"; data: T; meta?: PortalListMeta }
   | { kind: "redirect"; slug: string }
@@ -37,10 +56,25 @@ interface Envelope<T> {
 }
 
 async function portalGet<T>(path: string, tags: string[]): Promise<ApiResult<T>> {
-  const res = await fetch(`${PORTAL_API_URL}${path}`, {
-    headers: { Accept: "application/json" },
-    next: { revalidate: REVALIDATE_SECONDS, tags },
-  });
+  let res: Response;
+  try {
+    res = await fetch(`${PORTAL_API_URL}${path}`, {
+      headers: { Accept: "application/json" },
+      next: { revalidate: REVALIDATE_SECONDS, tags },
+      signal: AbortSignal.timeout(PORTAL_FETCH_TIMEOUT_MS),
+    });
+  } catch (error) {
+    // El error nativo ("operation timed out") no dice qué consulta se cayó: añade la ruta.
+    // Se comprueba `name` en vez de `instanceof DOMException` porque no todos los runtimes
+    // de Vercel heredan de Error (y el resto de fallos debe propagarse intacto).
+    const name = (error as { name?: unknown } | null)?.name;
+    if (name === "TimeoutError" || name === "AbortError") {
+      throw new Error(`Portal API sin respuesta tras ${PORTAL_FETCH_TIMEOUT_MS} ms en ${path}`, {
+        cause: error,
+      });
+    }
+    throw error;
+  }
 
   if (res.status === 404) return { kind: "notfound" };
   if (res.status === 400) return { kind: "notfound" }; // parámetros que el API no acepta
@@ -122,7 +156,7 @@ export async function getPortalIndex(): Promise<PortalIndexEntry[]> {
     const res = await fetch(`${PORTAL_API_URL}/public/portal/index`, {
       headers: { Accept: "application/json", "x-portal-key": key },
       next: { revalidate: 3600, tags: [PORTAL_INDEX_TAG] },
-      signal: AbortSignal.timeout(5000),
+      signal: AbortSignal.timeout(PORTAL_INDEX_TIMEOUT_MS),
     });
     if (!res.ok) return [];
     const body = (await res.json()) as Envelope<PortalIndexEntry[]>;
