@@ -1,7 +1,6 @@
 "use client";
 
 import { Instagram } from "lucide-react";
-import NewsletterForm from "@/components/forms/NewsletterForm";
 import { trackCTAClick } from "@/lib/analytics";
 import { cookiesUrl, privacyUrl, termsUrl } from "@/lib/legal";
 
@@ -17,15 +16,9 @@ export default function Footer() {
           {/* Logo & Tagline */}
           <div>
             <h3 className="mb-3 text-2xl font-semibold tracking-[-0.01em] text-white">armio</h3>
-            <p className="mb-6 text-sm leading-relaxed text-[#8B949E]">
+            <p className="text-sm leading-relaxed text-[#8B949E]">
               El sistema que ordena tu operación inmobiliaria
             </p>
-            <NewsletterForm
-              location="footer"
-              placeholder="tu@email.com"
-              buttonText="Suscribirse"
-              className="flex flex-col gap-2"
-            />
           </div>
 
           {/* Producto */}
