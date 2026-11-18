@@ -127,14 +127,14 @@ describe("sentry-privacy: evento FINAL con transporte en memoria (SDK real)", ()
         transaction: "/newsletter/Ana%20Perez",
         fingerprint: ["Ana Perez"],
         transaction_info: { source: "Ana Perez" as never },
-        request: { url: "https://1.2.3.4/api/newsletter" },
+        request: { url: "https://1.2.3.4/api/portal/leads" },
         contexts: {
           runtime: { name: "Ana Perez" },
           nextjs: { router_kind: "Ana Perez" },
           trace: { trace_id: traceId, span_id: spanId },
         },
         breadcrumbs: [
-          { category: "fetch", data: { url: "https://3001234567.example.com/api/newsletter" } },
+          { category: "fetch", data: { url: "https://3001234567.example.com/api/portal/leads" } },
         ],
         exception: {
           values: [
@@ -158,7 +158,7 @@ describe("sentry-privacy: evento FINAL con transporte en memoria (SDK real)", ()
     });
     expect(payload).toContain('"type":"Error"');
     expect(payload).toContain('"transaction":"/[unknown]"');
-    expect(payload).toContain('"url":"/api/newsletter"');
+    expect(payload).toContain('"url":"/api/portal/leads"');
     expect(payload).toContain(traceId);
     expect(payload).toContain(spanId);
     expect(payload).not.toContain("fingerprint");
@@ -219,16 +219,16 @@ describe("sentry-privacy: evento FINAL con transporte en memoria (SDK real)", ()
         scope.setTag("token", TOKEN);
         scope.setContext("lead", { name: "Ana Perez" });
         scope.setContext("nextjs", {
-          request_path: "/api/newsletter?email=ana@example.com&phone=3001234567&name=Ana%20Perez",
+          request_path: "/api/portal/leads?email=ana@example.com&phone=3001234567&name=Ana%20Perez",
           router_kind: "App Router",
-          router_path: "/api/newsletter",
+          router_path: "/api/portal/leads",
           route_type: "route",
         });
         Sentry.addBreadcrumb({
           category: "fetch",
           message: "POST ana@example.com",
           data: {
-            url: "/api/newsletter/ana%40example.com?email=ana@example.com",
+            url: "/api/portal/leads/ana%40example.com?email=ana@example.com",
             email: "ana@example.com",
             headers: { "x-portal-client-ip": "1.2.3.4", authorization: `Bearer ${TOKEN}` },
             status_code: 500,
@@ -271,11 +271,11 @@ describe("sentry-privacy: evento FINAL con transporte en memoria (SDK real)", ()
       Sentry.captureRequestError(
         new Error("boom"),
         {
-          path: "/api/newsletter?email=ana@example.com&phone=3001234567&name=Ana%20Perez",
+          path: "/api/portal/leads?email=ana@example.com&phone=3001234567&name=Ana%20Perez",
           method: "POST",
           headers: { "x-portal-client-ip": "1.2.3.4", cookie: "s=1", authorization: TOKEN },
         },
-        { routerKind: "App Router", routePath: "/api/newsletter", routeType: "route" } as never
+        { routerKind: "App Router", routePath: "/api/portal/leads", routeType: "route" } as never
       );
     });
     expect(payload).toContain('"type":"Error"');
@@ -305,8 +305,8 @@ describe("sentry-privacy: beforeSend directo (segunda barrera)", () => {
         lead: { name: "Ana Perez" },
         runtime: { name: "node", version: "22" },
         nextjs: {
-          request_path: "/api/newsletter?email=ana@example.com",
-          router_path: "/api/newsletter",
+          request_path: "/api/portal/leads?email=ana@example.com",
+          router_path: "/api/portal/leads",
         },
       },
       exception: {
@@ -349,7 +349,7 @@ describe("sentry-privacy: beforeSend directo (segunda barrera)", () => {
     });
     expect(out.contexts).toEqual({
       runtime: { name: "node", version: "22" },
-      nextjs: { router_path: "/api/newsletter", request_path: "/api/newsletter" },
+      nextjs: { router_path: "/api/portal/leads", request_path: "/api/portal/leads" },
     });
     expect(out.breadcrumbs).toHaveLength(1);
     expect(out.breadcrumbs![0].data).toEqual({ url: "/[unknown]", status_code: 200 });
@@ -546,9 +546,9 @@ describe("sentry-privacy: beforeSend directo (segunda barrera)", () => {
     expect(
       beforeBreadcrumb({
         category: "xhr",
-        data: { url: "/api/newsletter?email=a@b.co", body: "x" },
+        data: { url: "/api/portal/leads?email=a@b.co", body: "x" },
       })!.data
-    ).toEqual({ url: "/api/newsletter" });
+    ).toEqual({ url: "/api/portal/leads" });
   });
 
   it("scrubText (defensa adicional) cubre %40, / y guion largo", () => {
