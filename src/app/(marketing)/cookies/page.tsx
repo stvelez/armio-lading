@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { cookiesUrl } from "@/lib/legal";
+import { siteRobotsMetadata } from "@/lib/robots";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://armio.co"),
@@ -8,7 +9,7 @@ export const metadata: Metadata = {
     "¿Qué trazamos con cookies y otros identificadores al navegar por armio.co? Consulta cómo gestionamos tu consentimiento según la Ley 1581 de 2012.",
   keywords: ["cookies", "privacidad", "Ley 1581", "consentimiento", "GA4"],
   alternates: { canonical: cookiesUrl },
-  robots: { index: true, follow: true },
+  robots: siteRobotsMetadata(),
   openGraph: {
     type: "website",
     locale: "es_CO",

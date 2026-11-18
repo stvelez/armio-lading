@@ -5,6 +5,7 @@ import { Toaster } from "react-hot-toast";
 import MotionProvider from "@/components/providers/MotionProvider";
 import AnalyticsGate from "@/components/providers/AnalyticsGate";
 import CookieConsentBanner from "@/components/ui/CookieConsentBanner";
+import { siteRobotsMetadata } from "@/lib/robots";
 import "../globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -57,17 +58,8 @@ export const metadata: Metadata = {
     description:
       "Software para independientes y agencias inmobiliarias en Colombia. Propiedades, leads y contratos en un solo lugar.",
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
+  // Solo producción se indexa; preview/local devuelven noindex (fallback seguro).
+  robots: siteRobotsMetadata(),
 };
 
 // Las métricas comerciales del JSON-LD deben provenir de datos reales.

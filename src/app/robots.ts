@@ -1,11 +1,7 @@
 import type { MetadataRoute } from "next";
+import { siteRobots } from "@/lib/robots";
 
+/** Producción: allow + sitemap. Preview/local: disallow total y sin sitemap. */
 export default function robots(): MetadataRoute.Robots {
-  return {
-    rules: {
-      userAgent: "*",
-      allow: "/",
-    },
-    sitemap: "https://armio.co/sitemap.xml",
-  };
+  return siteRobots();
 }

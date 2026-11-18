@@ -137,7 +137,8 @@ describe.each([
 });
 
 describe("robots del dominio raíz", () => {
-  it("no cambia", () => {
+  it("en producción no cambia", () => {
+    vi.stubEnv("VERCEL_ENV", "production");
     expect(robotsTxt()).toEqual({
       rules: { userAgent: "*", allow: "/" },
       sitemap: "https://armio.co/sitemap.xml",

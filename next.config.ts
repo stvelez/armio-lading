@@ -12,6 +12,9 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   experimental: {
     optimizePackageImports: ["lucide-react", "framer-motion"],
+    // 404 global propia: el proyecto tiene dos root layouts (marketing y portal) y un
+    // `not-found.tsx` suelto se renderizaría sin `globals.css` ni fuentes.
+    globalNotFound: true,
   },
   images: {
     // Las URLs de fotos y logos llevan un UUID nuevo en cada subida (nunca se reemplaza un archivo con la
