@@ -1,0 +1,9 @@
+node_modules/
+.next/
+out/
+coverage/
+*.min.js
+*.map
+**/*.spec.ts
+**/*.test.ts
+e2e/

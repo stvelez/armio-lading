@@ -12,6 +12,9 @@ updates:
     # los security updates: esos llegan como PRs individuales (uno por advisory)
     # y hay que revisarlos aparte.
     open-pull-requests-limit: 5
+    # Espera 7 días antes de proponer una versión recién publicada.
+    cooldown:
+      default-days: 7
     commit-message:
       prefix: chore
       include: scope

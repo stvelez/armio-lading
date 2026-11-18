@@ -2,8 +2,6 @@
  * Google Analytics 4 tracking utilities
  */
 
-import type { NewsletterSignupSource } from "@/lib/validations";
-
 type GtagFn = (command: string, eventName: string, params?: Record<string, unknown>) => void;
 
 declare global {
@@ -12,26 +10,13 @@ declare global {
   }
 }
 
-export type SignupLocation = NewsletterSignupSource;
 export type CTALocation = "hero" | "footer" | "pricing" | "cta" | "cta-mobile" | "exit-intent";
-type SignupResult = "created" | "duplicate" | "error";
 type ScrollDepth = 25 | 50 | 75 | 90;
 
 const trackEvent = (eventName: string, params?: Record<string, unknown>) => {
   if (typeof window !== "undefined" && window.gtag) {
     window.gtag("event", eventName, params);
   }
-};
-
-/**
- * Track newsletter signup event
- */
-export const trackNewsletterSignup = (location: SignupLocation) => {
-  trackEvent("newsletter_signup", { location });
-};
-
-export const trackNewsletterSignupResult = (location: SignupLocation, result: SignupResult) => {
-  trackEvent("newsletter_signup_result", { location, result });
 };
 
 /**

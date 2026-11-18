@@ -8,10 +8,7 @@ import { REGISTER_URL } from "@/lib/app-links";
 
 export default function Hero() {
   return (
-    <section
-      id="waitlist"
-      className="relative flex min-h-screen items-start overflow-hidden bg-[#0D1117] px-6 pt-24 pb-0 md:min-h-[calc(100svh-12px)]"
-    >
+    <section className="relative flex min-h-screen items-start overflow-hidden bg-[#0D1117] px-6 pt-24 pb-0 md:min-h-[calc(100svh-12px)]">
       {/* Radial green glow — top center */}
       <div aria-hidden="true" className="glow-green-radial pointer-events-none absolute inset-0" />
 

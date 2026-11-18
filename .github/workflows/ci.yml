@@ -17,10 +17,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Configurar Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: "24"
           cache: npm
@@ -39,9 +39,4 @@ jobs:
         run: npm test
 
       - name: Build
-        # `next build` evalúa el módulo de /api/newsletter y `new Resend(...)`
-        # lanza si no hay clave. En CI basta un marcador de posición: el build
-        # no envía correos ni abre conexiones. No es un secreto real.
-        env:
-          RESEND_API_KEY: re_ci_placeholder
         run: npm run build
