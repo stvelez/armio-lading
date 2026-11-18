@@ -11,11 +11,18 @@ function createPool() {
     throw new Error("Missing DATABASE_URL");
   }
 
+  // La CA de Railway no está en el bundle de Node. Si se configura
+  // `DATABASE_CA_CERT` (PEM, con \n escapados) se valida el certificado; si no,
+  // se mantiene el modo compatible con su proxy público.
+  const caCertificate = process.env.DATABASE_CA_CERT?.replace(/\\n/g, "\n");
+
   return new Pool({
     connectionString,
     ssl:
       connectionString.includes("railway.app") || connectionString.includes("rlwy.net")
-        ? { rejectUnauthorized: false }
+        ? caCertificate
+          ? { ca: caCertificate, rejectUnauthorized: true }
+          : { rejectUnauthorized: false }
         : undefined,
     max: 5,
   });
