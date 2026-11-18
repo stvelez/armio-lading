@@ -7,7 +7,7 @@ import { makeEventOnlyTransport } from "./sentry-transport";
  * Política de privacidad de Sentry en la landing (Ley 1581 de Colombia: Sentry es un tercero
  * fuera del país). Solo captura de errores: sin Session Replay, sin tracing, sin PII.
  *
- * Nunca deben salir: nombre/email/teléfono de leads, email del newsletter, IP de visitantes,
+ * Nunca deben salir: nombre/email/teléfono de leads, IP de visitantes,
  * cookies, cuerpos de request ni headers (pueden traer auth o x-portal-client-ip).
  *
  * Estrategia en dos barreras:
@@ -54,7 +54,7 @@ export function scrubText(value: string): string {
 const KNOWN_ROUTES: RegExp[] = [
   /^\/$/,
   /^\/cookies$/,
-  /^\/api\/(?:portal\/(?:visits|leads|revalidate)|newsletter)$/,
+  /^\/api\/portal\/(?:visits|leads|revalidate)$/,
   /^\/p\/[^/]+$/,
   /^\/p\/[^/]+\/(?:propiedades|privacidad|sitemap\.xml|robots\.txt)$/,
   /^\/p\/[^/]+\/propiedades\/[^/]+$/,
