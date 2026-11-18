@@ -8,7 +8,9 @@ import { expect, test, type Page } from "@playwright/test";
  */
 
 const VARIANT = process.env.TURNSTILE_E2E_VARIANT ?? "pass";
-const PROPERTY_URL = "/propiedades/9-penthouse-con-terraza-en-granada";
+// El código cambia si se resiembra la base: se puede fijar con TURNSTILE_E2E_PROPERTY_URL.
+const PROPERTY_URL =
+  process.env.TURNSTILE_E2E_PROPERTY_URL ?? "/propiedades/9-penthouse-con-terraza-en-granada";
 const DUMMY_TOKEN = "XXXX.DUMMY.TOKEN.XXXX";
 const CLOUDFLARE = /challenges\.cloudflare\.com/;
 
