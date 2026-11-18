@@ -1,0 +1,41 @@
+name: SAST
+
+# Análisis estático con Semgrep Community Edition (sin token ni panel externo).
+# Escanea cambios en PRs, la rama principal y una vez por semana.
+
+on:
+  pull_request:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '20 7 * * 1'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sast-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  semgrep:
+    name: Semgrep CE
+    runs-on: ubuntu-latest
+    if: github.actor != 'dependabot[bot]'
+    container:
+      image: semgrep/semgrep
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Escanear
+        env:
+          SEMGREP_SEND_METRICS: 'off'
+        run: >
+          semgrep scan
+          --config p/security-audit
+          --config p/owasp-top-ten
+          --config p/typescript
+          --config p/javascript
+          --error
+          .
