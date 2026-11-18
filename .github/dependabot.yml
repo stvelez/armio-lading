@@ -28,3 +28,11 @@ updates:
           - "*"
         update-types:
           - "patch"
+
+  # Mantiene actualizados los SHA de las actions fijadas en los workflows.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
