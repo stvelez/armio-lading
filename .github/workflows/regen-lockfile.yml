@@ -1,0 +1,27 @@
+name: Regenerar lockfile (temporal)
+
+# Workflow temporal: genera package-lock.json en Linux para incluir las
+# dependencias opcionales de todas las plataformas. Se elimina tras usarlo.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  regen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Generar lockfile
+        env:
+          HUSKY: "0"
+        run: npm install --package-lock-only --ignore-scripts --include=optional --no-audit --no-fund
+      - uses: actions/upload-artifact@v4
+        with:
+          name: package-lock
+          path: package-lock.json
+          if-no-files-found: error
