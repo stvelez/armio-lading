@@ -28,18 +28,14 @@ export default function PropertyCard({ property, priority = false, operacion }: 
     <article className="group relative flex flex-col overflow-hidden rounded-xl border border-stone-200 bg-white shadow-sm transition-shadow hover:shadow-md">
       <div className="relative aspect-[4/3] w-full bg-stone-100">
         {image ? (
-          <>
-            {/* Next no precarga con `unoptimized`: se declara aquí para que el LCP no espere. */}
-            {priority && <link rel="preload" as="image" href={image.src} fetchPriority="high" />}
-            <Image
-              {...image}
-              alt={property.title}
-              fill
-              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-              className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-              priority={priority}
-            />
-          </>
+          <Image
+            {...image}
+            alt={property.title}
+            fill
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+            priority={priority}
+          />
         ) : (
           <div className="flex h-full items-center justify-center text-stone-400">
             <ImageOff className="h-8 w-8" aria-hidden />
