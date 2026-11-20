@@ -35,7 +35,10 @@ export default function CookieConsentBanner({
 }) {
   const storageKey = variant === "consent" ? CONSENT_KEY : PORTAL_NOTICE_KEY;
   const getSnapshot = useCallback(() => getConsentFor(storageKey), [storageKey]);
-  const consent = useSyncExternalStore(subscribeConsent, getSnapshot, () => "accepted" as const);
+  // En el servidor se pinta el banner (snapshot `null`): si esperamos a la hidratación
+  // para mostrarlo, se convierte en el LCP y retrasa la métrica varios segundos. El
+  // cliente lo oculta de inmediato si ya hay consentimiento guardado.
+  const consent = useSyncExternalStore(subscribeConsent, getSnapshot, () => null);
 
   if (consent !== null) return null;
 
