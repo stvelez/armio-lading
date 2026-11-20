@@ -212,3 +212,10 @@ export default async function PrivacyPage({ params }: Props) {
     </div>
   );
 }
+
+/**
+ * Sin parámetros en build: cada portal se genera en la primera visita y queda en ISR.
+ */
+export async function generateStaticParams() {
+  return [];
+}

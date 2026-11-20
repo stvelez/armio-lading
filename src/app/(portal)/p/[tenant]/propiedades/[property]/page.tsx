@@ -194,3 +194,11 @@ export default async function PropertyPage({ params }: Props) {
     </div>
   );
 }
+
+/**
+ * Sin parámetros en build: cada portal se genera en la primera visita y queda en ISR.
+ * Sin esto, Next 16 renderiza `/p/[tenant]` por petición y el HTML no se cachea en el CDN.
+ */
+export async function generateStaticParams() {
+  return [];
+}

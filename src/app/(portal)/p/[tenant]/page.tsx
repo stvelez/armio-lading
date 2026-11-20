@@ -180,3 +180,10 @@ export default async function PortalHomePage({ params }: Props) {
     </>
   );
 }
+
+/**
+ * Sin parámetros en build: cada portal se genera en la primera visita y queda en ISR.
+ */
+export async function generateStaticParams() {
+  return [];
+}

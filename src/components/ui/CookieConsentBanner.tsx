@@ -47,7 +47,7 @@ export default function CookieConsentBanner({
       <div
         role="region"
         aria-label="Aviso de cookies"
-        className="fixed right-0 bottom-0 left-0 z-50 border-t border-stone-200 bg-white p-4 shadow-lg"
+        className="fixed right-0 bottom-0 left-0 z-50 border-t border-stone-200 bg-white p-3 shadow-lg md:p-4"
       >
         <div className="mx-auto flex max-w-6xl flex-col gap-3 md:flex-row md:items-center md:justify-between md:gap-4">
           <div className="flex items-start gap-3">
@@ -58,8 +58,7 @@ export default function CookieConsentBanner({
             />
             <p className="text-sm text-stone-600">
               Este portal no usa cookies publicitarias ni de terceros: solo cuenta visitas de forma
-              anónima y agregada. La única marca que puede quedar en tu navegador es técnica y de
-              sesión, para excluir las visitas del equipo de la inmobiliaria.{" "}
+              anónima y usa una marca técnica de sesión.{" "}
               <a
                 href={cookiesUrl}
                 target="_blank"
