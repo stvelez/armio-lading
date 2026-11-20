@@ -11,6 +11,12 @@ export const termsUrl = APP_URL ? `${APP_URL}/terminos` : undefined;
 export const MARKETING_ORIGIN = "https://armio.co";
 export const cookiesUrl = `${MARKETING_ORIGIN}/cookies`;
 
+/**
+ * Estado del servicio: monitoreo externo (UptimeRobot). Es público y no depende de
+ * configuración, así que se puede enlazar siempre desde el sitio y desde el portal.
+ */
+export const statusUrl = "https://stats.uptimerobot.com/XKKt1hARkV";
+
 /** Versión de la Política de Privacidad vigente; se guarda con la autorización de cada suscriptor. */
 export const PRIVACY_POLICY_VERSION = "1.0";
 

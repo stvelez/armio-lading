@@ -2,7 +2,7 @@
 
 import { Instagram } from "lucide-react";
 import { trackCTAClick } from "@/lib/analytics";
-import { cookiesUrl, privacyUrl, termsUrl } from "@/lib/legal";
+import { cookiesUrl, privacyUrl, statusUrl, termsUrl } from "@/lib/legal";
 
 /**
  * El aviso de cookies ya no vive aquí: se monta en `(marketing)/layout.tsx` vía
@@ -54,6 +54,16 @@ export default function Footer() {
                   className="text-sm text-[#8B949E] transition-colors hover:text-white"
                 >
                   Contacto
+                </a>
+              </li>
+              <li>
+                <a
+                  href={statusUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-[#8B949E] transition-colors hover:text-white"
+                >
+                  Estado del servicio
                 </a>
               </li>
               <li>

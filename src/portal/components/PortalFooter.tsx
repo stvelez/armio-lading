@@ -3,7 +3,7 @@ import { Facebook, Instagram, Mail, MapPin, MessageCircle, Phone } from "lucide-
 import type { PortalProfile } from "../types";
 import { httpsUrl, telHref, whatsappHref } from "../lib/format";
 import { portalPath } from "../lib/urls";
-import { cookiesUrl } from "@/lib/legal";
+import { cookiesUrl, statusUrl } from "@/lib/legal";
 
 export default function PortalFooter({ profile }: { profile: PortalProfile | null }) {
   const instagram = httpsUrl(profile?.social.instagram);
@@ -131,6 +131,14 @@ export default function PortalFooter({ profile }: { profile: PortalProfile | nul
               className="hover:underline"
             >
               Política de cookies
+            </a>
+            <a
+              href={statusUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:underline"
+            >
+              Estado del servicio
             </a>
             <a
               href="https://armio.co"
