@@ -4,6 +4,13 @@
 
   "regions": ["gru1"],
 
+  "headers": [
+    {
+      "source": "/_next/image",
+      "headers": [{ "key": "X-Content-Type-Options", "value": "nosniff" }]
+    }
+  ],
+
   "redirects": [
     {
       "source": "/(.*)",

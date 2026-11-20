@@ -34,12 +34,6 @@ const nextConfig: NextConfig = {
   // (`public, max-age=31536000, immutable` sobre assets con hash).
   async headers() {
     return [
-      // El optimizador de imágenes responde con su propio `Content-Type`; `nosniff`
-      // evita que el navegador lo reinterprete si algún día cambia.
-      {
-        source: "/_next/image",
-        headers: [{ key: "X-Content-Type-Options", value: "nosniff" }],
-      },
       {
         source: "/(.*)",
         headers: securityHeaders(),
