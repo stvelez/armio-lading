@@ -97,7 +97,7 @@ export function thumbProps(
   if (thumb) {
     try {
       const host = new URL(thumb).hostname;
-      if (OPTIMIZABLE_HOSTS.some((re) => re.test(host))) return { src: thumb, unoptimized: true };
+      if (OPTIMIZABLE_HOSTS.some((re) => re.test(host))) return { src: thumb, unoptimized: false };
     } catch {
       /* se usa el original */
     }
