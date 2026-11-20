@@ -3,7 +3,8 @@ import PropertyCard from "./PropertyCard";
 
 export default function PropertyGrid({
   properties,
-  priorityCount = 0,
+  // La primera tarjeta suele ser el LCP: se precarga para no esperar al scroll.
+  priorityCount = 1,
   operacion,
 }: {
   properties: PortalPropertyCard[];
