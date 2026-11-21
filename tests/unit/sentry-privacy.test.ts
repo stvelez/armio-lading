@@ -563,6 +563,7 @@ describe("sentry-privacy: gating sin DSN en ambos entrypoints", () => {
   afterEach(() => {
     vi.resetModules();
     vi.doUnmock("@sentry/nextjs");
+    vi.unstubAllGlobals();
   });
 
   it("instrumentation.register() no llama a init sin DSN y sí con DSN", async () => {
@@ -581,12 +582,20 @@ describe("sentry-privacy: gating sin DSN en ambos entrypoints", () => {
   it("instrumentation-client no llama a init sin DSN y sí con DSN", async () => {
     const init = vi.fn();
     vi.doMock("@sentry/nextjs", () => ({ init, captureRouterTransitionStart: vi.fn() }));
+    // Sentry se carga en tiempo ocioso: el callback debe ejecutarse para probar el gating.
+    // El test corre en Node (sin jsdom), así que se simula el `window` del navegador.
+    vi.stubGlobal("window", {
+      requestIdleCallback: (cb: IdleRequestCallback) => {
+        cb({ didTimeout: false, timeRemaining: () => 50 });
+        return 1;
+      },
+    });
     vi.stubEnv("NEXT_PUBLIC_SENTRY_DSN", "");
     await import("@/instrumentation-client");
     expect(init).not.toHaveBeenCalled();
     vi.resetModules();
     vi.stubEnv("NEXT_PUBLIC_SENTRY_DSN", DSN);
     await import("@/instrumentation-client");
-    expect(init).toHaveBeenCalledTimes(1);
+    await vi.waitFor(() => expect(init).toHaveBeenCalledTimes(1));
   });
 });

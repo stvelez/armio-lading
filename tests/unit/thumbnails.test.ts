@@ -20,10 +20,10 @@ beforeEach(() => {
 });
 
 describe("thumbProps", () => {
-  it("miniatura de nuestro almacenamiento: se sirve tal cual, sin optimizar", () => {
+  it("miniatura de nuestro almacenamiento: la optimiza next/image", () => {
     expect(thumbProps({ url: ORIGINAL, thumbnail_url: THUMB })).toEqual({
       src: THUMB,
-      unoptimized: true,
+      unoptimized: false,
     });
   });
 
@@ -65,10 +65,10 @@ describe("PropertyCard con miniatura", () => {
       })
     );
 
-  it("usa la miniatura directamente (sin pasar por /_next/image)", () => {
+  it("usa la miniatura a través del optimizador de next/image", () => {
     const html = render({ url: ORIGINAL, thumbnail_url: THUMB });
-    expect(html).toContain(THUMB);
-    expect(html).not.toContain("/_next/image");
+    expect(html).toContain("abc_w800.webp");
+    expect(html).toContain("/_next/image");
   });
 
   it("sin miniatura usa el original optimizado de siempre", () => {
@@ -83,7 +83,7 @@ describe("PropertyCard con miniatura", () => {
 });
 
 describe("PropertyGallery: tira de miniaturas", () => {
-  it("la tira usa la miniatura; la foto principal sigue con el original", () => {
+  it("la tira usa la miniatura y la foto principal pasa por el optimizador", () => {
     const html = renderToStaticMarkup(
       createElement(PropertyGallery, {
         title: "T",
@@ -93,7 +93,8 @@ describe("PropertyGallery: tira de miniaturas", () => {
         ],
       })
     );
-    expect(html).toContain(THUMB);
+    expect(html).toContain("abc_w800.webp");
+    expect(html).toContain("abc.jpg");
     expect(html).toContain("/_next/image");
   });
 });
