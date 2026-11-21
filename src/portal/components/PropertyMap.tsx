@@ -23,10 +23,10 @@ export default function PropertyMap({ latitude, longitude, exact, title }: Props
 
   return (
     <section aria-labelledby="map-title">
-      <h2 id="map-title" className="text-xl font-semibold text-stone-900">
+      <h2 id="map-title" className="text-xl font-semibold text-[var(--portal-text)]">
         Ubicación
       </h2>
-      <div className="mt-4 overflow-hidden rounded-xl border border-stone-200 bg-stone-100">
+      <div className="mt-4 overflow-hidden rounded-xl border border-[var(--portal-border)] bg-[var(--portal-section)]">
         {open ? (
           <iframe
             title={`Mapa de ${title}`}
@@ -38,8 +38,8 @@ export default function PropertyMap({ latitude, longitude, exact, title }: Props
           />
         ) : (
           <div className="flex h-72 flex-col items-center justify-center gap-3 px-4 text-center">
-            <MapPin className="h-8 w-8 text-stone-500" aria-hidden />
-            <p className="max-w-sm text-sm text-stone-700">
+            <MapPin className="h-8 w-8 text-[var(--portal-muted)]" aria-hidden />
+            <p className="max-w-sm text-sm text-[var(--portal-muted)]">
               Al ver el mapa se cargará contenido de OpenStreetMap, un servicio externo.
             </p>
             <button
@@ -52,7 +52,7 @@ export default function PropertyMap({ latitude, longitude, exact, title }: Props
           </div>
         )}
       </div>
-      <p className="mt-2 text-sm text-stone-600">
+      <p className="mt-2 text-sm text-[var(--portal-muted)]">
         {exact
           ? "Ubicación del inmueble."
           : "Ubicación aproximada: la dirección exacta se comparte al contactar a la inmobiliaria."}{" "}

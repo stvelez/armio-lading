@@ -90,7 +90,7 @@ export default async function PropertyPage({ params }: Props) {
   const responsible = profile.privacy.responsible_name || profile.name;
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-6 pb-28 sm:px-6 lg:pb-10">
+    <div className="mx-auto max-w-[1200px] px-4 py-6 pb-28 sm:px-6 lg:pb-10">
       <VisitBeacon page="property" code={property.code} />
       <JsonLd data={propertyJsonLd({ property, profile, url })} />
       <Breadcrumbs
@@ -110,7 +110,7 @@ export default async function PropertyPage({ params }: Props) {
               <span className="bg-portal text-on-portal rounded-full px-3 py-1 text-xs font-semibold">
                 {property.purpose.name}
               </span>
-              <span className="rounded-full border border-stone-300 px-3 py-1 text-xs font-medium text-stone-700">
+              <span className="rounded-full border border-[var(--portal-control-border)] px-3 py-1 text-xs font-medium text-[var(--portal-muted)]">
                 {property.type.name}
               </span>
               {property.badge === "reservada" && (
@@ -119,9 +119,11 @@ export default async function PropertyPage({ params }: Props) {
                 </span>
               )}
             </div>
-            <h1 className="mt-3 text-2xl font-bold text-stone-900 sm:text-3xl">{property.title}</h1>
+            <h1 className="mt-3 text-2xl font-bold text-[var(--portal-text)] sm:text-3xl">
+              {property.title}
+            </h1>
             {(place || property.building) && (
-              <p className="mt-2 flex items-start gap-1.5 text-stone-700">
+              <p className="mt-2 flex items-start gap-1.5 text-[var(--portal-muted)]">
                 <MapPin className="mt-1 h-4 w-4 shrink-0" aria-hidden />
                 <span>
                   {[property.building, property.location.address, place]
@@ -148,11 +150,13 @@ export default async function PropertyPage({ params }: Props) {
 
           {property.description && (
             <section aria-labelledby="descripcion">
-              <h2 id="descripcion" className="text-xl font-semibold text-stone-900">
+              <h2 id="descripcion" className="text-xl font-semibold text-[var(--portal-text)]">
                 Descripción
               </h2>
               {/* Texto plano: nunca HTML */}
-              <p className="mt-4 whitespace-pre-line text-stone-800">{property.description}</p>
+              <p className="mt-4 whitespace-pre-line text-[var(--portal-text)]">
+                {property.description}
+              </p>
             </section>
           )}
 
@@ -184,7 +188,7 @@ export default async function PropertyPage({ params }: Props) {
             propertyTitle={property.title}
           />
           <div>
-            <h2 className="mb-2 text-sm font-semibold text-stone-800">Compartir</h2>
+            <h2 className="mb-2 text-sm font-semibold text-[var(--portal-text)]">Compartir</h2>
             <ShareButtons title={property.title} url={url} />
           </div>
         </aside>

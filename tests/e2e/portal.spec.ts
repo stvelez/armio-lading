@@ -1,25 +1,26 @@
 import { expect, test, type Page } from "@playwright/test";
 
 /**
- * E2E del portal público. Requiere el API local en http://localhost:4000 con el tenant
+ * E2E del portal público. Requiere el API local en http://localhost:4001 con el tenant
  * `inmobiliaria-demo` (6 propiedades públicas; code 9 'both' con 2 fotos; varias sin fotos).
  */
 
 const TENANT = "inmobiliaria-demo";
-const ROOT = "localhost:3000";
+// E2E_ROOT permite correr contra otro puerto (por ejemplo, un `next start` en 4310).
+const ROOT = process.env.E2E_ROOT ?? "localhost:3000";
 const ORIGIN = `http://${TENANT}.${ROOT}`; // = baseURL de playwright.config.ts
 const PORTAL = ""; // las rutas del portal cuelgan de la raíz del subdominio
 const CANONICAL_SLUG = "9-penthouse-con-terraza-en-granada";
 const PROPERTY_URL = `${PORTAL}/propiedades/${CANONICAL_SLUG}`;
 
-// PNG 1x1: las fotos viven en r2.dev; así las pruebas no dependen de la red externa.
+// PNG 1x1: las fotos viven en el CDN de Armio; así las pruebas no dependen de la red externa.
 const PIXEL = Buffer.from(
   "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4nGNgYGD4DwABBAEAf5LzJQAAAABJRU5ErkJggg==",
   "base64"
 );
 
 test.beforeEach(async ({ page }) => {
-  await page.route(/\.r2\.dev\//, (route) =>
+  await page.route(/\.(r2\.dev|media\.armio\.co)\//, (route) =>
     route.fulfill({ status: 200, contentType: "image/png", body: PIXEL })
   );
 });
@@ -90,7 +91,7 @@ test.describe("inicio y listado", () => {
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
       "href",
-      /^http:\/\/inmobiliaria-demo\.localhost:3000\/propiedades\?operacion=venta$/
+      `${ORIGIN}/propiedades?operacion=venta`
     );
   });
 });
@@ -129,14 +130,14 @@ test.describe("ficha de propiedad", () => {
     await expect(viewer).toBeHidden();
   });
 
-  test("propiedad 'both': etiqueta, nota de consulta y sin /mes", async ({ page }) => {
+  test("propiedad 'both': muestra arriendo y venta con su canon", async ({ page }) => {
     await page.goto(PROPERTY_URL);
     const main = page.locator("main, body").first();
     await expect(main.getByText("Arriendo y venta").first()).toBeVisible();
-    await expect(
-      page.getByText("Consulta el valor de arriendo o de venta con la inmobiliaria")
-    ).toBeVisible();
-    await expect(page.getByText("/mes", { exact: true })).toHaveCount(0);
+    await expect(page.getByText("Arriendo", { exact: true }).first()).toBeVisible();
+    await expect(page.getByText("Venta", { exact: true }).first()).toBeVisible();
+    await expect(page.getByText("$ 3.450.000", { exact: false })).toBeVisible();
+    await expect(page.getByText("/mes", { exact: true })).toHaveCount(1);
   });
 
   test("propiedad sin fotos muestra el marcador de posición", async ({ page }) => {
@@ -206,7 +207,7 @@ test.describe("sin scroll horizontal", () => {
 
 test.describe("formulario de interés", () => {
   const fill = async (page: Page) => {
-    await page.getByLabel("Nombre", { exact: true }).fill("Ana Pérez");
+    await page.getByLabel(/^Nombre/).fill("Ana Pérez");
     await page.getByLabel(/Teléfono o WhatsApp/).fill("3001234567");
   };
 
@@ -248,7 +249,7 @@ test.describe("formulario de interés", () => {
       property_code: 9,
       name: "Ana Pérez",
       consent: true,
-      consent_version: "1.0",
+      consent_version: "2.0",
       website: "",
     });
   });
@@ -265,7 +266,7 @@ test.describe("formulario de interés", () => {
     });
     await page.goto(PROPERTY_URL);
     await page.waitForLoadState("networkidle");
-    await page.getByLabel("Nombre", { exact: true }).focus();
+    await page.getByLabel(/^Nombre/).focus();
     await fill(page);
     await page.getByLabel(/Autorizo a/).check();
     await page.getByRole("button", { name: "Enviar" }).click();
@@ -284,6 +285,43 @@ test.describe("formulario de interés", () => {
     await page.getByLabel(/Autorizo a/).check();
     await page.getByRole("button", { name: "Enviar" }).click();
     await expect(page.getByText(/Has enviado varias solicitudes/)).toBeVisible();
+  });
+
+  test("el home envía el formulario general sin correo ni propiedad", async ({ page }) => {
+    const bodies: any[] = [];
+    await page.route("**/api/portal/leads", (route) => {
+      bodies.push(route.request().postDataJSON());
+      return route.fulfill({ status: 202, json: { received: true } });
+    });
+    await page.goto("/");
+    const form = page.locator("#contacto-home form");
+    await expect(form).toBeVisible();
+    await expect(form.getByLabel(/Correo/)).toHaveCount(0);
+    await form.getByLabel(/^Nombre/).fill("Ana Pérez");
+    await form.getByLabel(/Teléfono o WhatsApp/).fill("3001234567");
+    await form.getByLabel(/Autorizo a/).check();
+    await form.getByRole("button", { name: "Enviar" }).click();
+
+    await expect(page.getByText("¡Gracias por tu interés!")).toBeVisible();
+    expect(bodies).toHaveLength(1);
+    expect(bodies[0]).not.toHaveProperty("email");
+    expect(bodies[0]).not.toHaveProperty("property_code");
+    expect(bodies[0].consent_version).toBe("2.1");
+  });
+
+  test("el home publica los canales de contacto sin exponer el correo", async ({ page }) => {
+    await page.goto("/");
+    const section = page.locator("#contacto-home");
+    await expect(section.getByRole("link", { name: /Teléfono/ })).toHaveAttribute(
+      "href",
+      "tel:+576015550101"
+    );
+    // El WhatsApp depende de que el tenant demo lo tenga configurado; si existe, debe ser celular.
+    const wa = section.locator('a[href*="wa.me"]');
+    if ((await wa.count()) > 0) {
+      await expect(wa.first()).toHaveAttribute("href", /wa\.me\/573/);
+    }
+    expect(await section.textContent()).not.toContain("@");
   });
 });
 

@@ -27,7 +27,7 @@ const waitForHydration = (page: Page) =>
 
 const fill = async (page: Page) => {
   await waitForHydration(page);
-  await page.getByLabel("Nombre", { exact: true }).fill("Ana Pérez");
+  await page.getByLabel(/^Nombre/).fill("Ana Pérez");
   await page.getByLabel(/Teléfono o WhatsApp/).fill("3001234567");
   await page.getByLabel(/Autorizo a/).check();
 };
@@ -62,7 +62,7 @@ test.describe("Turnstile (sitekey que pasa)", () => {
       /challenges\.cloudflare\.com\/turnstile\/v0\/api\.js\?render=explicit/
     );
     await waitForHydration(page);
-    await page.getByLabel("Nombre", { exact: true }).focus();
+    await page.getByLabel(/^Nombre/).focus();
     await apiRequest;
   });
 
@@ -83,7 +83,7 @@ test.describe("Turnstile (sitekey que pasa)", () => {
     await page.goto(PROPERTY_URL);
     await fill(page);
     // Cuenta los reinicios del widget (el token es de un solo uso)
-    await page.getByLabel("Nombre", { exact: true }).focus();
+    await page.getByLabel(/^Nombre/).focus();
     await page.waitForFunction(() => Boolean(window.turnstile));
     await page.evaluate(() => {
       const w = window as unknown as {
@@ -148,7 +148,7 @@ test.describe("Turnstile (desafío interactivo forzado)", () => {
     const bodies = await interceptLeads(page);
     await page.goto(PROPERTY_URL);
     await fill(page);
-    await page.getByLabel("Nombre", { exact: true }).focus();
+    await page.getByLabel(/^Nombre/).focus();
     await expect(page.locator('iframe[src*="challenges.cloudflare.com"]')).toBeVisible();
     await expect(
       page.getByText("Marca la casilla para confirmar que eres una persona.")
@@ -162,7 +162,7 @@ test.describe("Turnstile (desafío interactivo forzado)", () => {
   test("7. el iframe se alcanza con Tab antes del botón Enviar", async ({ page }) => {
     await page.goto(PROPERTY_URL);
     await waitForHydration(page);
-    await page.getByLabel("Nombre", { exact: true }).focus();
+    await page.getByLabel(/^Nombre/).focus();
     const iframe = page.locator('iframe[src*="challenges.cloudflare.com"]');
     await expect(iframe).toBeVisible();
     await page.getByLabel(/Quiero recibir ofertas/).focus();

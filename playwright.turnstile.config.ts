@@ -61,7 +61,7 @@ export default defineConfig({
     env: {
       NEXT_PUBLIC_PORTAL_ROOT_DOMAIN: ROOT,
       NEXT_PUBLIC_TURNSTILE_SITE_KEY: VARIANTS[variant],
-      PORTAL_API_URL: "http://localhost:4000/api/v1",
+      PORTAL_API_URL: "http://localhost:4001/api/v1",
     },
   },
 });

@@ -14,7 +14,7 @@ export default function ShareButtons({ title, url }: { title: string; url: strin
   const [copied, setCopied] = useState(false);
 
   const btn =
-    "inline-flex h-10 items-center gap-2 rounded-lg border border-stone-300 bg-white px-3 text-sm font-medium text-stone-800 hover:bg-stone-50";
+    "inline-flex h-10 items-center gap-2 rounded-lg border border-[var(--portal-control-border)] bg-white px-3 text-sm font-medium text-[var(--portal-text)] hover:bg-[var(--portal-section)]";
 
   async function share() {
     try {

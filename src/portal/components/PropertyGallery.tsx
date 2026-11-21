@@ -43,7 +43,7 @@ export default function PropertyGallery({ images, title }: Props) {
 
   if (count === 0) {
     return (
-      <div className="flex aspect-[16/10] w-full items-center justify-center rounded-xl bg-stone-100 text-stone-400">
+      <div className="flex aspect-[16/10] w-full items-center justify-center rounded-xl bg-[var(--portal-section)] text-stone-400">
         <ImageOff className="h-10 w-10" aria-hidden />
         <span className="sr-only">Esta propiedad aún no tiene fotos</span>
       </div>
@@ -56,7 +56,7 @@ export default function PropertyGallery({ images, title }: Props) {
   return (
     <div>
       <div
-        className="relative aspect-[16/10] w-full overflow-hidden rounded-xl bg-stone-100"
+        className="relative aspect-[16/10] w-full overflow-hidden rounded-xl bg-[var(--portal-section)]"
         onTouchStart={(e) => (touchStart.current = e.touches[0].clientX)}
         onTouchEnd={onTouchEnd}
         onKeyDown={onKeyDown}

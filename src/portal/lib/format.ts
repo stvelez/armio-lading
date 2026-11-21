@@ -1,9 +1,14 @@
 import type { PortalPurposeSlug } from "../types";
 
 /** Color por defecto de Armio, usado cuando el tenant no tiene (o tiene inválido) su color primario. */
-export const DEFAULT_PRIMARY = "#00965E";
+export const DEFAULT_PRIMARY = "#07544E";
 
-export const PRIVACY_CONSENT_VERSION = "1.0";
+/**
+ * Versión del texto de consentimiento que vio la persona. Cada texto distinto lleva su propia
+ * versión: es la evidencia de qué autorizó exactamente (Ley 1581).
+ */
+export const PRIVACY_CONSENT_VERSION = "2.0";
+export const PRIVACY_CONSENT_VERSION_GENERAL = "2.1";
 
 const HEX = /^#[0-9a-fA-F]{6}$/;
 
@@ -106,24 +111,84 @@ export function thumbProps(
   return original ? imageProps(original) : null;
 }
 
-/** Número de WhatsApp para wa.me: solo dígitos; los celulares colombianos de 10 dígitos llevan 57. */
+/**
+ * Número de WhatsApp para `wa.me`, o `null` si el número no puede tener WhatsApp.
+ *
+ * WhatsApp no opera sobre fijos: un `wa.me/601…` abre un enlace inválido. Solo se acepta un
+ * celular colombiano (10 dígitos que empiezan por 3), el mismo con 57, o un internacional escrito
+ * con `+`. Es la misma regla que aplica la API (`shared/utils/whatsapp.ts`): el portal nunca debe
+ * inventar el indicativo de un número fijo.
+ */
 export function whatsappNumber(raw: string | null | undefined): string | null {
   if (!raw) return null;
-  let digits = raw.replace(/\D/g, "");
+  const text = raw.trim();
+  if (!text) return null;
+  let digits = text.replace(/\D/g, "");
+  if (!digits) return null;
   if (digits.startsWith("00")) digits = digits.slice(2);
-  if (digits.length === 10 && digits.startsWith("3")) digits = `57${digits}`;
-  return digits.length >= 8 ? digits : null;
+
+  if (text.startsWith("+")) {
+    if (!/^\d{8,15}$/.test(digits)) return null;
+    // Colombia siempre es +57 + 10 dígitos: un +57 corto es un número incompleto.
+    if (digits.startsWith("57") && digits.length !== 12) return null;
+    // +57 con un fijo sigue siendo un fijo.
+    if (digits.length === 12 && digits.startsWith("57")) return digits[2] === "3" ? digits : null;
+    return digits;
+  }
+  if (digits.length === 10 && digits.startsWith("3")) return `57${digits}`;
+  if (digits.length === 12 && digits.startsWith("57")) return digits[2] === "3" ? digits : null;
+  return null;
 }
 
+/**
+ * Enlace telefónico en formato internacional. Los números colombianos escritos sin indicativo
+ * (celular `3XX…` o fijo `60X…`) llevan `+57`; un número de 7 dígitos sin indicativo ya no se puede
+ * marcar desde 2021 y se descarta.
+ */
 export function telHref(raw: string | null | undefined): string | null {
   if (!raw) return null;
-  const clean = raw.replace(/[^\d+]/g, "");
-  return clean.replace(/\D/g, "").length >= 6 ? `tel:${clean}` : null;
+  const text = raw.trim();
+  if (!text) return null;
+  let digits = text.replace(/\D/g, "");
+  if (!digits) return null;
+  if (digits.startsWith("00")) digits = digits.slice(2);
+
+  if (text.startsWith("+")) {
+    if (digits.startsWith("57")) {
+      return digits.length === 12 ? `tel:+${digits}` : null;
+    }
+    return digits.length >= 8 && digits.length <= 15 ? `tel:+${digits}` : null;
+  }
+  if (digits.length === 10 && /^[36]/.test(digits)) return `tel:+57${digits}`;
+  if (digits.length === 12 && digits.startsWith("57")) return `tel:+${digits}`;
+  return null;
 }
 
 export function whatsappHref(raw: string | null | undefined, text: string): string | null {
   const number = whatsappNumber(raw);
   return number ? `https://wa.me/${number}?text=${encodeURIComponent(text)}` : null;
+}
+
+/** Teléfono legible para mostrar: 300 123 4567 / 601 555 0101. */
+export function formatPhoneDisplay(raw: string | null | undefined): string | null {
+  if (!raw) return null;
+  const digits = raw.replace(/\D/g, "");
+  const national = digits.startsWith("57") && digits.length === 12 ? digits.slice(2) : digits;
+  if (national.length === 10) {
+    return `${national.slice(0, 3)} ${national.slice(3, 6)} ${national.slice(6)}`;
+  }
+  return raw;
+}
+
+/** ¿Los dos campos son el mismo número? Evita mostrar WhatsApp y Teléfono como canales distintos. */
+export function samePhoneDigits(
+  a: string | null | undefined,
+  b: string | null | undefined
+): boolean {
+  const na = whatsappNumber(a);
+  const nb = whatsappNumber(b) ?? (b ? b.replace(/\D/g, "") : null);
+  if (!na || !nb) return false;
+  return na.slice(-10) === nb.slice(-10);
 }
 
 /** JSON para `<script type="application/ld+json">`: `<` escapado para que no pueda cerrar la etiqueta. */

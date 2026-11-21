@@ -17,8 +17,8 @@ interface Props {
 }
 
 const field =
-  "h-11 w-full rounded-lg border border-stone-300 bg-white px-3 text-sm text-stone-900 placeholder:text-stone-400";
-const label = "mb-1 block text-sm font-medium text-stone-800";
+  "h-11 w-full rounded-lg border border-[var(--portal-control-border)] bg-white px-3 text-base text-[var(--portal-text)] placeholder:text-[#6B7F79] sm:text-sm";
+const label = "mb-1 block text-sm font-medium text-[var(--portal-text)]";
 
 /**
  * Filtros del listado. Es un `<form method="get">`, así que funciona sin JS; con JS actualiza la URL
@@ -213,7 +213,7 @@ export default function FiltersBar({ basePath, filters, facets, onApplied }: Pro
           <Link
             href={basePath}
             onClick={onApplied}
-            className="text-sm font-medium text-stone-700 underline"
+            className="text-sm font-medium text-[var(--portal-muted)] underline"
           >
             Limpiar
           </Link>

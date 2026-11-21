@@ -9,9 +9,13 @@ export const metadata: Metadata = {
 export default function PortalNotFound() {
   return (
     <div className="mx-auto max-w-xl px-4 py-24 text-center">
-      <p className="text-sm font-semibold tracking-wide text-stone-500 uppercase">Error 404</p>
-      <h1 className="mt-2 text-3xl font-bold text-stone-900">No encontramos esta página</h1>
-      <p className="mt-3 text-stone-700">
+      <p className="text-sm font-semibold tracking-wide text-[var(--portal-muted)] uppercase">
+        Error 404
+      </p>
+      <h1 className="mt-2 text-3xl font-bold text-[var(--portal-text)]">
+        No encontramos esta página
+      </h1>
+      <p className="mt-3 text-[var(--portal-muted)]">
         Es posible que el enlace esté incompleto, que la propiedad ya no esté disponible o que la
         dirección haya cambiado.
       </p>

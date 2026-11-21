@@ -25,8 +25,8 @@ export default function PropertyCard({ property, priority = false, operacion }: 
   ].filter(Boolean) as { icon: typeof Bath; label: string }[];
 
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-xl border border-stone-200 bg-white shadow-sm transition-shadow hover:shadow-md">
-      <div className="relative aspect-[4/3] w-full bg-stone-100">
+    <article className="group relative flex flex-col overflow-hidden rounded-xl bg-white">
+      <div className="relative aspect-[4/3] w-full rounded-xl bg-[var(--portal-section)]">
         {image ? (
           <Image
             {...image}
@@ -43,7 +43,7 @@ export default function PropertyCard({ property, priority = false, operacion }: 
           </div>
         )}
         <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
-          <span className="bg-portal text-on-portal rounded-full px-2.5 py-1 text-xs font-semibold shadow-sm">
+          <span className="rounded bg-white/95 px-2.5 py-1 text-xs font-semibold text-[var(--portal-text)] shadow-sm">
             {property.purpose.name}
           </span>
           {property.badge === "reservada" && (
@@ -55,10 +55,10 @@ export default function PropertyCard({ property, priority = false, operacion }: 
       </div>
       <div className="flex flex-1 flex-col gap-3 p-4">
         <div>
-          <p className="text-xs font-medium tracking-wide text-stone-500 uppercase">
+          <p className="text-xs font-semibold tracking-[0.04em] text-[var(--portal-muted)] uppercase">
             {property.type.name}
           </p>
-          <h3 className="mt-0.5 line-clamp-2 text-base font-semibold text-stone-900">
+          <h3 className="mt-0.5 line-clamp-2 text-base font-semibold text-[var(--portal-text)]">
             <Link
               href={href}
               className="after:absolute after:inset-0 focus-visible:outline-offset-[-2px]"
@@ -67,7 +67,7 @@ export default function PropertyCard({ property, priority = false, operacion }: 
             </Link>
           </h3>
           {place && (
-            <p className="mt-1 flex items-center gap-1 text-sm text-stone-600">
+            <p className="mt-1 flex items-center gap-1 text-sm text-[var(--portal-muted)]">
               <MapPin className="h-3.5 w-3.5 shrink-0" aria-hidden />
               <span className="truncate">{place}</span>
             </p>
@@ -83,10 +83,10 @@ export default function PropertyCard({ property, priority = false, operacion }: 
           adminIncluded={property.admin_included}
         />
         {stats.length > 0 && (
-          <ul className="mt-auto flex flex-wrap gap-x-4 gap-y-1 border-t border-stone-100 pt-3 text-sm text-stone-700">
+          <ul className="mt-auto flex flex-wrap gap-x-4 gap-y-1 border-t border-[var(--portal-border)] pt-3 text-sm text-[var(--portal-muted)]">
             {stats.map(({ icon: Icon, label }) => (
               <li key={label} className="flex items-center gap-1.5">
-                <Icon className="h-4 w-4 text-stone-500" aria-hidden />
+                <Icon className="h-4 w-4 text-[var(--portal-control-border)]" aria-hidden />
                 {label}
               </li>
             ))}

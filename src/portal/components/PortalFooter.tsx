@@ -1,7 +1,13 @@
 import Link from "next/link";
 import { Facebook, Instagram, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import type { PortalProfile } from "../types";
-import { httpsUrl, telHref, whatsappHref } from "../lib/format";
+import {
+  formatPhoneDisplay,
+  httpsUrl,
+  samePhoneDigits,
+  telHref,
+  whatsappHref,
+} from "../lib/format";
 import { portalPath } from "../lib/urls";
 import { cookiesUrl, statusUrl } from "@/lib/legal";
 
@@ -12,15 +18,23 @@ export default function PortalFooter({ profile }: { profile: PortalProfile | nul
     ? whatsappHref(profile.contact.whatsapp, `Hola ${profile.name}, quiero más información.`)
     : null;
   const tel = profile ? telHref(profile.contact.phone) : null;
+  // Mismo número en WhatsApp y teléfono: un solo canal en el pie.
+  const sameChannel = profile
+    ? samePhoneDigits(profile.contact.whatsapp, profile.contact.phone)
+    : false;
+  const waLabel = formatPhoneDisplay(profile?.contact.whatsapp) ?? profile?.contact.whatsapp;
+  const telLabel = formatPhoneDisplay(profile?.contact.phone) ?? profile?.contact.phone;
 
   return (
-    <footer id="contacto" className="mt-16 border-t border-stone-200 bg-white">
-      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <footer id="contacto" className="mt-16 border-t border-[var(--portal-border)] bg-white">
+      <div className="mx-auto max-w-[1200px] px-4 py-10 sm:px-6">
         {profile && (
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             <div>
-              <p className="text-lg font-bold text-stone-900">{profile.name}</p>
-              {profile.tagline && <p className="mt-1 text-sm text-stone-600">{profile.tagline}</p>}
+              <p className="text-lg font-bold text-[var(--portal-text)]">{profile.name}</p>
+              {profile.tagline && (
+                <p className="mt-1 text-sm text-[var(--portal-muted)]">{profile.tagline}</p>
+              )}
               {(instagram || facebook) && (
                 <div className="mt-4 flex gap-2">
                   {instagram && (
@@ -29,7 +43,7 @@ export default function PortalFooter({ profile }: { profile: PortalProfile | nul
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="Instagram"
-                      className="rounded-lg border border-stone-300 p-2 hover:bg-stone-50"
+                      className="rounded-lg border border-[var(--portal-border)] p-2 hover:bg-[var(--portal-section)]"
                     >
                       <Instagram className="h-5 w-5" aria-hidden />
                     </a>
@@ -40,7 +54,7 @@ export default function PortalFooter({ profile }: { profile: PortalProfile | nul
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="Facebook"
-                      className="rounded-lg border border-stone-300 p-2 hover:bg-stone-50"
+                      className="rounded-lg border border-[var(--portal-border)] p-2 hover:bg-[var(--portal-section)]"
                     >
                       <Facebook className="h-5 w-5" aria-hidden />
                     </a>
@@ -49,10 +63,10 @@ export default function PortalFooter({ profile }: { profile: PortalProfile | nul
               )}
             </div>
             <div>
-              <h2 className="text-sm font-semibold tracking-wide text-stone-500 uppercase">
+              <h2 className="text-sm font-semibold tracking-wide text-[var(--portal-muted)] uppercase">
                 Contacto
               </h2>
-              <ul className="mt-3 space-y-2 text-sm text-stone-800">
+              <ul className="mt-3 space-y-2 text-sm text-[var(--portal-text)]">
                 {wa && (
                   <li>
                     <a
@@ -61,15 +75,21 @@ export default function PortalFooter({ profile }: { profile: PortalProfile | nul
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 hover:underline"
                     >
-                      <MessageCircle className="h-4 w-4" aria-hidden /> WhatsApp
+                      <MessageCircle className="h-4 w-4" aria-hidden /> WhatsApp {waLabel}
                     </a>
                   </li>
                 )}
-                {tel && profile.contact.phone && (
+                {!sameChannel && profile.contact.phone && (
                   <li>
-                    <a href={tel} className="inline-flex items-center gap-2 hover:underline">
-                      <Phone className="h-4 w-4" aria-hidden /> {profile.contact.phone}
-                    </a>
+                    {tel ? (
+                      <a href={tel} className="inline-flex items-center gap-2 hover:underline">
+                        <Phone className="h-4 w-4" aria-hidden /> {telLabel}
+                      </a>
+                    ) : (
+                      <span className="inline-flex items-center gap-2">
+                        <Phone className="h-4 w-4" aria-hidden /> {telLabel}
+                      </span>
+                    )}
                   </li>
                 )}
                 {profile.contact.email && (
@@ -91,10 +111,10 @@ export default function PortalFooter({ profile }: { profile: PortalProfile | nul
               </ul>
             </div>
             <div>
-              <h2 className="text-sm font-semibold tracking-wide text-stone-500 uppercase">
+              <h2 className="text-sm font-semibold tracking-wide text-[var(--portal-muted)] uppercase">
                 Enlaces
               </h2>
-              <ul className="mt-3 space-y-2 text-sm text-stone-800">
+              <ul className="mt-3 space-y-2 text-sm text-[var(--portal-text)]">
                 <li>
                   <Link href={portalPath("/propiedades")} className="hover:underline">
                     Propiedades
@@ -120,7 +140,7 @@ export default function PortalFooter({ profile }: { profile: PortalProfile | nul
             </div>
           </div>
         )}
-        <div className="mt-8 flex flex-wrap items-center justify-between gap-2 border-t border-stone-100 pt-6 text-sm text-stone-600">
+        <div className="mt-8 flex flex-wrap items-center justify-between gap-2 border-t border-[var(--portal-border)] pt-6 text-sm text-[var(--portal-muted)]">
           <p>{profile ? `© ${new Date().getFullYear()} ${profile.name}` : "Portal inmobiliario"}</p>
           {/* La lista «Enlaces» solo existe con perfil; aquí el enlace está siempre disponible. */}
           <div className="flex flex-wrap items-center gap-4">
@@ -144,7 +164,7 @@ export default function PortalFooter({ profile }: { profile: PortalProfile | nul
               href="https://armio.co"
               target="_blank"
               rel="noopener"
-              className="font-medium text-stone-700 hover:underline"
+              className="font-medium text-[var(--portal-muted)] hover:underline"
             >
               Hecho con Armio
             </a>

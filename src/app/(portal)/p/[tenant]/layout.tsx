@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "@/portal/portal.css";
 import PortalFooter from "@/portal/components/PortalFooter";
 import PortalHeader from "@/portal/components/PortalHeader";
@@ -8,7 +8,7 @@ import { loadProfile } from "@/portal/lib/api";
 import { onColor, safeColor } from "@/portal/lib/format";
 import { portalOrigin } from "@/portal/lib/urls";
 
-const inter = Inter({
+const jakarta = Plus_Jakarta_Sans({
   variable: "--font-portal",
   subsets: ["latin"],
   display: "swap",
@@ -48,7 +48,7 @@ export default async function PortalLayout({
   return (
     <html lang="es-CO">
       <body
-        className={`${inter.variable} flex min-h-dvh flex-col antialiased`}
+        className={`${jakarta.variable} flex min-h-dvh flex-col antialiased`}
         style={
           {
             "--portal-primary": primary,

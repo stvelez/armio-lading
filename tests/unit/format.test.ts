@@ -4,12 +4,15 @@ import { describe, expect, it } from "vitest";
 import PriceTag, { BOTH_NOTE } from "@/portal/components/PriceTag";
 import {
   DEFAULT_PRIMARY,
+  formatPhoneDisplay,
   formatPrice,
   httpsUrl,
   onColor,
   operationLabel,
   safeColor,
   safeJsonLd,
+  samePhoneDigits,
+  telHref,
   whatsappNumber,
 } from "@/portal/lib/format";
 
@@ -169,6 +172,45 @@ describe("helpers de URL y JSON", () => {
     expect(whatsappNumber("300 123 4567")).toBe("573001234567");
     expect(whatsappNumber("+57 300 123 4567")).toBe("573001234567");
     expect(whatsappNumber("123")).toBeNull();
+  });
+
+  it("whatsappNumber nunca publica un fijo como WhatsApp", () => {
+    // Regresión: `wa.me/6015550101` se interpreta como +60 (Malasia) y abre un chat inválido.
+    expect(whatsappNumber("601 555 0101")).toBeNull();
+    expect(whatsappNumber("+57 601 555 0101")).toBeNull();
+    expect(whatsappNumber("576015550101")).toBeNull();
+    expect(whatsappNumber("(604) 123-4567")).toBeNull();
+    // Internacional explícito sí se respeta.
+    expect(whatsappNumber("+1 305 555 1234")).toBe("13055551234");
+    // +57 incompleto no es un WhatsApp válido.
+    expect(whatsappNumber("+57 300 123")).toBeNull();
+  });
+
+  it("telHref arma el internacional y descarta números sin indicativo", () => {
+    expect(telHref("300 123 4567")).toBe("tel:+573001234567");
+    expect(telHref("601 555 0101")).toBe("tel:+576015550101");
+    expect(telHref("+57 300 123 4567")).toBe("tel:+573001234567");
+    expect(telHref("+1 305 555 1234")).toBe("tel:+13055551234");
+    expect(telHref("555 0101")).toBeNull();
+    expect(telHref("+57 601 555 01")).toBeNull();
+    expect(telHref(null)).toBeNull();
+  });
+
+  it("formatPhoneDisplay agrupa los números colombianos", () => {
+    expect(formatPhoneDisplay("+573001234567")).toBe("300 123 4567");
+    expect(formatPhoneDisplay("6015550101")).toBe("601 555 0101");
+    expect(formatPhoneDisplay("+1 305 555 1234")).toBe("+1 305 555 1234");
+    expect(formatPhoneDisplay(null)).toBeNull();
+  });
+
+  it("samePhoneDigits detecta el mismo número escrito distinto", () => {
+    expect(samePhoneDigits("300 123 4567", "+57 300 123 4567")).toBe(true);
+    expect(samePhoneDigits("3001234567", "3001234567")).toBe(true);
+    expect(samePhoneDigits("300 123 4567", "601 555 0101")).toBe(false);
+    expect(samePhoneDigits(null, "601 555 0101")).toBe(false);
+    // Un WhatsApp inválido (fijo) nunca coincide con el teléfono.
+    expect(samePhoneDigits("601 555 0101", "601 555 0101")).toBe(false);
+    expect(samePhoneDigits("+1 305 555 1234", "+1 305 555 1234")).toBe(true);
   });
   it("safeJsonLd escapa <", () => {
     expect(safeJsonLd({ a: "<b>" })).toBe('{"a":"\\u003cb>"}');

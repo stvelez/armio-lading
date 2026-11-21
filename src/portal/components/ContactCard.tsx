@@ -1,5 +1,5 @@
 import { MessageCircle, Phone } from "lucide-react";
-import { telHref, whatsappHref } from "../lib/format";
+import { samePhoneDigits, telHref, whatsappHref } from "../lib/format";
 
 interface Props {
   agencyName: string;
@@ -12,20 +12,22 @@ interface Props {
 }
 
 export function contactLinks(p: Pick<Props, "title" | "url" | "whatsapp" | "phone">) {
-  return {
-    wa: whatsappHref(p.whatsapp, `Hola, me interesa "${p.title}". ${p.url}`),
-    tel: telHref(p.phone ?? p.whatsapp),
-  };
+  const wa = whatsappHref(p.whatsapp, `Hola, me interesa "${p.title}". ${p.url}`);
+  const tel = telHref(p.phone);
+  // Mismo número en WhatsApp y teléfono: se muestra una sola vez.
+  return { wa, tel: samePhoneDigits(p.whatsapp, p.phone) ? null : tel };
 }
 
 export default function ContactCard(props: Props) {
   const { wa, tel } = contactLinks(props);
   if (!wa && !tel) return null;
   return (
-    <div className="rounded-xl border border-stone-200 bg-white p-5 shadow-sm">
-      <h2 className="text-lg font-semibold text-stone-900">Habla con {props.agencyName}</h2>
+    <div className="rounded-xl border border-[var(--portal-border)] bg-white p-5 shadow-sm">
+      <h2 className="text-lg font-semibold text-[var(--portal-text)]">
+        Habla con {props.agencyName}
+      </h2>
       {props.agentName && (
-        <p className="mt-1 text-sm text-stone-600">Te atiende {props.agentName}.</p>
+        <p className="mt-1 text-sm text-[var(--portal-muted)]">Te atiende {props.agentName}.</p>
       )}
       <div className="mt-4 flex flex-col gap-2">
         {wa && (
@@ -41,7 +43,7 @@ export default function ContactCard(props: Props) {
         {tel && (
           <a
             href={tel}
-            className="inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-stone-300 bg-white px-4 font-semibold text-stone-900 hover:bg-stone-50"
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-[var(--portal-control-border)] bg-white px-4 font-semibold text-[var(--portal-text)] hover:bg-[var(--portal-section)]"
           >
             <Phone className="h-5 w-5" aria-hidden /> Llamar
           </a>
@@ -56,7 +58,7 @@ export function MobileContactBar(props: Pick<Props, "title" | "url" | "whatsapp"
   const { wa, tel } = contactLinks(props);
   if (!wa && !tel) return null;
   return (
-    <div className="fixed inset-x-0 bottom-0 z-20 flex gap-2 border-t border-stone-200 bg-white/95 p-3 backdrop-blur lg:hidden">
+    <div className="fixed inset-x-0 bottom-0 z-20 flex gap-2 border-t border-[var(--portal-border)] bg-white/95 p-3 backdrop-blur lg:hidden">
       {wa && (
         <a
           href={wa}
@@ -70,7 +72,7 @@ export function MobileContactBar(props: Pick<Props, "title" | "url" | "whatsapp"
       {tel && (
         <a
           href={tel}
-          className="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-lg border border-stone-300 font-semibold text-stone-900"
+          className="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-lg border border-[var(--portal-control-border)] font-semibold text-[var(--portal-text)]"
         >
           <Phone className="h-5 w-5" aria-hidden /> Llamar
         </a>
