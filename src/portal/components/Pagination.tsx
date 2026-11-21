@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface Props {
   page: number;
@@ -19,52 +18,34 @@ function windowPages(page: number, total: number): (number | "gap")[] {
   return out;
 }
 
+/** Paginación con los botones del prototipo (`.btn-secondary`; la página actual, `.btn-primary`). */
 export default function Pagination({ page, totalPages, hrefFor }: Props) {
   if (totalPages <= 1) return null;
-  const base =
-    "inline-flex h-10 min-w-10 items-center justify-center rounded-lg border px-3 text-sm font-medium";
   return (
-    <nav aria-label="Paginación" className="mt-8 flex flex-wrap items-center justify-center gap-2">
+    <nav className="pager" aria-label="Paginación">
       {page > 1 ? (
-        <Link
-          href={hrefFor(page - 1)}
-          rel="prev"
-          className={`${base} border-[var(--portal-control-border)] bg-white hover:bg-[var(--portal-section)]`}
-        >
-          <ChevronLeft className="mr-1 h-4 w-4" aria-hidden /> Anterior
+        <Link className="btn btn-secondary" href={hrefFor(page - 1)} rel="prev">
+          ← Anterior
         </Link>
       ) : null}
       {windowPages(page, totalPages).map((p, i) =>
         p === "gap" ? (
-          <span key={`gap-${i}`} className="px-1 text-[var(--portal-muted)]" aria-hidden>
+          <span key={`gap-${i}`} className="pager-gap" aria-hidden>
             …
           </span>
         ) : p === page ? (
-          <span
-            key={p}
-            aria-current="page"
-            className={`${base} border-portal bg-portal text-on-portal`}
-          >
+          <span key={p} className="btn btn-primary" aria-current="page">
             {p}
           </span>
         ) : (
-          <Link
-            key={p}
-            href={hrefFor(p)}
-            aria-label={`Página ${p}`}
-            className={`${base} border-[var(--portal-control-border)] bg-white hover:bg-[var(--portal-section)]`}
-          >
+          <Link key={p} className="btn btn-secondary" href={hrefFor(p)} aria-label={`Página ${p}`}>
             {p}
           </Link>
         )
       )}
       {page < totalPages ? (
-        <Link
-          href={hrefFor(page + 1)}
-          rel="next"
-          className={`${base} border-[var(--portal-control-border)] bg-white hover:bg-[var(--portal-section)]`}
-        >
-          Siguiente <ChevronRight className="ml-1 h-4 w-4" aria-hidden />
+        <Link className="btn btn-secondary" href={hrefFor(page + 1)} rel="next">
+          Siguiente →
         </Link>
       ) : null}
     </nav>

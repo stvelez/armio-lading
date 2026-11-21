@@ -56,19 +56,45 @@ test.describe("inicio y listado", () => {
 
   test("el listado muestra las 6 propiedades públicas", async ({ page }) => {
     await page.goto(`${PORTAL}/propiedades`);
-    await expect(page.getByText("6 propiedades", { exact: true })).toBeVisible();
+    await expect(page.getByText("6 inmuebles publicados", { exact: true })).toBeVisible();
     await expect(page.locator("h3 a[href*='/propiedades/']")).toHaveCount(6);
+  });
+
+  test("las tarjetas usan el título «Tipo en Operación, Zona», no el título libre", async ({
+    page,
+  }) => {
+    await page.goto(`${PORTAL}/propiedades`);
+    await expect(page.locator("h3 a[href*='/propiedades/9-']")).toHaveText(
+      "Apartamento en Arriendo y venta, Granada"
+    );
+  });
+
+  test("el buscador del inicio envía por GET al listado con los parámetros reales", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    const search = page.getByRole("search", { name: "Buscar inmuebles" });
+    await search.getByLabel("Venta", { exact: true }).check();
+    await search.getByRole("button", { name: "Buscar" }).click();
+    await expect(page).toHaveURL(/\/propiedades\?operacion=venta/);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Propiedades en venta");
+  });
+
+  test("el correo público vive solo en el pie, no en la sección de contacto", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator("footer a[href^='mailto:']")).toHaveCount(1);
+    await expect(page.locator("#contacto a[href^='mailto:']")).toHaveCount(0);
   });
 
   test("los filtros cambian la URL y los resultados", async ({ page }) => {
     await page.goto(`${PORTAL}/propiedades`);
     const filters = await openFilters(page);
-    await filters.getByLabel("Operación").selectOption("venta");
+    await filters.getByLabel("Venta", { exact: true }).check();
     await filters.getByRole("button", { name: "Buscar" }).click();
 
     await expect(page).toHaveURL(/\/propiedades\?operacion=venta$/);
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("Propiedades en venta");
-    await expect(page.getByText("5 propiedades", { exact: true })).toBeVisible();
+    await expect(page.getByText("5 inmuebles publicados", { exact: true })).toBeVisible();
     await expect(page.locator("h3 a[href*='/propiedades/']")).toHaveCount(5);
   });
 
@@ -77,13 +103,13 @@ test.describe("inicio y listado", () => {
     await expect(page.getByText("Sin resultados")).toBeVisible();
     await page.getByRole("link", { name: "Ver todas las propiedades" }).click();
     await expect(page).toHaveURL(/\/propiedades$/);
-    await expect(page.getByText("6 propiedades", { exact: true })).toBeVisible();
+    await expect(page.getByText("6 inmuebles publicados", { exact: true })).toBeVisible();
   });
 
   test("parámetros inválidos se ignoran sin romper la página", async ({ page }) => {
     const res = await page.goto(`${PORTAL}/propiedades?operacion=regalo&page=-3&orden=xx`);
     expect(res?.status()).toBe(200);
-    await expect(page.getByText("6 propiedades", { exact: true })).toBeVisible();
+    await expect(page.getByText("6 inmuebles publicados", { exact: true })).toBeVisible();
   });
 
   test("filtros no canónicos llevan noindex y canónica sin ellos", async ({ page }) => {
@@ -101,12 +127,14 @@ test.describe("ficha de propiedad", () => {
     const res = await request.get(`${PORTAL}/propiedades/9`, { maxRedirects: 0 });
     expect(res.status()).toBe(308);
     // Canonicalización dentro del mismo subdominio: Location sin /p/{slug}
-    expect(res.headers()["location"]).toBe(PROPERTY_URL);
+    const location = res.headers()["location"];
+    // Bajo carga paralela Playwright puede fusionar cabeceras idénticas; el destino debe ser único.
+    expect([...new Set(location.split(", "))]).toEqual([PROPERTY_URL]);
 
     await page.goto(`${PORTAL}/propiedades/9`);
     await expect(page).toHaveURL(new RegExp(`${PROPERTY_URL}$`));
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-      "Penthouse con terraza en Granada"
+      "Apartamento en Arriendo y venta, Granada"
     );
   });
 
@@ -219,14 +247,14 @@ test.describe("formulario de interés", () => {
     });
     await page.goto(PROPERTY_URL);
     await fill(page);
-    await page.getByRole("button", { name: "Enviar" }).click();
+    await page.getByRole("button", { name: "Enviar mensaje" }).click();
     await expect(page.getByText(/Debes autorizar el tratamiento de tus datos/)).toBeVisible();
     expect(calls).toBe(0);
   });
 
   test("muestra errores de campos obligatorios vacíos", async ({ page }) => {
     await page.goto(PROPERTY_URL);
-    await page.getByRole("button", { name: "Enviar" }).click();
+    await page.getByRole("button", { name: "Enviar mensaje" }).click();
     await expect(page.getByText("Escribe tu nombre")).toBeVisible();
     await expect(page.getByText("Escribe un teléfono válido")).toBeVisible();
   });
@@ -240,7 +268,7 @@ test.describe("formulario de interés", () => {
     await page.goto(PROPERTY_URL);
     await fill(page);
     await page.getByLabel(/Autorizo a/).check();
-    await page.getByRole("button", { name: "Enviar" }).click();
+    await page.getByRole("button", { name: "Enviar mensaje" }).click();
 
     await expect(page.getByText("¡Gracias por tu interés!")).toBeVisible();
     expect(bodies).toHaveLength(1);
@@ -269,7 +297,7 @@ test.describe("formulario de interés", () => {
     await page.getByLabel(/^Nombre/).focus();
     await fill(page);
     await page.getByLabel(/Autorizo a/).check();
-    await page.getByRole("button", { name: "Enviar" }).click();
+    await page.getByRole("button", { name: "Enviar mensaje" }).click();
     await expect(page.getByText("¡Gracias por tu interés!")).toBeVisible();
     expect(cloudflare).toHaveLength(0);
     expect(bodies).toHaveLength(1);
@@ -283,7 +311,7 @@ test.describe("formulario de interés", () => {
     await page.goto(PROPERTY_URL);
     await fill(page);
     await page.getByLabel(/Autorizo a/).check();
-    await page.getByRole("button", { name: "Enviar" }).click();
+    await page.getByRole("button", { name: "Enviar mensaje" }).click();
     await expect(page.getByText(/Has enviado varias solicitudes/)).toBeVisible();
   });
 
@@ -294,13 +322,13 @@ test.describe("formulario de interés", () => {
       return route.fulfill({ status: 202, json: { received: true } });
     });
     await page.goto("/");
-    const form = page.locator("#contacto-home form");
+    const form = page.locator("#contacto form");
     await expect(form).toBeVisible();
     await expect(form.getByLabel(/Correo/)).toHaveCount(0);
     await form.getByLabel(/^Nombre/).fill("Ana Pérez");
     await form.getByLabel(/Teléfono o WhatsApp/).fill("3001234567");
     await form.getByLabel(/Autorizo a/).check();
-    await form.getByRole("button", { name: "Enviar" }).click();
+    await form.getByRole("button", { name: "Enviar mensaje" }).click();
 
     await expect(page.getByText("¡Gracias por tu interés!")).toBeVisible();
     expect(bodies).toHaveLength(1);
@@ -311,7 +339,7 @@ test.describe("formulario de interés", () => {
 
   test("el home publica los canales de contacto sin exponer el correo", async ({ page }) => {
     await page.goto("/");
-    const section = page.locator("#contacto-home");
+    const section = page.locator("#contacto");
     await expect(section.getByRole("link", { name: /Teléfono/ })).toHaveAttribute(
       "href",
       "tel:+576015550101"
@@ -347,7 +375,7 @@ test.describe("subdominio del portal", () => {
 
   test("/propiedades?operacion=venta muestra 5", async ({ page }) => {
     await page.goto("/propiedades?operacion=venta");
-    await expect(page.getByText("5 propiedades", { exact: true })).toBeVisible();
+    await expect(page.getByText("5 inmuebles publicados", { exact: true })).toBeVisible();
   });
 
   test("sitemap.xml del subdominio lista URLs del subdominio", async ({ request }) => {
@@ -389,7 +417,7 @@ test.describe("dominio raíz y hosts reservados", () => {
   test("el navegador termina en el subdominio y el portal carga", async ({ page }) => {
     await page.goto(`http://${ROOT}/p/${TENANT}/propiedades`);
     await expect(page).toHaveURL(`${ORIGIN}/propiedades`);
-    await expect(page.getByText("6 propiedades", { exact: true })).toBeVisible();
+    await expect(page.getByText("6 inmuebles publicados", { exact: true })).toBeVisible();
   });
 
   test("localhost y www.localhost siguen sirviendo marketing", async ({ request }) => {
@@ -479,10 +507,10 @@ test.describe("contador de visitas (beacon)", () => {
     await expect.poll(() => beacons.length).toBe(1);
 
     const filters = await openFilters(page);
-    await filters.getByLabel("Operación").selectOption("venta");
+    await filters.getByLabel("Venta", { exact: true }).check();
     await filters.getByRole("button", { name: "Buscar" }).click();
     await expect(page).toHaveURL(/\/propiedades\?operacion=venta$/);
-    await expect(page.getByText("5 propiedades", { exact: true })).toBeVisible();
+    await expect(page.getByText("5 inmuebles publicados", { exact: true })).toBeVisible();
     await page.waitForTimeout(500);
     expect(beacons).toHaveLength(1);
   });
@@ -507,7 +535,7 @@ test.describe("contador de visitas (beacon)", () => {
     await page.goto(PROPERTY_URL);
     await expect.poll(() => beacons.length).toBe(1);
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-      "Penthouse con terraza en Granada"
+      "Apartamento en Arriendo y venta, Granada"
     );
     await expect(
       page.getByText(/Application error|Algo salió mal|No encontramos esta página/i)

@@ -8,21 +8,14 @@ export const metadata: Metadata = {
 /** Genérico: no revela si la inmobiliaria o la propiedad existen. */
 export default function PortalNotFound() {
   return (
-    <div className="mx-auto max-w-xl px-4 py-24 text-center">
-      <p className="text-sm font-semibold tracking-wide text-[var(--portal-muted)] uppercase">
-        Error 404
-      </p>
-      <h1 className="mt-2 text-3xl font-bold text-[var(--portal-text)]">
-        No encontramos esta página
-      </h1>
-      <p className="mt-3 text-[var(--portal-muted)]">
+    <div className="state">
+      <p className="eyebrow-plain">Error 404</p>
+      <h1>No encontramos esta página</h1>
+      <p>
         Es posible que el enlace esté incompleto, que la propiedad ya no esté disponible o que la
         dirección haya cambiado.
       </p>
-      <a
-        href="https://armio.co"
-        className="bg-portal text-on-portal mt-8 inline-flex h-11 items-center rounded-lg px-5 font-semibold"
-      >
+      <a href="https://armio.co" className="btn btn-primary btn-lg">
         Ir a armio.co
       </a>
     </div>

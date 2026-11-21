@@ -1,6 +1,7 @@
 import type { PortalPropertyCard } from "../types";
 import PropertyCard from "./PropertyCard";
 
+/** `.grid` del prototipo. Cada tarjeta es un `<article class="card">` directo, como en `render()`. */
 export default function PropertyGrid({
   properties,
   // La primera tarjeta suele ser el LCP: se precarga para no esperar al scroll.
@@ -12,14 +13,16 @@ export default function PropertyGrid({
   operacion?: "arriendo" | "venta";
 }) {
   return (
-    <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid">
       {properties.map((property, i) => (
-        <li key={property.code} className="flex">
-          <div className="flex w-full">
-            <PropertyCard property={property} priority={i < priorityCount} operacion={operacion} />
-          </div>
-        </li>
+        <PropertyCard
+          key={property.code}
+          property={property}
+          priority={i < priorityCount}
+          operacion={operacion}
+          index={i}
+        />
       ))}
-    </ul>
+    </div>
   );
 }

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "@/portal/portal.css";
+import { IconSprite } from "@/portal/components/Icon";
+import PortalEffects from "@/portal/components/PortalEffects";
 import PortalFooter from "@/portal/components/PortalFooter";
 import PortalHeader from "@/portal/components/PortalHeader";
 import CookieConsentBanner from "@/components/ui/CookieConsentBanner";
@@ -44,28 +46,30 @@ export default async function PortalLayout({
   const result = await loadProfile(tenant);
   const profile = result.kind === "ok" ? result.data : null;
   const primary = safeColor(profile?.primary_color);
+  const onPrimary = onColor(primary);
+  // Sobre el color de marca el texto secundario del hero es el verde claro del prototipo; si la
+  // marca es clara (texto oscuro encima), se atenúa el propio color del texto.
+  const onHeroMuted = onPrimary === "#FFFFFF" ? "#D8ECE3" : "rgba(17, 24, 39, 0.78)";
 
   return (
-    <html lang="es-CO">
+    // data-hero="color": el API no expone imagen de portada, así que solo existe la variante color.
+    <html lang="es-CO" data-hero="color">
       <body
-        className={`${jakarta.variable} flex min-h-dvh flex-col antialiased`}
+        className={jakarta.variable}
         style={
           {
             "--portal-primary": primary,
-            "--portal-on-primary": onColor(primary),
+            "--portal-on-primary": onPrimary,
+            "--on-hero-muted": onHeroMuted,
           } as React.CSSProperties
         }
       >
-        <a
-          href="#contenido"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:shadow-lg"
-        >
+        <IconSprite />
+        <a className="skip" href="#contenido">
           Saltar al contenido
         </a>
         <PortalHeader profile={profile} />
-        <main id="contenido" className="flex-1 pb-20 md:pb-0">
-          {children}
-        </main>
+        <main id="contenido">{children}</main>
         <PortalFooter profile={profile} />
         {/*
          * Variante informativa: en el portal no hay analítica de terceros ni cookies que consentir,
@@ -73,6 +77,7 @@ export default async function PortalLayout({
          * permiso que no activaría nada. Es un componente de cliente: no afecta la estaticidad.
          */}
         <CookieConsentBanner variant="notice" />
+        <PortalEffects />
       </body>
     </html>
   );

@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { SlidersHorizontal, X } from "lucide-react";
+import { SlidersHorizontal } from "lucide-react";
 import type { PortalFilters, PortalProfile } from "../types";
 import FiltersBar from "./FiltersBar";
+import Icon from "./Icon";
 
 interface Props {
   basePath: string;
@@ -12,7 +13,7 @@ interface Props {
   activeCount: number;
 }
 
-/** Hoja de filtros para móvil, con `<dialog>` nativo (foco atrapado y Esc para cerrar). */
+/** Hoja de filtros para móvil, con `<dialog>` nativo (`.modal.sheet`: foco atrapado y Esc para cerrar). */
 export default function MobileFiltersSheet({ basePath, filters, facets, activeCount }: Props) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDialogElement>(null);
@@ -24,38 +25,46 @@ export default function MobileFiltersSheet({ basePath, filters, facets, activeCo
     if (!open && dialog.open) dialog.close();
   }, [open]);
 
+  // Solo cierra si el clic cayó en el fondo, no en el relleno del diálogo.
+  function onBackdropClick(e: React.MouseEvent<HTMLDialogElement>) {
+    if (e.target !== e.currentTarget) return;
+    const r = e.currentTarget.getBoundingClientRect();
+    const inside =
+      e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+    if (!inside) setOpen(false);
+  }
+
   return (
-    <div className="lg:hidden">
+    <>
       <button
         type="button"
+        className="btn btn-secondary filters-toggle"
         onClick={() => setOpen(true)}
-        className="inline-flex h-11 items-center gap-2 rounded-lg border border-[var(--portal-control-border)] bg-white px-4 text-sm font-semibold text-[var(--portal-text)]"
       >
-        <SlidersHorizontal className="h-4 w-4" aria-hidden /> Filtros
-        {activeCount > 0 && (
-          <span className="bg-portal text-on-portal rounded-full px-2 text-xs">{activeCount}</span>
-        )}
+        <SlidersHorizontal className="od-icon" aria-hidden /> Filtros
+        {activeCount > 0 && <span className="filters-count">{activeCount}</span>}
       </button>
       <dialog
         ref={ref}
+        className="modal sheet"
         onClose={() => setOpen(false)}
+        onClick={onBackdropClick}
         aria-label="Filtros"
-        className="m-0 ml-auto h-dvh max-h-none w-full max-w-sm bg-white p-0 backdrop:bg-black/50"
       >
         {open && (
-          <div className="flex h-full flex-col">
-            <div className="flex items-center justify-between border-b border-[var(--portal-border)] px-4 py-3">
-              <h2 className="text-lg font-semibold text-[var(--portal-text)]">Filtros</h2>
+          <>
+            <div className="sheet-head">
+              <h2>Filtros</h2>
               <button
                 type="button"
+                className="icon-btn"
                 onClick={() => setOpen(false)}
                 aria-label="Cerrar filtros"
-                className="rounded-lg p-2 hover:bg-[var(--portal-section)]"
               >
-                <X className="h-5 w-5" aria-hidden />
+                <Icon name="close" />
               </button>
             </div>
-            <div className="flex-1 overflow-y-auto p-4">
+            <div className="sheet-body">
               <FiltersBar
                 basePath={basePath}
                 filters={filters}
@@ -63,9 +72,9 @@ export default function MobileFiltersSheet({ basePath, filters, facets, activeCo
                 onApplied={() => setOpen(false)}
               />
             </div>
-          </div>
+          </>
         )}
       </dialog>
-    </div>
+    </>
   );
 }

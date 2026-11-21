@@ -11,14 +11,43 @@ interface Props {
   currency: string;
   adminFee?: number | null;
   adminIncluded?: boolean;
+  /**
+   * `sm`: bloque `.price` de tarjetas y destacada. `lg`: filas `.od-stat` para `.detail-prices` de la
+   * ficha (el contenedor lo pone la página).
+   */
   size?: "sm" | "lg";
 }
 
 export const BOTH_NOTE = "Consulta el valor de arriendo o de venta con la inmobiliaria";
 
+interface Row {
+  key: string;
+  label: string;
+  value: number;
+  perMonth: boolean;
+}
+
+function Amount({
+  value,
+  currency,
+  perMonth,
+}: {
+  value: number;
+  currency: string;
+  perMonth: boolean;
+}) {
+  if (!(value > 0)) return <>Consultar precio</>;
+  return (
+    <>
+      {formatPrice(value, currency)}
+      {perMonth && <small>/mes</small>}
+    </>
+  );
+}
+
 /**
- * Propiedades `both` con `rentPrice`: dos líneas (Venta / Arriendo), primero la de la
- * operación filtrada. Sin `rentPrice`: un precio sin rotular con la nota de consulta.
+ * Una sola jerarquía de precio según la operación. En `both` con `rentPrice` se muestran arriendo y
+ * venta (primero la operación filtrada); sin `rentPrice`, un precio sin rotular y la nota de consulta.
  * `/mes` solo en arriendo.
  */
 export default function PriceTag({
@@ -31,54 +60,65 @@ export default function PriceTag({
   adminIncluded,
   size = "sm",
 }: Props) {
-  const main = size === "lg" ? "text-3xl" : "text-xl";
   const hasRent = typeof rentPrice === "number" && rentPrice > 0;
   const dual = purpose === "both" && hasRent;
-  const rows = dual
-    ? [
-        { key: "rent", label: "Arriendo", value: rentPrice as number, perMonth: true },
-        { key: "sale", label: "Venta", value: price, perMonth: false },
-      ]
-    : [];
-  if (operacion !== "arriendo") rows.reverse();
-  return (
-    <div>
-      {dual ? (
-        <div className="space-y-0.5">
-          {rows.map((row, i) => (
-            <p key={row.key} className="flex items-baseline gap-2">
-              <span className="w-16 shrink-0 text-xs font-medium text-[var(--portal-muted)]">
-                {row.label}
-              </span>
-              <span
-                className={`${i === 0 ? main : "text-base"} font-bold text-[var(--portal-text)]`}
-              >
-                {row.value > 0 ? formatPrice(row.value, currency) : "Consultar precio"}
-                {row.perMonth && row.value > 0 && (
-                  <span className="ml-1 text-sm font-medium text-[var(--portal-muted)]">/mes</span>
-                )}
-              </span>
-            </p>
-          ))}
-        </div>
-      ) : (
-        <p className={`${main} font-bold text-[var(--portal-text)]`}>
-          {price > 0 ? formatPrice(price, currency) : "Consultar precio"}
-          {purpose === "rent" && price > 0 && (
-            <span className="ml-1 text-sm font-medium text-[var(--portal-muted)]">/mes</span>
-          )}
-        </p>
-      )}
-      {purpose === "both" && !dual && (
-        <p className="mt-0.5 text-xs text-[var(--portal-muted)]">{BOTH_NOTE}</p>
-      )}
+
+  let rows: Row[];
+  if (dual) {
+    rows = [
+      { key: "rent", label: "Arriendo", value: rentPrice as number, perMonth: true },
+      { key: "sale", label: "Venta", value: price, perMonth: false },
+    ];
+    if (operacion !== "arriendo") rows.reverse();
+  } else if (purpose === "rent") {
+    rows = [{ key: "rent", label: "Arriendo", value: price, perMonth: true }];
+  } else if (purpose === "sale") {
+    rows = [{ key: "sale", label: "Venta", value: price, perMonth: false }];
+  } else {
+    rows = [{ key: "price", label: "", value: price, perMonth: false }];
+  }
+
+  const notes = (
+    <>
+      {purpose === "both" && !dual && <span className="price-note">{BOTH_NOTE}</span>}
       {adminIncluded ? (
-        <p className="mt-0.5 text-xs text-[var(--portal-muted)]">Administración incluida</p>
+        <span className="price-note">Administración incluida</span>
       ) : adminFee ? (
-        <p className="mt-0.5 text-xs text-[var(--portal-muted)]">
-          + {formatPrice(adminFee, currency)} de administración
-        </p>
+        <span className="price-note">+ {formatPrice(adminFee, currency)} de administración</span>
       ) : null}
+    </>
+  );
+
+  if (size === "lg") {
+    return (
+      <>
+        {rows.map((row) => (
+          <div className="od-stat" key={row.key}>
+            {row.label && <span className="price-label">{row.label}</span>}
+            <span className="price-main od-nowrap">
+              <Amount value={row.value} currency={currency} perMonth={row.perMonth} />
+            </span>
+          </div>
+        ))}
+        {notes}
+      </>
+    );
+  }
+
+  const [main, ...rest] = rows;
+  return (
+    <div className="price">
+      {main.label && <span className="price-label">{main.label}</span>}
+      <span className="price-main od-nowrap">
+        <Amount value={main.value} currency={currency} perMonth={main.perMonth} />
+      </span>
+      {rest.map((row) => (
+        <span className="price-alt" key={row.key}>
+          {row.label} <b>{row.value > 0 ? formatPrice(row.value, currency) : "Consultar precio"}</b>
+          {row.perMonth && row.value > 0 ? " /mes" : ""}
+        </span>
+      ))}
+      {notes}
     </div>
   );
 }

@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useSyncExternalStore } from "react";
-import { Check, Copy, MessageCircle, Share2 } from "lucide-react";
+import { Check, Copy, Share2 } from "lucide-react";
+import Icon from "./Icon";
 
 const noopSubscribe = () => () => {};
 
@@ -12,9 +13,6 @@ export default function ShareButtons({ title, url }: { title: string; url: strin
     () => false
   );
   const [copied, setCopied] = useState(false);
-
-  const btn =
-    "inline-flex h-10 items-center gap-2 rounded-lg border border-[var(--portal-control-border)] bg-white px-3 text-sm font-medium text-[var(--portal-text)] hover:bg-[var(--portal-section)]";
 
   async function share() {
     try {
@@ -35,27 +33,27 @@ export default function ShareButtons({ title, url }: { title: string; url: strin
   }
 
   return (
-    <div className="flex flex-wrap gap-2" role="group" aria-label="Compartir">
+    <div className="share-row" role="group" aria-label="Compartir">
       {canShare && (
-        <button type="button" onClick={share} className={btn}>
-          <Share2 className="h-4 w-4" aria-hidden /> Compartir
+        <button type="button" className="btn btn-secondary" onClick={share}>
+          <Share2 className="od-icon" aria-hidden /> Compartir
         </button>
       )}
-      <button type="button" onClick={copy} className={btn}>
+      <button type="button" className="btn btn-secondary" onClick={copy}>
         {copied ? (
-          <Check className="h-4 w-4" aria-hidden />
+          <Check className="od-icon" aria-hidden />
         ) : (
-          <Copy className="h-4 w-4" aria-hidden />
+          <Copy className="od-icon" aria-hidden />
         )}
         {copied ? "Enlace copiado" : "Copiar enlace"}
       </button>
       <a
+        className="btn btn-secondary"
         href={`https://wa.me/?text=${encodeURIComponent(`${title} ${url}`)}`}
         target="_blank"
         rel="noopener noreferrer"
-        className={btn}
       >
-        <MessageCircle className="h-4 w-4" aria-hidden /> WhatsApp
+        <Icon name="chat" /> WhatsApp
       </a>
       <span className="sr-only" aria-live="polite">
         {copied ? "Enlace copiado" : ""}

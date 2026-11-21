@@ -70,7 +70,7 @@ test.describe("Turnstile (sitekey que pasa)", () => {
     const bodies = await interceptLeads(page);
     await page.goto(PROPERTY_URL);
     await fill(page);
-    await page.getByRole("button", { name: /^(Enviar|Verificando…)$/ }).click();
+    await page.getByRole("button", { name: /^(Enviar mensaje|Verificando…)$/ }).click();
     await expect(page.getByText("¡Gracias por tu interés!")).toBeVisible();
     expect(bodies).toHaveLength(1);
     expect(bodies[0].turnstile_token).toBe(DUMMY_TOKEN);
@@ -98,11 +98,11 @@ test.describe("Turnstile (sitekey que pasa)", () => {
       };
     });
 
-    await page.getByRole("button", { name: "Enviar" }).click();
+    await page.getByRole("button", { name: "Enviar mensaje" }).click();
     await expect(page.getByText(/No pudimos enviar tu mensaje/)).toBeVisible();
     expect(await page.evaluate(() => (window as unknown as { __resets: number }).__resets)).toBe(1);
 
-    await page.getByRole("button", { name: "Enviar" }).click();
+    await page.getByRole("button", { name: "Enviar mensaje" }).click();
     await expect(page.getByText("¡Gracias por tu interés!")).toBeVisible();
     expect(bodies).toHaveLength(2);
     expect(bodies[1].turnstile_token).toBe(DUMMY_TOKEN);
@@ -113,7 +113,7 @@ test.describe("Turnstile (sitekey que pasa)", () => {
     const bodies = await interceptLeads(page);
     await page.goto(PROPERTY_URL);
     await fill(page);
-    await page.getByRole("button", { name: "Enviar" }).click();
+    await page.getByRole("button", { name: "Enviar mensaje" }).click();
     await expect(page.getByText(/No pudimos cargar la verificación de seguridad/)).toBeVisible();
     expect(bodies).toHaveLength(0);
   });
@@ -126,7 +126,7 @@ test.describe("Turnstile (sitekey que siempre falla)", () => {
     const bodies = await interceptLeads(page);
     await page.goto(PROPERTY_URL);
     await fill(page);
-    await page.getByRole("button", { name: /^(Enviar|Verificando…)$/ }).click();
+    await page.getByRole("button", { name: /^(Enviar mensaje|Verificando…)$/ }).click();
     await expect(
       page.getByText(
         /No pudimos verificar tu navegador|Hubo un problema con la verificación|La verificación/
@@ -154,7 +154,7 @@ test.describe("Turnstile (desafío interactivo forzado)", () => {
       page.getByText("Marca la casilla para confirmar que eres una persona.")
     ).toBeVisible();
     await challenge(page).locator("input[type=checkbox], label").first().click();
-    await page.getByRole("button", { name: "Enviar" }).click();
+    await page.getByRole("button", { name: "Enviar mensaje" }).click();
     await expect(page.getByText("¡Gracias por tu interés!")).toBeVisible();
     expect(bodies[0].turnstile_token).toBeTruthy();
   });
@@ -170,6 +170,6 @@ test.describe("Turnstile (desafío interactivo forzado)", () => {
     const activeTag = await page.evaluate(() => document.activeElement?.tagName);
     expect(activeTag).toBe("IFRAME");
     await page.keyboard.press("Tab");
-    await expect(page.getByRole("button", { name: "Enviar" })).toBeFocused();
+    await expect(page.getByRole("button", { name: "Enviar mensaje" })).toBeFocused();
   });
 });

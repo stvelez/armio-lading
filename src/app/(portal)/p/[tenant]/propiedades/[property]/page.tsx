@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
-import { MapPin } from "lucide-react";
 import Breadcrumbs from "@/portal/components/Breadcrumbs";
 import ContactCard, { MobileContactBar } from "@/portal/components/ContactCard";
+import Icon from "@/portal/components/Icon";
 import InterestForm from "@/portal/components/InterestForm";
 import JsonLd from "@/portal/components/JsonLd";
 import PriceTag from "@/portal/components/PriceTag";
-import PropertyFacts from "@/portal/components/PropertyFacts";
+import PropertyFacts, { PropertyStats } from "@/portal/components/PropertyFacts";
 import PropertyFeatures from "@/portal/components/PropertyFeatures";
 import PropertyGallery from "@/portal/components/PropertyGallery";
 import PropertyMap from "@/portal/components/PropertyMap";
 import ShareButtons from "@/portal/components/ShareButtons";
 import VisitBeacon from "@/portal/components/VisitBeacon";
 import { getProfile, loadProfile, loadProperty, unwrap } from "@/portal/lib/api";
-import { httpsUrl } from "@/portal/lib/format";
+import { httpsUrl, propertyHeading } from "@/portal/lib/format";
 import { portalPath, portalUrl, propertyPath } from "@/portal/lib/urls";
 import {
   buildMetadata,
@@ -81,6 +81,7 @@ export default async function PropertyPage({ params }: Props) {
   if (current !== canonical) permanentRedirect(propertyPath(property.code, property.slug));
 
   const url = portalUrl(slug, propertyPath(property.code, property.slug));
+  const heading = propertyHeading(property);
   const place = placeLabel(property.location);
   const images = property.images.filter((i) => httpsUrl(i.url));
   const { latitude, longitude } = property.location;
@@ -90,41 +91,32 @@ export default async function PropertyPage({ params }: Props) {
   const responsible = profile.privacy.responsible_name || profile.name;
 
   return (
-    <div className="mx-auto max-w-[1200px] px-4 py-6 pb-28 sm:px-6 lg:pb-10">
+    <section className="section is-tight detail-page" aria-labelledby="detail-title">
       <VisitBeacon page="property" code={property.code} />
       <JsonLd data={propertyJsonLd({ property, profile, url })} />
-      <Breadcrumbs
-        items={[
-          { label: "Inicio", href: portalPath() },
-          { label: "Propiedades", href: portalPath("/propiedades") },
-          { label: property.title },
-        ]}
-      />
+      <div className="container">
+        <Breadcrumbs
+          items={[
+            { label: "Inicio", href: portalPath() },
+            { label: "Propiedades", href: portalPath("/propiedades") },
+            { label: heading },
+          ]}
+        />
 
-      <div className="mt-5 grid gap-8 lg:grid-cols-[1fr_22rem]">
-        <div className="min-w-0 space-y-10">
-          <PropertyGallery images={images} title={property.title} />
-
-          <header>
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="bg-portal text-on-portal rounded-full px-3 py-1 text-xs font-semibold">
-                {property.purpose.name}
-              </span>
-              <span className="rounded-full border border-[var(--portal-control-border)] px-3 py-1 text-xs font-medium text-[var(--portal-muted)]">
-                {property.type.name}
-              </span>
-              {property.badge === "reservada" && (
-                <span className="rounded-full bg-stone-900 px-3 py-1 text-xs font-semibold text-white">
-                  Reservada
-                </span>
-              )}
-            </div>
-            <h1 className="mt-3 text-2xl font-bold text-[var(--portal-text)] sm:text-3xl">
-              {property.title}
+        {/* `.detail` del prototipo, como página en vez de diálogo */}
+        <div className="detail detail-shell">
+          <div className="detail-media">
+            <PropertyGallery images={images} title={heading} />
+            <span className="badge">{property.purpose.name}</span>
+            {property.badge === "reservada" && <span className="badge">Reservada</span>}
+          </div>
+          <div className="detail-body">
+            <h1 className="detail-title" id="detail-title">
+              {heading}
             </h1>
             {(place || property.building) && (
-              <p className="mt-2 flex items-start gap-1.5 text-[var(--portal-muted)]">
-                <MapPin className="mt-1 h-4 w-4 shrink-0" aria-hidden />
+              <p className="loc">
+                <Icon name="pin" />
                 <span>
                   {[property.building, property.location.address, place]
                     .filter(Boolean)
@@ -133,7 +125,7 @@ export default async function PropertyPage({ params }: Props) {
                 </span>
               </p>
             )}
-            <div className="mt-4">
+            <div className="detail-prices">
               <PriceTag
                 purpose={property.purpose.slug}
                 price={property.price}
@@ -144,58 +136,59 @@ export default async function PropertyPage({ params }: Props) {
                 size="lg"
               />
             </div>
-          </header>
-
-          <PropertyFacts property={property} />
-
-          {property.description && (
-            <section aria-labelledby="descripcion">
-              <h2 id="descripcion" className="text-xl font-semibold text-[var(--portal-text)]">
-                Descripción
-              </h2>
-              {/* Texto plano: nunca HTML */}
-              <p className="mt-4 whitespace-pre-line text-[var(--portal-text)]">
-                {property.description}
-              </p>
-            </section>
-          )}
-
-          <PropertyFeatures items={property.characteristics} />
-
-          {hasPin && (
-            <PropertyMap
-              latitude={latitude}
-              longitude={longitude}
-              exact={Boolean(property.location.address)}
-              title={property.title}
+            <PropertyStats property={property} />
+            <ContactCard
+              agencyName={profile.name}
+              title={heading}
+              url={url}
+              whatsapp={whatsapp}
+              phone={phone}
+              agentName={property.agent?.first_name}
             />
-          )}
+          </div>
         </div>
 
-        <aside className="space-y-5 lg:sticky lg:top-24 lg:self-start" aria-label="Contacto">
-          <ContactCard
-            agencyName={profile.name}
-            title={property.title}
-            url={url}
-            whatsapp={whatsapp}
-            phone={phone}
-            agentName={property.agent?.first_name}
-          />
-          <InterestForm
-            tenant={slug}
-            responsibleName={responsible}
-            propertyCode={property.code}
-            propertyTitle={property.title}
-          />
-          <div>
-            <h2 className="mb-2 text-sm font-semibold text-[var(--portal-text)]">Compartir</h2>
-            <ShareButtons title={property.title} url={url} />
+        <div className="detail-more">
+          <div className="detail-main">
+            {property.description && (
+              <section className="detail-section" aria-labelledby="descripcion">
+                <h2 id="descripcion">Descripción</h2>
+                {/* Texto plano: nunca HTML */}
+                <p className="text">{property.description}</p>
+              </section>
+            )}
+
+            <PropertyFacts property={property} />
+
+            <PropertyFeatures items={property.characteristics} />
+
+            {hasPin && (
+              <PropertyMap
+                latitude={latitude}
+                longitude={longitude}
+                exact={Boolean(property.location.address)}
+                title={heading}
+              />
+            )}
           </div>
-        </aside>
+
+          <aside className="detail-side" aria-label="Contacto">
+            <InterestForm
+              tenant={slug}
+              responsibleName={responsible}
+              propertyCode={property.code}
+              propertyTitle={heading}
+            />
+            <div className="share">
+              <h2>Compartir</h2>
+              <ShareButtons title={heading} url={url} />
+            </div>
+          </aside>
+        </div>
       </div>
 
-      <MobileContactBar title={property.title} url={url} whatsapp={whatsapp} phone={phone} />
-    </div>
+      <MobileContactBar title={heading} url={url} whatsapp={whatsapp} phone={phone} />
+    </section>
   );
 }
 

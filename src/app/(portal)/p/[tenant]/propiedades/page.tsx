@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Breadcrumbs from "@/portal/components/Breadcrumbs";
+import FilterChips from "@/portal/components/FilterChips";
 import FiltersBar from "@/portal/components/FiltersBar";
 import MobileFiltersSheet from "@/portal/components/MobileFiltersSheet";
 import Pagination from "@/portal/components/Pagination";
 import PropertyGrid from "@/portal/components/PropertyGrid";
+import SortSelect from "@/portal/components/SortSelect";
 import VisitBeacon from "@/portal/components/VisitBeacon";
 import { getProfile, getProperties, loadProfile } from "@/portal/lib/api";
 import { hasAnyFilter, hasNonCanonicalFilters, parseFilters, toQuery } from "@/portal/lib/filters";
@@ -55,67 +57,70 @@ export default async function ListingPage({ params, searchParams }: Props) {
   const activeCount = Object.keys(filters).filter((k) => k !== "page").length;
 
   return (
-    <div className="mx-auto max-w-[1200px] px-4 py-8 sm:px-6">
+    <section className="section is-tight" aria-labelledby="list-title">
       <VisitBeacon page="listing" />
-      <Breadcrumbs items={[{ label: "Inicio", href: portalPath() }, { label: "Propiedades" }]} />
-      <div className="mt-4 flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-bold text-[var(--portal-text)] sm:text-3xl">
-            {heading(filters)}
-          </h1>
-          <p className="mt-1 text-sm text-[var(--portal-muted)]" aria-live="polite">
-            {meta.total === 0
-              ? "Sin resultados"
-              : `${meta.total} ${meta.total === 1 ? "propiedad" : "propiedades"}`}
-          </p>
-        </div>
-        <MobileFiltersSheet
-          basePath={base}
-          filters={filters}
-          facets={profile.facets}
-          activeCount={activeCount}
-        />
-      </div>
-
-      <div className="mt-6 grid gap-8 lg:grid-cols-[18rem_1fr]">
-        <aside className="hidden lg:block" aria-label="Filtros">
-          <div className="sticky top-24 rounded-xl border border-[var(--portal-border)] bg-white p-5">
-            <FiltersBar basePath={base} filters={filters} facets={profile.facets} />
+      <div className="container">
+        <Breadcrumbs items={[{ label: "Inicio", href: portalPath() }, { label: "Propiedades" }]} />
+        <div className="section-head list-head page-head">
+          <div>
+            <h1 className="section-title" id="list-title">
+              {heading(filters)}
+            </h1>
+            <p className="section-sub" aria-live="polite">
+              {meta.total === 0
+                ? "Sin resultados"
+                : `${meta.total} ${meta.total === 1 ? "inmueble publicado" : "inmuebles publicados"}`}
+            </p>
           </div>
-        </aside>
+          <div className="head-actions">
+            <MobileFiltersSheet
+              basePath={base}
+              filters={filters}
+              facets={profile.facets}
+              activeCount={activeCount}
+            />
+            <SortSelect basePath={base} filters={filters} />
+          </div>
+        </div>
 
-        <div>
-          {items.length === 0 ? (
-            <div className="rounded-xl border border-[var(--portal-border)] bg-white p-10 text-center">
-              <h2 className="text-lg font-semibold text-[var(--portal-text)]">
-                No encontramos propiedades con esos filtros
-              </h2>
-              <p className="mt-2 text-[var(--portal-muted)]">
-                {hasAnyFilter(filters)
-                  ? "Prueba quitando algún filtro o ampliando el rango de precio."
-                  : "Por ahora no hay propiedades publicadas. Vuelve pronto."}
-              </p>
-              {hasAnyFilter(filters) && (
-                <Link
-                  href={base}
-                  className="bg-portal text-on-portal mt-5 inline-flex h-11 items-center rounded-lg px-5 font-semibold"
-                >
-                  Ver todas las propiedades
-                </Link>
-              )}
+        <div className="list-layout">
+          <aside className="filters-aside" aria-label="Filtros">
+            <div className="filters-panel">
+              <FiltersBar basePath={base} filters={filters} facets={profile.facets} />
             </div>
-          ) : (
-            <>
-              <PropertyGrid properties={items} priorityCount={2} operacion={filters.operacion} />
-              <Pagination
-                page={meta.page}
-                totalPages={meta.totalPages}
-                hrefFor={(p) => `${base}${toQuery({ ...filters, page: p > 1 ? p : undefined })}`}
-              />
-            </>
-          )}
+          </aside>
+
+          <div>
+            <FilterChips basePath={base} filters={filters} facets={profile.facets} />
+            {items.length === 0 ? (
+              <div className="empty">
+                <h3>No encontramos propiedades con esos filtros</h3>
+                <p>
+                  {hasAnyFilter(filters)
+                    ? "Prueba quitando algún filtro o ampliando el rango de precio."
+                    : "Por ahora no hay propiedades publicadas. Vuelve pronto."}
+                </p>
+                {hasAnyFilter(filters) && (
+                  <div className="actions">
+                    <Link href={base} className="btn btn-primary">
+                      Ver todas las propiedades
+                    </Link>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <>
+                <PropertyGrid properties={items} priorityCount={2} operacion={filters.operacion} />
+                <Pagination
+                  page={meta.page}
+                  totalPages={meta.totalPages}
+                  hrefFor={(p) => `${base}${toQuery({ ...filters, page: p > 1 ? p : undefined })}`}
+                />
+              </>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

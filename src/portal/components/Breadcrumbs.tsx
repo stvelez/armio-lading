@@ -8,25 +8,18 @@ export interface Crumb {
 
 export default function Breadcrumbs({ items }: { items: Crumb[] }) {
   return (
-    <nav aria-label="Ruta de navegación" className="text-sm text-[var(--portal-muted)]">
-      <ol className="flex flex-wrap items-center gap-1">
+    <nav aria-label="Ruta de navegación" className="crumbs">
+      <ol>
         {items.map((item, i) => {
           const last = i === items.length - 1;
           return (
-            <li key={`${item.label}-${i}`} className="flex min-w-0 items-center gap-1">
+            <li key={`${item.label}-${i}`}>
               {item.href && !last ? (
-                <Link href={item.href} className="underline-offset-2 hover:underline">
-                  {item.label}
-                </Link>
+                <Link href={item.href}>{item.label}</Link>
               ) : (
-                <span
-                  aria-current={last ? "page" : undefined}
-                  className="truncate text-[var(--portal-text)]"
-                >
-                  {item.label}
-                </span>
+                <span aria-current={last ? "page" : undefined}>{item.label}</span>
               )}
-              {!last && <ChevronRight className="h-4 w-4 shrink-0 text-stone-400" aria-hidden />}
+              {!last && <ChevronRight className="od-icon" aria-hidden />}
             </li>
           );
         })}

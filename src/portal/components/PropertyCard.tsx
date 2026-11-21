@@ -1,78 +1,69 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Bath, BedDouble, Car, Maximize2, MapPin, ImageOff } from "lucide-react";
+import type { CSSProperties } from "react";
+import { ImageOff } from "lucide-react";
 import type { PortalPropertyCard } from "../types";
-import { formatNumber, thumbProps } from "../lib/format";
+import { formatNumber, propertyHeading, thumbProps } from "../lib/format";
 import { propertyPath } from "../lib/urls";
+import Icon from "./Icon";
 import PriceTag from "./PriceTag";
 
 interface Props {
   property: PortalPropertyCard;
   priority?: boolean;
   operacion?: "arriendo" | "venta";
+  /** Posición en la grilla: escalona la entrada (`--i`, de 0 a 2 como en el prototipo). */
+  index?: number;
 }
 
-export default function PropertyCard({ property, priority = false, operacion }: Props) {
+/** Tarjeta del prototipo (`cardHTML`): mismas clases y mismo orden. */
+export default function PropertyCard({ property, priority = false, operacion, index = 0 }: Props) {
   const href = propertyPath(property.code, property.slug);
   const image = thumbProps(property.primary_image);
-  const place = property.location.area || property.location.city;
+  const heading = propertyHeading(property);
+  const place = property.location.city || property.location.area;
 
   const stats = [
-    property.bedrooms !== null && { icon: BedDouble, label: `${property.bedrooms} hab.` },
-    property.bathrooms !== null && { icon: Bath, label: `${property.bathrooms} baños` },
-    property.parking_spaces ? { icon: Car, label: `${property.parking_spaces} parq.` } : false,
-    property.area_m2 ? { icon: Maximize2, label: `${formatNumber(property.area_m2)} m²` } : false,
-  ].filter(Boolean) as { icon: typeof Bath; label: string }[];
+    property.bedrooms !== null && `${property.bedrooms} hab.`,
+    property.bathrooms !== null && `${property.bathrooms} baños`,
+    property.parking_spaces ? `${property.parking_spaces} parq.` : false,
+    property.area_m2 ? `${formatNumber(property.area_m2)} m²` : false,
+  ].filter(Boolean) as string[];
 
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-xl bg-white">
-      <div className="relative aspect-[4/3] w-full rounded-xl bg-[var(--portal-section)]">
+    <article className="card reveal" style={{ "--i": index % 3 } as CSSProperties}>
+      <div className="card-media">
         {image ? (
           <Image
             {...image}
+            className="od-media od-media-cover"
+            style={{ "--od-ratio": "4/3" } as CSSProperties}
+            width={640}
+            height={480}
             alt={property.title}
-            fill
-            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+            sizes="(min-width: 1025px) 380px, (min-width: 641px) 50vw, 100vw"
             priority={priority}
           />
         ) : (
-          <div className="flex h-full items-center justify-center text-stone-400">
-            <ImageOff className="h-8 w-8" aria-hidden />
+          <div className="noimg">
+            <ImageOff className="od-icon" aria-hidden />
             <span className="sr-only">Sin fotos</span>
           </div>
         )}
-        <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
-          <span className="rounded bg-white/95 px-2.5 py-1 text-xs font-semibold text-[var(--portal-text)] shadow-sm">
-            {property.purpose.name}
-          </span>
-          {property.badge === "reservada" && (
-            <span className="rounded-full bg-stone-900 px-2.5 py-1 text-xs font-semibold text-white shadow-sm">
-              Reservada
-            </span>
-          )}
-        </div>
+        {property.badge === "reservada" && <span className="badge">Reservada</span>}
       </div>
-      <div className="flex flex-1 flex-col gap-3 p-4">
-        <div>
-          <p className="text-xs font-semibold tracking-[0.04em] text-[var(--portal-muted)] uppercase">
-            {property.type.name}
+      <div className="card-body">
+        <h3 className="card-title">
+          <Link href={href} className="card-link">
+            {heading}
+          </Link>
+        </h3>
+        {place && (
+          <p className="loc">
+            <Icon name="pin" />
+            <span className="od-truncate">{place}</span>
           </p>
-          <h3 className="mt-0.5 line-clamp-2 text-base font-semibold text-[var(--portal-text)]">
-            <Link
-              href={href}
-              className="after:absolute after:inset-0 focus-visible:outline-offset-[-2px]"
-            >
-              {property.title}
-            </Link>
-          </h3>
-          {place && (
-            <p className="mt-1 flex items-center gap-1 text-sm text-[var(--portal-muted)]">
-              <MapPin className="h-3.5 w-3.5 shrink-0" aria-hidden />
-              <span className="truncate">{place}</span>
-            </p>
-          )}
-        </div>
+        )}
         <PriceTag
           purpose={property.purpose.slug}
           price={property.price}
@@ -83,12 +74,9 @@ export default function PropertyCard({ property, priority = false, operacion }: 
           adminIncluded={property.admin_included}
         />
         {stats.length > 0 && (
-          <ul className="mt-auto flex flex-wrap gap-x-4 gap-y-1 border-t border-[var(--portal-border)] pt-3 text-sm text-[var(--portal-muted)]">
-            {stats.map(({ icon: Icon, label }) => (
-              <li key={label} className="flex items-center gap-1.5">
-                <Icon className="h-4 w-4 text-[var(--portal-control-border)]" aria-hidden />
-                {label}
-              </li>
+          <ul className="feats" aria-label="Características">
+            {stats.map((label) => (
+              <li key={label}>{label}</li>
             ))}
           </ul>
         )}

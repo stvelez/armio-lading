@@ -26,7 +26,7 @@ function setup() {
       screen.getByLabelText(typeof label === "string" ? new RegExp("^" + label) : label),
       { target: { value } }
     );
-  const submit = () => fireEvent.click(screen.getByRole("button", { name: "Enviar" }));
+  const submit = () => fireEvent.click(screen.getByRole("button", { name: "Enviar mensaje" }));
   return { type, submit };
 }
 
@@ -59,7 +59,7 @@ describe("InterestForm en modo general (home)", () => {
     );
     expect(screen.queryByLabelText(/Correo/)).toBeNull();
     expect(screen.getByText(/sobre mi búsqueda/)).toBeTruthy();
-    expect(screen.getByRole("heading", { name: "Cuéntanos qué buscas" })).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "Escríbenos" })).toBeTruthy();
   });
 
   it("conserva el modo propiedad con correo y el inmueble", () => {
@@ -85,7 +85,7 @@ describe("InterestForm en modo general (home)", () => {
     fireEvent.change(screen.getByLabelText(/^Nombre/), { target: { value: "Ana Pérez" } });
     fireEvent.change(screen.getByLabelText(/Teléfono/), { target: { value: "3001234567" } });
     fireEvent.click(screen.getByLabelText(/Autorizo a/));
-    fireEvent.click(screen.getByRole("button", { name: "Enviar" }));
+    fireEvent.click(screen.getByRole("button", { name: "Enviar mensaje" }));
 
     expect(await screen.findByText("¡Gracias por tu interés!")).toBeTruthy();
     const body = JSON.parse((fetchMock.mock.calls[0] as any)[1].body);
@@ -112,7 +112,7 @@ describe("InterestForm en modo general (home)", () => {
 
   it("los errores quedan enlazados al campo que los produce", async () => {
     render(<InterestForm tenant="a" responsibleName="Agencia A" />);
-    fireEvent.click(screen.getByRole("button", { name: "Enviar" }));
+    fireEvent.click(screen.getByRole("button", { name: "Enviar mensaje" }));
     const name = screen.getByLabelText(/^Nombre/);
     await waitFor(() => expect(name.getAttribute("aria-describedby")).toBeTruthy());
     const error = document.getElementById(name.getAttribute("aria-describedby")!);

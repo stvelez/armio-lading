@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useId, useTransition } from "react";
-import { Search } from "lucide-react";
 import type { PortalFilters, PortalProfile } from "../types";
-import { ORDEN_LABELS, ORDENES, toQuery } from "../lib/filters";
+import { toQuery } from "../lib/filters";
+import Icon from "./Icon";
 
 interface Props {
   /** Ruta del listado, p. ej. `/propiedades` (relativa al subdominio). */
@@ -16,13 +16,16 @@ interface Props {
   onApplied?: () => void;
 }
 
-const field =
-  "h-11 w-full rounded-lg border border-[var(--portal-control-border)] bg-white px-3 text-base text-[var(--portal-text)] placeholder:text-[#6B7F79] sm:text-sm";
-const label = "mb-1 block text-sm font-medium text-[var(--portal-text)]";
+const OPERATIONS = [
+  { value: "", label: "Todas" },
+  { value: "arriendo", label: "Arriendo" },
+  { value: "venta", label: "Venta" },
+] as const;
 
 /**
- * Filtros del listado. Es un `<form method="get">`, así que funciona sin JS; con JS actualiza la URL
- * sin recargar. Los nombres de los campos son los del API.
+ * Filtros del listado con los controles del prototipo (`.seg`, `.select`, `.input`). Es un
+ * `<form method="get">`, así que funciona sin JS; con JS actualiza la URL sin recargar. Los nombres
+ * de los campos son los del API.
  */
 export default function FiltersBar({ basePath, filters, facets, onApplied }: Props) {
   const router = useRouter();
@@ -47,35 +50,34 @@ export default function FiltersBar({ basePath, filters, facets, onApplied }: Pro
   }
 
   const numberOptions = (max: number) => Array.from({ length: max }, (_, i) => i + 1);
+  const operation = filters.operacion ?? "";
+  // La página siempre vuelve a la primera al cambiar filtros; el orden se conserva.
+  const hasFilters = toQuery({ ...filters, page: undefined, orden: undefined }) !== "";
 
   return (
-    <form
-      action={basePath}
-      method="get"
-      onSubmit={onSubmit}
-      className="space-y-4"
-      aria-busy={pending}
-    >
-      <div>
-        <label htmlFor={f("operacion")} className={label}>
+    <form className="form" action={basePath} method="get" onSubmit={onSubmit} aria-busy={pending}>
+      {filters.orden && <input type="hidden" name="orden" value={filters.orden} />}
+      <div className="field">
+        <span className="field-label" id={f("operacion")}>
           Operación
-        </label>
-        <select
-          id={f("operacion")}
-          name="operacion"
-          defaultValue={filters.operacion ?? ""}
-          className={field}
-        >
-          <option value="">Arriendo y venta</option>
-          <option value="arriendo">Arriendo</option>
-          <option value="venta">Venta</option>
-        </select>
+        </span>
+        <fieldset className="seg" aria-labelledby={f("operacion")}>
+          {OPERATIONS.map((op) => (
+            <label key={op.value || "todas"}>
+              <input
+                type="radio"
+                name="operacion"
+                value={op.value}
+                defaultChecked={operation === op.value}
+              />
+              <span>{op.label}</span>
+            </label>
+          ))}
+        </fieldset>
       </div>
-      <div>
-        <label htmlFor={f("tipo")} className={label}>
-          Tipo de inmueble
-        </label>
-        <select id={f("tipo")} name="tipo" defaultValue={filters.tipo ?? ""} className={field}>
+      <div className="field">
+        <label htmlFor={f("tipo")}>Tipo de inmueble</label>
+        <select id={f("tipo")} className="select" name="tipo" defaultValue={filters.tipo ?? ""}>
           <option value="">Todos</option>
           {facets.types.map((t) => (
             <option key={t.slug} value={t.slug}>
@@ -84,15 +86,13 @@ export default function FiltersBar({ basePath, filters, facets, onApplied }: Pro
           ))}
         </select>
       </div>
-      <div>
-        <label htmlFor={f("ciudad")} className={label}>
-          Ciudad
-        </label>
+      <div className="field">
+        <label htmlFor={f("ciudad")}>Ciudad</label>
         <select
           id={f("ciudad")}
+          className="select"
           name="ciudad"
           defaultValue={filters.ciudad ?? ""}
-          className={field}
         >
           <option value="">Todas</option>
           {facets.cities.map((c) => (
@@ -102,19 +102,17 @@ export default function FiltersBar({ basePath, filters, facets, onApplied }: Pro
           ))}
         </select>
       </div>
-      <div>
-        <label htmlFor={f("barrio")} className={label}>
-          Barrio
-        </label>
+      <div className="field">
+        <label htmlFor={f("barrio")}>Barrio</label>
         <input
           id={f("barrio")}
+          className="input"
           name="barrio"
           list={f("barrios")}
           defaultValue={filters.barrio ?? ""}
           maxLength={100}
           placeholder="Ej. Laureles"
           autoComplete="off"
-          className={field}
         />
         <datalist id={f("barrios")}>
           {facets.neighborhoods.map((n) => (
@@ -122,44 +120,38 @@ export default function FiltersBar({ basePath, filters, facets, onApplied }: Pro
           ))}
         </datalist>
       </div>
-      <div className="grid grid-cols-2 gap-3">
-        <div>
-          <label htmlFor={f("pmin")} className={label}>
-            Precio mínimo
-          </label>
+      <div className="form-row">
+        <div className="field">
+          <label htmlFor={f("pmin")}>Precio mínimo</label>
           <input
             id={f("pmin")}
+            className="input"
             name="precio_min"
             inputMode="numeric"
             defaultValue={filters.precio_min ?? ""}
             placeholder="$ 0"
-            className={field}
           />
         </div>
-        <div>
-          <label htmlFor={f("pmax")} className={label}>
-            Precio máximo
-          </label>
+        <div className="field">
+          <label htmlFor={f("pmax")}>Precio máximo</label>
           <input
             id={f("pmax")}
+            className="input"
             name="precio_max"
             inputMode="numeric"
             defaultValue={filters.precio_max ?? ""}
             placeholder="Sin tope"
-            className={field}
           />
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-3">
-        <div>
-          <label htmlFor={f("hab")} className={label}>
-            Habitaciones
-          </label>
+      <div className="form-row">
+        <div className="field">
+          <label htmlFor={f("hab")}>Habitaciones</label>
           <select
             id={f("hab")}
+            className="select"
             name="habitaciones_min"
             defaultValue={filters.habitaciones_min ?? ""}
-            className={field}
           >
             <option value="">Cualquiera</option>
             {numberOptions(6).map((n) => (
@@ -169,15 +161,13 @@ export default function FiltersBar({ basePath, filters, facets, onApplied }: Pro
             ))}
           </select>
         </div>
-        <div>
-          <label htmlFor={f("banos")} className={label}>
-            Baños
-          </label>
+        <div className="field">
+          <label htmlFor={f("banos")}>Baños</label>
           <select
             id={f("banos")}
+            className="select"
             name="banos_min"
             defaultValue={filters.banos_min ?? ""}
-            className={field}
           >
             <option value="">Cualquiera</option>
             {numberOptions(5).map((n) => (
@@ -188,32 +178,15 @@ export default function FiltersBar({ basePath, filters, facets, onApplied }: Pro
           </select>
         </div>
       </div>
-      <div>
-        <label htmlFor={f("orden")} className={label}>
-          Ordenar por
-        </label>
-        <select id={f("orden")} name="orden" defaultValue={filters.orden ?? ""} className={field}>
-          <option value="">Más recientes</option>
-          {ORDENES.filter((o) => o !== "recientes").map((o) => (
-            <option key={o} value={o}>
-              {ORDEN_LABELS[o]}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div className="flex items-center gap-3 pt-1">
-        <button
-          type="submit"
-          className="bg-portal text-on-portal inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-lg px-4 font-semibold disabled:opacity-60"
-          disabled={pending}
-        >
-          <Search className="h-4 w-4" aria-hidden /> {pending ? "Buscando…" : "Buscar"}
+      <div className="filters-actions">
+        <button type="submit" className="btn btn-primary btn-lg" disabled={pending}>
+          <Icon name="search" /> {pending ? "Buscando…" : "Buscar"}
         </button>
-        {toQuery(filters) !== "" && (
+        {hasFilters && (
           <Link
-            href={basePath}
+            className="btn btn-quiet"
+            href={filters.orden ? `${basePath}${toQuery({ orden: filters.orden })}` : basePath}
             onClick={onApplied}
-            className="text-sm font-medium text-[var(--portal-muted)] underline"
           >
             Limpiar
           </Link>

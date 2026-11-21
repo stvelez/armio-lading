@@ -54,6 +54,26 @@ export function operationLabel(purpose: PortalPurposeSlug): string {
   return "arriendo y venta";
 }
 
+/** Primera mención de la zona: la API a veces la entrega como «Granada, Cali» (zona + ciudad). */
+export function zoneOf(loc: { area: string | null; city: string | null }): string {
+  const area = loc.area?.split(",")[0]?.trim();
+  return area || loc.city?.trim() || "";
+}
+
+/**
+ * Título público de un inmueble: `Tipo en Operación, Zona` (p. ej. «Apartamento en Arriendo, San
+ * Fernando»). Es el que ven tarjetas y ficha; el título libre del inmueble no se muestra.
+ */
+export function propertyHeading(p: {
+  type: { name: string };
+  purpose: { name: string };
+  location: { area: string | null; city: string | null };
+}): string {
+  const operation = p.purpose.name.charAt(0).toUpperCase() + p.purpose.name.slice(1);
+  const zone = zoneOf(p.location);
+  return `${p.type.name} en ${operation}${zone ? `, ${zone}` : ""}`;
+}
+
 export function truncate(text: string, max: number): string {
   const clean = text.replace(/\s+/g, " ").trim();
   if (clean.length <= max) return clean;

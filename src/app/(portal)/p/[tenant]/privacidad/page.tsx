@@ -38,178 +38,180 @@ export default async function PrivacyPage({ params }: Props) {
   const policyUrl = httpsUrl(profile.privacy.policy_url);
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6">
-      <Breadcrumbs
-        items={[{ label: "Inicio", href: portalPath() }, { label: "Aviso de privacidad" }]}
-      />
-      <h1 className="mt-4 text-3xl font-bold text-[var(--portal-text)]">Aviso de privacidad</h1>
-      <p className="mt-2 text-sm text-[var(--portal-muted)]">
-        Tratamiento de datos personales conforme a la Ley 1581 de 2012 y sus decretos
-        reglamentarios.
-      </p>
+    <section className="section is-tight" aria-labelledby="privacy-title">
+      <div className="narrow container">
+        <Breadcrumbs
+          items={[{ label: "Inicio", href: portalPath() }, { label: "Aviso de privacidad" }]}
+        />
+        <div className="page-head">
+          <h1 className="section-title" id="privacy-title">
+            Aviso de privacidad
+          </h1>
+          <p className="section-sub">
+            Tratamiento de datos personales conforme a la Ley 1581 de 2012 y sus decretos
+            reglamentarios.
+          </p>
+        </div>
 
-      <div className="mt-8 space-y-8 text-[var(--portal-text)] [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-[var(--portal-text)] [&_p]:mt-3 [&_ul]:mt-3 [&_ul]:list-disc [&_ul]:space-y-1.5 [&_ul]:pl-5">
-        <section>
-          <h2>Responsable del tratamiento</h2>
-          <p>
-            El Responsable del tratamiento de tus datos personales es <strong>{responsible}</strong>
-            {email ? (
-              <>
-                , con correo de contacto para asuntos de datos personales{" "}
-                <a href={`mailto:${email}`} className="underline">
-                  {email}
-                </a>
-                .
-              </>
-            ) : (
-              "."
-            )}
-          </p>
-          <p>
-            Armio (armio.co) actúa como <strong>Encargado del tratamiento</strong>: provee la
-            plataforma tecnológica donde se almacenan y gestionan tus datos, siguiendo las
-            instrucciones del Responsable.
-          </p>
-        </section>
-
-        <section>
-          <h2>Datos que recolectamos</h2>
-          <p>
-            Cuando completas el formulario de interés recolectamos tu nombre, teléfono, correo
-            electrónico (opcional) y el mensaje que decidas escribir, junto con la propiedad por la
-            que preguntas o la búsqueda que describas. Este portal no usa cookies publicitarias ni
-            herramientas de analítica de terceros: no hay Google Analytics ni píxeles de redes
-            sociales en estas páginas. Solo cuenta visitas de forma anónima, como se explica en
-            «Estadísticas de visitas». El sitio corporativo de Armio (armio.co) sí usa Google
-            Analytics 4, que únicamente se activa si lo aceptas allí; el detalle está en la{" "}
-            <a href={cookiesUrl} target="_blank" rel="noopener noreferrer" className="underline">
-              Política de cookies de Armio
-            </a>
-            .
-          </p>
-        </section>
-
-        <section>
-          <h2>Estadísticas de visitas</h2>
-          <p>
-            Para que la inmobiliaria sepa cuántas personas consultan su sitio y sus inmuebles,
-            contamos las visitas de forma agregada: cuántas veces se vio cada página y cada inmueble
-            por día, y desde qué tipo de sitio se llegó (un buscador, WhatsApp, Facebook, Instagram,
-            otro sitio web, un enlace directo o la navegación dentro de este sitio), además de la
-            etiqueta de campaña que pueda traer el enlace (parámetros «utm»). Esas cifras no
-            identifican a nadie y se conservan hasta por 13 meses.
-          </p>
-          <p>
-            No usamos cookies para seguirte, no creamos perfiles y no guardamos tu dirección IP, el
-            tipo de navegador ni la dirección de la página de la que vienes. El único dato que puede
-            quedar en tu navegador es una marca técnica de sesión (<code>armio:equipo</code>) que se
-            crea solo si alguien del equipo de la inmobiliaria abre el sitio con un enlace interno,
-            para que sus propias visitas no se cuenten; se borra al cerrar la pestaña y no
-            identifica a nadie. Para no contar varias veces la misma recarga y para frenar abusos,
-            usamos tu dirección IP (o su prefijo de red): se procesa solo en la memoria del servidor
-            durante el día en curso (como máximo hasta la medianoche, hora de Colombia),
-            transformada con una clave aleatoria que se descarta cada día, y no se guarda en ninguna
-            base de datos ni se asocia a tu nombre ni a tus datos de contacto. El tipo de navegador
-            solo se mira en el momento para descartar robots y no se conserva. Armio realiza este
-            conteo como Encargado del tratamiento por cuenta de la inmobiliaria.
-          </p>
-        </section>
-
-        {turnstileSiteKey() && (
+        <div className="prose">
           <section>
-            <h2>Seguridad del formulario</h2>
+            <h2>Responsable del tratamiento</h2>
             <p>
-              Para proteger este formulario contra envíos automatizados usamos Cloudflare Turnstile,
-              un servicio de Cloudflare, Inc. Cuando interactúas con el formulario, Cloudflare
-              recibe datos técnicos de tu navegador y de tu conexión (como la dirección IP, el tipo
-              de navegador y otras señales del dispositivo) con el único fin de comprobar que el
-              envío lo hace una persona. Estos datos no se usan para publicidad ni para crear
-              perfiles, y no se comparten con la inmobiliaria. Cloudflare actúa como Encargado del
-              tratamiento para esta finalidad y puede procesar los datos fuera de Colombia, con las
-              garantías descritas en su{" "}
-              <a
-                href="https://www.cloudflare.com/turnstile-privacy-policy/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline"
-              >
-                aviso de privacidad de Turnstile
-              </a>
-              . Si la verificación no se puede completar, puedes contactar a la inmobiliaria por
-              WhatsApp o teléfono.
+              El Responsable del tratamiento de tus datos personales es{" "}
+              <strong>{responsible}</strong>
+              {email ? (
+                <>
+                  , con correo de contacto para asuntos de datos personales{" "}
+                  <a href={`mailto:${email}`}>{email}</a>.
+                </>
+              ) : (
+                "."
+              )}
+            </p>
+            <p>
+              Armio (armio.co) actúa como <strong>Encargado del tratamiento</strong>: provee la
+              plataforma tecnológica donde se almacenan y gestionan tus datos, siguiendo las
+              instrucciones del Responsable.
             </p>
           </section>
-        )}
 
-        <section>
-          <h2>Finalidades</h2>
-          <ul>
-            <li>
-              Atender tu consulta y contactarte por teléfono, WhatsApp o correo sobre el inmueble de
-              tu interés o la búsqueda que hayas descrito.
-            </li>
-            <li>
-              Gestionar la relación comercial derivada de tu consulta (visitas, ofertas,
-              negociación).
-            </li>
-            <li>Llevar el registro de tu autorización y cumplir obligaciones legales.</li>
-            <li>
-              Solo si lo autorizas de forma separada: enviarte ofertas y novedades de propiedades de
-              esta inmobiliaria.
-            </li>
-          </ul>
-        </section>
-
-        <section>
-          <h2>Tus derechos como titular</h2>
-          <p>Como titular de los datos tienes derecho a:</p>
-          <ul>
-            {RIGHTS.map((r) => (
-              <li key={r}>{r}</li>
-            ))}
-          </ul>
-          <p>
-            Para ejercerlos, escribe a{" "}
-            {email ? (
-              <a href={`mailto:${email}`} className="underline">
-                {email}
-              </a>
-            ) : (
-              "la inmobiliaria por los canales de contacto de este sitio"
-            )}{" "}
-            indicando tu nombre, tu teléfono y lo que solicitas. En este sitio no se solicitan datos
-            sensibles.
-          </p>
-        </section>
-
-        <section>
-          <h2>Conservación</h2>
-          <p>
-            Conservamos tus datos mientras sea necesario para las finalidades descritas o mientras
-            la ley lo exija. Puedes solicitar su supresión en cualquier momento, salvo que exista un
-            deber legal o contractual de mantenerlos.
-          </p>
-        </section>
-
-        {policyUrl && (
           <section>
-            <h2>Política de tratamiento completa</h2>
+            <h2>Datos que recolectamos</h2>
             <p>
-              Puedes consultar la política completa de {responsible} en{" "}
-              <a
-                href={policyUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="break-all underline"
-              >
-                {policyUrl}
+              Cuando completas el formulario de interés recolectamos tu nombre, teléfono, correo
+              electrónico (opcional) y el mensaje que decidas escribir, junto con la propiedad por
+              la que preguntas o la búsqueda que describas. Este portal no usa cookies publicitarias
+              ni herramientas de analítica de terceros: no hay Google Analytics ni píxeles de redes
+              sociales en estas páginas. Solo cuenta visitas de forma anónima, como se explica en
+              «Estadísticas de visitas». El sitio corporativo de Armio (armio.co) sí usa Google
+              Analytics 4, que únicamente se activa si lo aceptas allí; el detalle está en la{" "}
+              <a href={cookiesUrl} target="_blank" rel="noopener noreferrer">
+                Política de cookies de Armio
               </a>
               .
             </p>
           </section>
-        )}
+
+          <section>
+            <h2>Estadísticas de visitas</h2>
+            <p>
+              Para que la inmobiliaria sepa cuántas personas consultan su sitio y sus inmuebles,
+              contamos las visitas de forma agregada: cuántas veces se vio cada página y cada
+              inmueble por día, y desde qué tipo de sitio se llegó (un buscador, WhatsApp, Facebook,
+              Instagram, otro sitio web, un enlace directo o la navegación dentro de este sitio),
+              además de la etiqueta de campaña que pueda traer el enlace (parámetros «utm»). Esas
+              cifras no identifican a nadie y se conservan hasta por 13 meses.
+            </p>
+            <p>
+              No usamos cookies para seguirte, no creamos perfiles y no guardamos tu dirección IP,
+              el tipo de navegador ni la dirección de la página de la que vienes. El único dato que
+              puede quedar en tu navegador es una marca técnica de sesión (<code>armio:equipo</code>
+              ) que se crea solo si alguien del equipo de la inmobiliaria abre el sitio con un
+              enlace interno, para que sus propias visitas no se cuenten; se borra al cerrar la
+              pestaña y no identifica a nadie. Para no contar varias veces la misma recarga y para
+              frenar abusos, usamos tu dirección IP (o su prefijo de red): se procesa solo en la
+              memoria del servidor durante el día en curso (como máximo hasta la medianoche, hora de
+              Colombia), transformada con una clave aleatoria que se descarta cada día, y no se
+              guarda en ninguna base de datos ni se asocia a tu nombre ni a tus datos de contacto.
+              El tipo de navegador solo se mira en el momento para descartar robots y no se
+              conserva. Armio realiza este conteo como Encargado del tratamiento por cuenta de la
+              inmobiliaria.
+            </p>
+          </section>
+
+          {turnstileSiteKey() && (
+            <section>
+              <h2>Seguridad del formulario</h2>
+              <p>
+                Para proteger este formulario contra envíos automatizados usamos Cloudflare
+                Turnstile, un servicio de Cloudflare, Inc. Cuando interactúas con el formulario,
+                Cloudflare recibe datos técnicos de tu navegador y de tu conexión (como la dirección
+                IP, el tipo de navegador y otras señales del dispositivo) con el único fin de
+                comprobar que el envío lo hace una persona. Estos datos no se usan para publicidad
+                ni para crear perfiles, y no se comparten con la inmobiliaria. Cloudflare actúa como
+                Encargado del tratamiento para esta finalidad y puede procesar los datos fuera de
+                Colombia, con las garantías descritas en su{" "}
+                <a
+                  href="https://www.cloudflare.com/turnstile-privacy-policy/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  aviso de privacidad de Turnstile
+                </a>
+                . Si la verificación no se puede completar, puedes contactar a la inmobiliaria por
+                WhatsApp o teléfono.
+              </p>
+            </section>
+          )}
+
+          <section>
+            <h2>Finalidades</h2>
+            <ul>
+              <li>
+                Atender tu consulta y contactarte por teléfono, WhatsApp o correo sobre el inmueble
+                de tu interés o la búsqueda que hayas descrito.
+              </li>
+              <li>
+                Gestionar la relación comercial derivada de tu consulta (visitas, ofertas,
+                negociación).
+              </li>
+              <li>Llevar el registro de tu autorización y cumplir obligaciones legales.</li>
+              <li>
+                Solo si lo autorizas de forma separada: enviarte ofertas y novedades de propiedades
+                de esta inmobiliaria.
+              </li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Tus derechos como titular</h2>
+            <p>Como titular de los datos tienes derecho a:</p>
+            <ul>
+              {RIGHTS.map((r) => (
+                <li key={r}>{r}</li>
+              ))}
+            </ul>
+            <p>
+              Para ejercerlos, escribe a{" "}
+              {email ? (
+                <a href={`mailto:${email}`}>{email}</a>
+              ) : (
+                "la inmobiliaria por los canales de contacto de este sitio"
+              )}{" "}
+              indicando tu nombre, tu teléfono y lo que solicitas. En este sitio no se solicitan
+              datos sensibles.
+            </p>
+          </section>
+
+          <section>
+            <h2>Conservación</h2>
+            <p>
+              Conservamos tus datos mientras sea necesario para las finalidades descritas o mientras
+              la ley lo exija. Puedes solicitar su supresión en cualquier momento, salvo que exista
+              un deber legal o contractual de mantenerlos.
+            </p>
+          </section>
+
+          {policyUrl && (
+            <section>
+              <h2>Política de tratamiento completa</h2>
+              <p>
+                Puedes consultar la política completa de {responsible} en{" "}
+                <a
+                  href={policyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ overflowWrap: "anywhere" }}
+                >
+                  {policyUrl}
+                </a>
+                .
+              </p>
+            </section>
+          )}
+        </div>
       </div>
-    </div>
+    </section>
   );
 }
 
