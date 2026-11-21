@@ -47,29 +47,35 @@ export default function PriceTag({
         <div className="space-y-0.5">
           {rows.map((row, i) => (
             <p key={row.key} className="flex items-baseline gap-2">
-              <span className="w-16 shrink-0 text-xs font-medium text-stone-600">{row.label}</span>
-              <span className={`${i === 0 ? main : "text-base"} font-bold text-stone-900`}>
+              <span className="w-16 shrink-0 text-xs font-medium text-[var(--portal-muted)]">
+                {row.label}
+              </span>
+              <span
+                className={`${i === 0 ? main : "text-base"} font-bold text-[var(--portal-text)]`}
+              >
                 {row.value > 0 ? formatPrice(row.value, currency) : "Consultar precio"}
                 {row.perMonth && row.value > 0 && (
-                  <span className="ml-1 text-sm font-medium text-stone-600">/mes</span>
+                  <span className="ml-1 text-sm font-medium text-[var(--portal-muted)]">/mes</span>
                 )}
               </span>
             </p>
           ))}
         </div>
       ) : (
-        <p className={`${main} font-bold text-stone-900`}>
+        <p className={`${main} font-bold text-[var(--portal-text)]`}>
           {price > 0 ? formatPrice(price, currency) : "Consultar precio"}
           {purpose === "rent" && price > 0 && (
-            <span className="ml-1 text-sm font-medium text-stone-600">/mes</span>
+            <span className="ml-1 text-sm font-medium text-[var(--portal-muted)]">/mes</span>
           )}
         </p>
       )}
-      {purpose === "both" && !dual && <p className="mt-0.5 text-xs text-stone-600">{BOTH_NOTE}</p>}
+      {purpose === "both" && !dual && (
+        <p className="mt-0.5 text-xs text-[var(--portal-muted)]">{BOTH_NOTE}</p>
+      )}
       {adminIncluded ? (
-        <p className="mt-0.5 text-xs text-stone-600">Administración incluida</p>
+        <p className="mt-0.5 text-xs text-[var(--portal-muted)]">Administración incluida</p>
       ) : adminFee ? (
-        <p className="mt-0.5 text-xs text-stone-600">
+        <p className="mt-0.5 text-xs text-[var(--portal-muted)]">
           + {formatPrice(adminFee, currency)} de administración
         </p>
       ) : null}

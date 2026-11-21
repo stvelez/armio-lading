@@ -42,13 +42,13 @@ export default async function PrivacyPage({ params }: Props) {
       <Breadcrumbs
         items={[{ label: "Inicio", href: portalPath() }, { label: "Aviso de privacidad" }]}
       />
-      <h1 className="mt-4 text-3xl font-bold text-stone-900">Aviso de privacidad</h1>
-      <p className="mt-2 text-sm text-stone-600">
+      <h1 className="mt-4 text-3xl font-bold text-[var(--portal-text)]">Aviso de privacidad</h1>
+      <p className="mt-2 text-sm text-[var(--portal-muted)]">
         Tratamiento de datos personales conforme a la Ley 1581 de 2012 y sus decretos
         reglamentarios.
       </p>
 
-      <div className="mt-8 space-y-8 text-stone-800 [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-stone-900 [&_p]:mt-3 [&_ul]:mt-3 [&_ul]:list-disc [&_ul]:space-y-1.5 [&_ul]:pl-5">
+      <div className="mt-8 space-y-8 text-[var(--portal-text)] [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-[var(--portal-text)] [&_p]:mt-3 [&_ul]:mt-3 [&_ul]:list-disc [&_ul]:space-y-1.5 [&_ul]:pl-5">
         <section>
           <h2>Responsable del tratamiento</h2>
           <p>
@@ -77,11 +77,11 @@ export default async function PrivacyPage({ params }: Props) {
           <p>
             Cuando completas el formulario de interés recolectamos tu nombre, teléfono, correo
             electrónico (opcional) y el mensaje que decidas escribir, junto con la propiedad por la
-            que preguntas. Este portal no usa cookies publicitarias ni herramientas de analítica de
-            terceros: no hay Google Analytics ni píxeles de redes sociales en estas páginas. Solo
-            cuenta visitas de forma anónima, como se explica en «Estadísticas de visitas». El sitio
-            corporativo de Armio (armio.co) sí usa Google Analytics 4, que únicamente se activa si
-            lo aceptas allí; el detalle está en la{" "}
+            que preguntas o la búsqueda que describas. Este portal no usa cookies publicitarias ni
+            herramientas de analítica de terceros: no hay Google Analytics ni píxeles de redes
+            sociales en estas páginas. Solo cuenta visitas de forma anónima, como se explica en
+            «Estadísticas de visitas». El sitio corporativo de Armio (armio.co) sí usa Google
+            Analytics 4, que únicamente se activa si lo aceptas allí; el detalle está en la{" "}
             <a href={cookiesUrl} target="_blank" rel="noopener noreferrer" className="underline">
               Política de cookies de Armio
             </a>
@@ -146,7 +146,7 @@ export default async function PrivacyPage({ params }: Props) {
           <ul>
             <li>
               Atender tu consulta y contactarte por teléfono, WhatsApp o correo sobre el inmueble de
-              tu interés.
+              tu interés o la búsqueda que hayas descrito.
             </li>
             <li>
               Gestionar la relación comercial derivada de tu consulta (visitas, ofertas,

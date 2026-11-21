@@ -7,23 +7,50 @@
 }
 
 :root {
-  --portal-primary: #00965e;
+  /* Tokens del rediseño (DESIGN.md del proyecto Open Design). */
+  --portal-primary: #07544e;
   --portal-on-primary: #ffffff;
+  --portal-text: #1d302d;
+  --portal-muted: #52655e;
+  --portal-border: #e4e7eb;
+  --portal-control-border: #81978c;
+  --portal-section: #f6f7f8;
+  --portal-soft: #edf5f1;
+  --portal-accent: #00a86b;
+  --portal-focus: #168672;
+  --portal-danger: #a52d35;
+  --portal-radius-control: 8px;
+  --portal-radius-surface: 12px;
+  --portal-radius-panel: 16px;
+  --portal-container: 1200px;
 }
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 88px;
 }
 
 body {
-  background-color: #fafaf9;
-  color: #1c1917;
+  background-color: #ffffff;
+  color: var(--portal-text);
   font-family: var(--font-portal), ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
+h1,
+h2,
+h3 {
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+::selection {
+  background: var(--portal-soft);
+  color: var(--portal-primary);
+}
+
 :focus-visible {
-  outline: 2px solid var(--portal-primary);
+  outline: 2px solid var(--portal-focus);
   outline-offset: 2px;
 }
 

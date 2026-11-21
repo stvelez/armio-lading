@@ -41,7 +41,10 @@ function setup() {
     <InterestForm tenant="inmobiliaria-demo" responsibleName="Inmobiliaria Demo" propertyCode={9} />
   );
   const type = (label: RegExp | string, value: string) =>
-    fireEvent.change(screen.getByLabelText(label), { target: { value } });
+    fireEvent.change(
+      screen.getByLabelText(typeof label === "string" ? new RegExp("^" + label) : label),
+      { target: { value } }
+    );
   const fillAll = () => {
     type("Nombre", "Ana Pérez");
     type(/Teléfono/, "3001234567");
@@ -49,7 +52,7 @@ function setup() {
   };
   const submit = () => fireEvent.click(screen.getByRole("button", { name: /Enviar|Verificando/ }));
   const startWidget = async () => {
-    fireEvent.focusIn(screen.getByLabelText("Nombre"));
+    fireEvent.focusIn(screen.getByLabelText(/^Nombre/));
     await waitFor(() => expect(api.render).toHaveBeenCalled());
   };
   return { view, fillAll, submit, startWidget };
@@ -67,7 +70,7 @@ describe("InterestForm con Turnstile", () => {
 
   it("también se carga con pointerdown, una sola vez", async () => {
     setup();
-    fireEvent.pointerDown(screen.getByLabelText("Nombre"));
+    fireEvent.pointerDown(screen.getByLabelText(/^Nombre/));
     fireEvent.pointerDown(screen.getByLabelText(/Teléfono/));
     await waitFor(() => expect(api.render).toHaveBeenCalled());
     expect(loadMock).toHaveBeenCalledTimes(1);

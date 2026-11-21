@@ -206,7 +206,7 @@ export default function TurnstileField({ siteKey, ref }: Props) {
       </p>
       <div role="status" aria-live="polite">
         {interactive && !verified && (
-          <p className="mt-2 text-sm text-stone-700">
+          <p className="mt-2 text-sm text-[var(--portal-muted)]">
             Marca la casilla para confirmar que eres una persona.
           </p>
         )}

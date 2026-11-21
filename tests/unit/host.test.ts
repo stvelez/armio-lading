@@ -64,6 +64,7 @@ describe("extractPortalSlug", () => {
       "send",
       "autoconfig",
       "autodiscover",
+      "stage",
       "stage-app",
     ]) {
       expect(RESERVED_SLUGS.has(s), s).toBe(true);

@@ -72,25 +72,25 @@ export default function PropertyFacts({ property: p }: { property: PortalPropert
 
   return (
     <section aria-labelledby="facts-title">
-      <h2 id="facts-title" className="text-xl font-semibold text-stone-900">
+      <h2 id="facts-title" className="text-xl font-semibold text-[var(--portal-text)]">
         Detalles
       </h2>
       <dl className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
         {facts.map(({ icon: Icon, label, value }) => (
           <div
             key={label}
-            className="flex items-start gap-3 rounded-lg border border-stone-200 bg-white p-3"
+            className="flex items-start gap-3 rounded-lg border border-[var(--portal-border)] bg-white p-3"
           >
-            <Icon className="mt-0.5 h-5 w-5 shrink-0 text-stone-500" aria-hidden />
+            <Icon className="mt-0.5 h-5 w-5 shrink-0 text-[var(--portal-muted)]" aria-hidden />
             <div className="min-w-0">
-              <dt className="text-xs text-stone-600">{label}</dt>
-              <dd className="font-semibold text-stone-900">{value}</dd>
+              <dt className="text-xs text-[var(--portal-muted)]">{label}</dt>
+              <dd className="font-semibold text-[var(--portal-text)]">{value}</dd>
             </div>
           </div>
         ))}
       </dl>
       {p.available_from && (
-        <p className="mt-3 text-sm text-stone-600">
+        <p className="mt-3 text-sm text-[var(--portal-muted)]">
           Disponible desde el{" "}
           {new Intl.DateTimeFormat("es-CO", {
             dateStyle: "long",

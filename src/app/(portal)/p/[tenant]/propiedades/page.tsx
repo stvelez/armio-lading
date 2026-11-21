@@ -55,13 +55,15 @@ export default async function ListingPage({ params, searchParams }: Props) {
   const activeCount = Object.keys(filters).filter((k) => k !== "page").length;
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+    <div className="mx-auto max-w-[1200px] px-4 py-8 sm:px-6">
       <VisitBeacon page="listing" />
       <Breadcrumbs items={[{ label: "Inicio", href: portalPath() }, { label: "Propiedades" }]} />
       <div className="mt-4 flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-stone-900 sm:text-3xl">{heading(filters)}</h1>
-          <p className="mt-1 text-sm text-stone-600" aria-live="polite">
+          <h1 className="text-2xl font-bold text-[var(--portal-text)] sm:text-3xl">
+            {heading(filters)}
+          </h1>
+          <p className="mt-1 text-sm text-[var(--portal-muted)]" aria-live="polite">
             {meta.total === 0
               ? "Sin resultados"
               : `${meta.total} ${meta.total === 1 ? "propiedad" : "propiedades"}`}
@@ -77,18 +79,18 @@ export default async function ListingPage({ params, searchParams }: Props) {
 
       <div className="mt-6 grid gap-8 lg:grid-cols-[18rem_1fr]">
         <aside className="hidden lg:block" aria-label="Filtros">
-          <div className="sticky top-24 rounded-xl border border-stone-200 bg-white p-5">
+          <div className="sticky top-24 rounded-xl border border-[var(--portal-border)] bg-white p-5">
             <FiltersBar basePath={base} filters={filters} facets={profile.facets} />
           </div>
         </aside>
 
         <div>
           {items.length === 0 ? (
-            <div className="rounded-xl border border-stone-200 bg-white p-10 text-center">
-              <h2 className="text-lg font-semibold text-stone-900">
+            <div className="rounded-xl border border-[var(--portal-border)] bg-white p-10 text-center">
+              <h2 className="text-lg font-semibold text-[var(--portal-text)]">
                 No encontramos propiedades con esos filtros
               </h2>
-              <p className="mt-2 text-stone-700">
+              <p className="mt-2 text-[var(--portal-muted)]">
                 {hasAnyFilter(filters)
                   ? "Prueba quitando algún filtro o ampliando el rango de precio."
                   : "Por ahora no hay propiedades publicadas. Vuelve pronto."}

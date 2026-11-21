@@ -22,7 +22,10 @@ function setup() {
     />
   );
   const type = (label: RegExp | string, value: string) =>
-    fireEvent.change(screen.getByLabelText(label), { target: { value } });
+    fireEvent.change(
+      screen.getByLabelText(typeof label === "string" ? new RegExp("^" + label) : label),
+      { target: { value } }
+    );
   const submit = () => fireEvent.click(screen.getByRole("button", { name: "Enviar" }));
   return { type, submit };
 }
@@ -32,7 +35,7 @@ describe("InterestForm sin site key", () => {
     const loadSpy = vi.spyOn(turnstileLib, "loadTurnstile");
     const { type, submit } = setup();
     expect(screen.queryByText(/Cloudflare Turnstile/)).toBeNull();
-    fireEvent.focusIn(screen.getByLabelText("Nombre"));
+    fireEvent.focusIn(screen.getByLabelText(/^Nombre/));
     expect(loadSpy).not.toHaveBeenCalled();
     expect(document.querySelector('script[src*="challenges.cloudflare.com"]')).toBeNull();
     type("Nombre", "Ana Pérez");
@@ -42,6 +45,93 @@ describe("InterestForm sin site key", () => {
     expect(await screen.findByText("¡Gracias por tu interés!")).toBeTruthy();
     const body = JSON.parse((fetchMock.mock.calls[0] as any)[1].body);
     expect(body).not.toHaveProperty("turnstile_token");
+  });
+});
+
+describe("InterestForm en modo general (home)", () => {
+  it("no pide correo y el consentimiento habla de la búsqueda", () => {
+    render(
+      <InterestForm
+        tenant="inmobiliaria-demo"
+        responsibleName="Inmobiliaria Demo"
+        context="general"
+      />
+    );
+    expect(screen.queryByLabelText(/Correo/)).toBeNull();
+    expect(screen.getByText(/sobre mi búsqueda/)).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "Cuéntanos qué buscas" })).toBeTruthy();
+  });
+
+  it("conserva el modo propiedad con correo y el inmueble", () => {
+    render(
+      <InterestForm
+        tenant="inmobiliaria-demo"
+        responsibleName="Inmobiliaria Demo"
+        propertyTitle="Penthouse"
+      />
+    );
+    expect(screen.getByLabelText(/Correo/)).toBeTruthy();
+    expect(screen.getByText(/sobre este inmueble/)).toBeTruthy();
+  });
+
+  it("envía el lead general sin correo, sin propiedad y con su versión de consentimiento", async () => {
+    render(
+      <InterestForm
+        tenant="inmobiliaria-demo"
+        responsibleName="Inmobiliaria Demo"
+        context="general"
+      />
+    );
+    fireEvent.change(screen.getByLabelText(/^Nombre/), { target: { value: "Ana Pérez" } });
+    fireEvent.change(screen.getByLabelText(/Teléfono/), { target: { value: "3001234567" } });
+    fireEvent.click(screen.getByLabelText(/Autorizo a/));
+    fireEvent.click(screen.getByRole("button", { name: "Enviar" }));
+
+    expect(await screen.findByText("¡Gracias por tu interés!")).toBeTruthy();
+    const body = JSON.parse((fetchMock.mock.calls[0] as any)[1].body);
+    expect(body).not.toHaveProperty("email");
+    expect(body).not.toHaveProperty("property_code");
+    expect(body).not.toHaveProperty("message");
+    expect(body.consent_version).toBe("2.1");
+  });
+
+  it("dos formularios en la misma página no repiten ids", () => {
+    render(
+      <>
+        <InterestForm tenant="a" responsibleName="Agencia A" context="general" />
+        <InterestForm tenant="b" responsibleName="Agencia B" propertyTitle="Casa" />
+      </>
+    );
+    const ids = [...document.querySelectorAll("input[id], textarea[id]")].map((el) => el.id);
+    expect(new Set(ids).size).toBe(ids.length);
+    const labels = [...document.querySelectorAll("label[for]")];
+    for (const label of labels) {
+      expect(document.getElementById(label.getAttribute("for")!)).toBeTruthy();
+    }
+  });
+
+  it("los errores quedan enlazados al campo que los produce", async () => {
+    render(<InterestForm tenant="a" responsibleName="Agencia A" />);
+    fireEvent.click(screen.getByRole("button", { name: "Enviar" }));
+    const name = screen.getByLabelText(/^Nombre/);
+    await waitFor(() => expect(name.getAttribute("aria-describedby")).toBeTruthy());
+    const error = document.getElementById(name.getAttribute("aria-describedby")!);
+    expect(error?.getAttribute("role")).toBe("alert");
+    expect(name.getAttribute("aria-invalid")).toBe("true");
+  });
+
+  it("lleva el foco al primer campo inválido y al mensaje de éxito", async () => {
+    const { type, submit } = setup();
+    submit();
+    const name = screen.getByLabelText(/^Nombre/);
+    await waitFor(() => expect(document.activeElement).toBe(name));
+
+    type("Nombre", "Ana Pérez");
+    type(/Teléfono/, "3001234567");
+    fireEvent.click(screen.getByLabelText(/Autorizo a/));
+    submit();
+    const success = await screen.findByRole("status");
+    await waitFor(() => expect(document.activeElement).toBe(success));
   });
 });
 
@@ -104,7 +194,7 @@ describe("InterestForm (esquema zod)", () => {
       name: "Ana Pérez",
       phone: "+57 300 123 4567",
       consent: true,
-      consent_version: "1.0",
+      consent_version: "2.0",
       marketing_consent: false,
       website: "",
     });

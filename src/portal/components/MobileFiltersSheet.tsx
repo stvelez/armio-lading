@@ -29,7 +29,7 @@ export default function MobileFiltersSheet({ basePath, filters, facets, activeCo
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="inline-flex h-11 items-center gap-2 rounded-lg border border-stone-300 bg-white px-4 text-sm font-semibold text-stone-900"
+        className="inline-flex h-11 items-center gap-2 rounded-lg border border-[var(--portal-control-border)] bg-white px-4 text-sm font-semibold text-[var(--portal-text)]"
       >
         <SlidersHorizontal className="h-4 w-4" aria-hidden /> Filtros
         {activeCount > 0 && (
@@ -44,13 +44,13 @@ export default function MobileFiltersSheet({ basePath, filters, facets, activeCo
       >
         {open && (
           <div className="flex h-full flex-col">
-            <div className="flex items-center justify-between border-b border-stone-200 px-4 py-3">
-              <h2 className="text-lg font-semibold text-stone-900">Filtros</h2>
+            <div className="flex items-center justify-between border-b border-[var(--portal-border)] px-4 py-3">
+              <h2 className="text-lg font-semibold text-[var(--portal-text)]">Filtros</h2>
               <button
                 type="button"
                 onClick={() => setOpen(false)}
                 aria-label="Cerrar filtros"
-                className="rounded-lg p-2 hover:bg-stone-100"
+                className="rounded-lg p-2 hover:bg-[var(--portal-section)]"
               >
                 <X className="h-5 w-5" aria-hidden />
               </button>

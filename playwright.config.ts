@@ -40,7 +40,8 @@ export default defineConfig({
     timeout: 120_000,
     env: {
       NEXT_PUBLIC_PORTAL_ROOT_DOMAIN: ROOT,
-      PORTAL_API_URL: "http://localhost:4000/api/v1",
+      // API local para E2E: `npm run dev:qa` en armio-api (puerto 4001, base demo).
+      PORTAL_API_URL: "http://localhost:4001/api/v1",
     },
   },
 });

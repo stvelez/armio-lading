@@ -29,14 +29,14 @@ export default function Pagination({ page, totalPages, hrefFor }: Props) {
         <Link
           href={hrefFor(page - 1)}
           rel="prev"
-          className={`${base} border-stone-300 bg-white hover:bg-stone-50`}
+          className={`${base} border-[var(--portal-control-border)] bg-white hover:bg-[var(--portal-section)]`}
         >
           <ChevronLeft className="mr-1 h-4 w-4" aria-hidden /> Anterior
         </Link>
       ) : null}
       {windowPages(page, totalPages).map((p, i) =>
         p === "gap" ? (
-          <span key={`gap-${i}`} className="px-1 text-stone-500" aria-hidden>
+          <span key={`gap-${i}`} className="px-1 text-[var(--portal-muted)]" aria-hidden>
             …
           </span>
         ) : p === page ? (
@@ -52,7 +52,7 @@ export default function Pagination({ page, totalPages, hrefFor }: Props) {
             key={p}
             href={hrefFor(p)}
             aria-label={`Página ${p}`}
-            className={`${base} border-stone-300 bg-white hover:bg-stone-50`}
+            className={`${base} border-[var(--portal-control-border)] bg-white hover:bg-[var(--portal-section)]`}
           >
             {p}
           </Link>
@@ -62,7 +62,7 @@ export default function Pagination({ page, totalPages, hrefFor }: Props) {
         <Link
           href={hrefFor(page + 1)}
           rel="next"
-          className={`${base} border-stone-300 bg-white hover:bg-stone-50`}
+          className={`${base} border-[var(--portal-control-border)] bg-white hover:bg-[var(--portal-section)]`}
         >
           Siguiente <ChevronRight className="ml-1 h-4 w-4" aria-hidden />
         </Link>
